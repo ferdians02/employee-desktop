@@ -14,10 +14,17 @@ import javax.swing.JOptionPane;
  */
 public class Absensi extends javax.swing.JPanel {
 
-    private final Dashboard main;
-    public Absensi(Dashboard main) {
+//    private final Dashboard main;
+    public Absensi(String nomor, String nama) {
         initComponents();
-        this.main = main;
+//        this.main = main;
+        
+        nikTxt.setText(nomor);
+        namaTxt.setText(nama);
+        
+        nikTxt.setEnabled(false);
+        namaTxt.setEnabled(false);
+        
     }
 
     /**
@@ -30,10 +37,10 @@ public class Absensi extends javax.swing.JPanel {
 
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        nikTxt = new javax.swing.JTextField();
         save = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        namaTxt = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox<>();
@@ -49,8 +56,8 @@ public class Absensi extends javax.swing.JPanel {
         jLabel2.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
         jLabel2.setText("Nomor Induk Karyawan");
 
-        jTextField1.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
-        jTextField1.setPreferredSize(new java.awt.Dimension(64, 50));
+        nikTxt.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
+        nikTxt.setPreferredSize(new java.awt.Dimension(64, 50));
 
         save.setBackground(new java.awt.Color(204, 102, 0));
         save.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
@@ -67,8 +74,8 @@ public class Absensi extends javax.swing.JPanel {
         jLabel4.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
         jLabel4.setText("Tanggal");
 
-        jTextField2.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
-        jTextField2.setPreferredSize(new java.awt.Dimension(64, 50));
+        namaTxt.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
+        namaTxt.setPreferredSize(new java.awt.Dimension(64, 50));
 
         jLabel5.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
         jLabel5.setText("Nama Karyawan");
@@ -97,7 +104,7 @@ public class Absensi extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(nikTxt, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -107,7 +114,7 @@ public class Absensi extends javax.swing.JPanel {
                         .addGap(0, 46, Short.MAX_VALUE)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 686, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 47, Short.MAX_VALUE))
-                    .addComponent(jTextField2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(namaTxt, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 680, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
@@ -126,11 +133,11 @@ public class Absensi extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(nikTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(namaTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(3, 3, 3)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -165,8 +172,8 @@ public class Absensi extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField namaTxt;
+    private javax.swing.JTextField nikTxt;
     private javax.swing.JButton save;
     // End of variables declaration//GEN-END:variables
 }

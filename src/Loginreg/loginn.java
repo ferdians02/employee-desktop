@@ -6,6 +6,7 @@ package Loginreg;
 import Beranda.Dashboard;
 import Connect.ConnectDB;
 import com.mysql.jdbc.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
@@ -117,24 +118,49 @@ public class loginn extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Panjang Tidak Boleh lebih dari 8");
         }
          
-        String sql ="SELECT * FROM  tb_user WHERE username = '"+ email +"'AND password='"+ pw +"'";
+//        String sql ="SELECT * FROM  tb_user WHERE username = '"+ email +"'AND password='"+ pw +"'";
+        String sql = """
+                                SELECT TK.NIK, TK.NAMA_KARYAWAN, TR.ROLE_DESC, TJ.NAMA_JABATAN FROM TB_USER TU 
+                                INNER JOIN TB_KARYAWAN TK ON TU.ID_KARYAWAN = TK.ID_KARYAWAN
+                                INNER JOIN TB_JABATAN TJ ON TK.ID_JABATAN = TK.ID_JABATAN
+                                INNER JOIN TB_ROLE TR ON TJ.ROLE_ID = TR.ROLE_ID
+                                WHERE TU.USERNAME = ? AND TU.PASSWORD = ?
+                             """;
       
         System.out.println("ini sql : " + sql);
+        
+        String role = "", nomor = "", nama = "", jabatan = "";
         try{ 
-            Statement s = conn.createStatement();
-            ResultSet rs = s.executeQuery(sql);
-            System.out.println("ini result set : " + rs);
-            if(rs.next()){
-                Dashboard d = new Dashboard();
-                d.setVisible(true);
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, email);
+            ps.setString(2, pw);
+            
+            ResultSet rs = ps.executeQuery();
+            
+            while(rs.next()){
+                role = rs.getString("ROLE_DESC");
+                nomor = rs.getString("NIK");
+                nama = rs.getString("NAMA_KARYAWAN");
+                jabatan = rs.getString("NAMA_JABATAN");
                 
             }
-            else{
-                JOptionPane.showMessageDialog(null, "Tidak Berhasil Login");
-//                kosong();
-            }   
+            
+            Dashboard d = new Dashboard(nomor, nama);
+            d.setVisible(true);
+            
+         
+//            if(rs.next()){
+////                role = rs.getString("role_cd");
+////                System.out.println("INI ROLE : " + role);
+////                Dashboard d = new Dashboard(nomor, nama, role);
+////                d.setVisible(true);
+//               
+//            }
+//            else{
+//                JOptionPane.showMessageDialog(null, "Tidak Berhasil Login");
+//            }   
         }catch (Exception e) {
-               
+               JOptionPane.showMessageDialog(null, "Tidak dapat terhubunr pada login : " + e.getMessage());
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
