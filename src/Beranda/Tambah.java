@@ -2,6 +2,7 @@ package Beranda;
 
 import Connect.ConnectDB;
 import com.mysql.jdbc.Connection;
+import com.mysql.jdbc.Statement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Date;
@@ -415,45 +416,50 @@ public class Tambah extends javax.swing.JPanel {
         System.out.println("INI ADALAH NAMA JABATAN : " + namaJabatan);
 
         String sql = """
-                        INSERT INTO TB_KARYAWAN(ID_JABATAN,
+                        INSERT INTO TB_KARYAWAN(ID_JABATAN, ID_DIVISI,
                      NAMA_KARYAWAN, 
-                     DIVISI, JENIS_KELAMIN, NIK, NOTLP, ALAMAT, CREATE_BY, CREATE_AT, RECORD_FLAG) 
+                      JENIS_KELAMIN, NIK, NOTLP, ALAMAT, CREATE_BY, CREATE_AT, RECORD_FLAG) 
                      VALUES(?,?,?,?,?,?,?,?,?,?)
                        """;
         try {
-            PreparedStatement ps = (PreparedStatement) conn.prepareStatement(sql);
+            PreparedStatement ps = (PreparedStatement) conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             ps.setInt(1, findJabatanName(namaJabatan));
-            ps.setString(2, namaKaryawan);
-            ps.setString(3, divisi);
+            ps.setInt(2, getDivisiId(divisi));
+            ps.setString(3, namaKaryawan);
             ps.setString(4, jk);
 
-            String empNik = getEmployeeNumber(nik);
-            if (empNik.equals(nik)) {
-                JOptionPane.showMessageDialog(null, "NIK sudah ada");
-            } else {
-                ps.setString(5, nik);
-                ps.setString(6, nohp);
-                ps.setString(7, alamat);
-                ps.setString(8, "Admin");
+//            String empNik = getEmployeeNumber(nik);
+//            System.out.println("INI EMPLOYEE NUMBER : " + empNik);
+//            if (empNik.equals(nik)) {
+//                JOptionPane.showMessageDialog(null, "NIK sudah ada");
+//            }
 
-                java.util.Date utilDate = new java.util.Date();
-                java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
-                ps.setDate(9, sqlDate);
-                ps.setString(10, Constants.RECORD_FLAG_N);
+            ps.setString(5, nik);
+            ps.setString(6, nohp);
+            ps.setString(7, alamat);
+            ps.setString(8, "Admin");
 
-                ValidateUtil.validationKaryawan(nik, namaKaryawan, nohp, alamat, divisi, namaJabatan, jk);
+            java.util.Date utilDate = new java.util.Date();
+            java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+            ps.setDate(9, sqlDate);
+            ps.setString(10, Constants.RECORD_FLAG_N);
 
-                generated(namaJabatan);
+            ValidateUtil.validationKaryawan(nik, namaKaryawan, nohp, alamat, divisi, namaJabatan, jk);
 
-            }
             ps.executeUpdate();
+
+            int empId = getEmployeeId(nik);
+
+            System.out.println("Generated Employee ID : " + empId);
+
+            generated(namaJabatan, empId);
             loadData();
 
             JOptionPane.showMessageDialog(null, "Data berhasil di buat");
 
             clear();
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Tidak terhubung" + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Tidak terhubung " + e.getMessage());
         }
 
     }//GEN-LAST:event_addKaryawanActionPerformed
@@ -530,29 +536,31 @@ public class Tambah extends javax.swing.JPanel {
 
         }
     }
-    
+
 //    GENERATE  PASSWORD
-    private void generated(String jabatan) {
+    private void generated(String jabatan, Integer idKar) {
         try {
-            String sql = "INSERT INTO TB_USER(ROLE_ID, USERNAME, PASSWORD,CREATE_BY,CREATE_AT,RECORD_FLAG) VALUES (?,?,?,?,?,?)";
+            String sql = "INSERT INTO TB_USER(ROLE_ID, ID_KARYAWAN, USERNAME, PASSWORD, CREATE_BY, CREATE_AT, RECORD_FLAG) VALUES (?,?,?,?,?,?,?)";
 
             PreparedStatement ps = conn.prepareStatement(sql);
 
-            int valJabatan = findJabatanName(jabatan); 
+            int valJabatan = findJabatanName(jabatan);
             String namaJabatan = getJabatan(jabatan);
 
             if (namaJabatan.equals("MANAGER") || namaJabatan.equals("STAFF IT") || namaJabatan.equals("HRD")) {
-                ps.setInt(1, 1);
-            } else {
                 ps.setInt(1, 2);
+            } else {
+                ps.setInt(1, 3);
             }
-            ps.setString(2, nikKar.getText());
-            ps.setString(3, generatedPass());
-            ps.setString(4, "admin");
+
+            ps.setInt(2, idKar);
+            ps.setString(3, nikKar.getText());
+            ps.setString(4, generatedPass());
+            ps.setString(5, "admin");
             java.util.Date utilDate = new java.util.Date();
             java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
-            ps.setDate(5, sqlDate);
-            ps.setString(6, Constants.RECORD_FLAG_N);
+            ps.setDate(6, sqlDate);
+            ps.setString(7, Constants.RECORD_FLAG_N);
             ps.executeUpdate();
 
         } catch (Exception e) {
@@ -645,15 +653,15 @@ public class Tambah extends javax.swing.JPanel {
             PreparedStatement checkStmt = conn.prepareStatement(checkNikSql);
             checkStmt.setString(1, nikKar.getText());
             ResultSet rs = checkStmt.executeQuery();
-            
-            if(rs.next()){
+
+            if (rs.next()) {
                 count = rs.getInt("COUNT");
             }
-            
+
             checkStmt.execute();
-            
+
         } catch (Exception e) {
-          JOptionPane.showMessageDialog(null, "");
+            JOptionPane.showMessageDialog(null, "");
         }
         return count;
     }
@@ -677,14 +685,50 @@ public class Tambah extends javax.swing.JPanel {
         return find;
     }
 
+    private Integer getEmployeeId(String nik) {
+        Integer find = null;
+        try {
+            String sql = "SELECT ID_KARYAWAN FROM TB_KARYAWAN WHERE NIK = ?";
+            PreparedStatement ps = (PreparedStatement) conn.prepareStatement(sql);
+            ps.setString(1, nik);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                find = rs.getInt("ID_KARYAWAN");
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Data jabatan tidak ditemukan");
+        }
+        return find;
+    }
+    
+    private Integer getDivisiId(String nama) {
+        Integer find = null;
+        try {
+            String sql = "SELECT ID_DIVISI FROM TB_DIVISI WHERE NAMA_DIVISI = ?";
+            PreparedStatement ps = (PreparedStatement) conn.prepareStatement(sql);
+            ps.setString(1, nama);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                find = rs.getInt("ID_DIVISI");
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Data jabatan tidak ditemukan");
+        }
+        return find;
+    }
+
     private String getEmployeeNumber(String number) {
         String sql = "SELECT NIK FROM TB_KARYAWAN WHERE NIK = ?";
-        String val = "";
+        String val = null;
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, number);
 
-        ResultSet rs = ps.executeQuery();
+            ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 val = rs.getString("NIK");
             }
@@ -693,8 +737,10 @@ public class Tambah extends javax.swing.JPanel {
         }
         return val;
     }
+
+
     private void editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editActionPerformed
-        
+
     }//GEN-LAST:event_editActionPerformed
 
     private void clearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearActionPerformed

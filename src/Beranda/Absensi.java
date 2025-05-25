@@ -17,13 +17,14 @@ public class Absensi extends javax.swing.JPanel {
 //    private final Dashboard main;
     public Absensi(String nomor, String nama) {
         initComponents();
+        comboSkBox();
 //        this.main = main;
         
-        nikTxt.setText(nomor);
-        namaTxt.setText(nama);
+        nik.setText(nomor);
+        name.setText(nama);
         
-        nikTxt.setEnabled(false);
-        namaTxt.setEnabled(false);
+        nik.setEnabled(false);
+        name.setEnabled(false);
         
     }
 
@@ -37,15 +38,15 @@ public class Absensi extends javax.swing.JPanel {
 
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        nikTxt = new javax.swing.JTextField();
+        nik = new javax.swing.JTextField();
         save = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
-        namaTxt = new javax.swing.JTextField();
+        name = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jButton2 = new javax.swing.JButton();
-        jDateChooser1 = new com.toedter.calendar.JDateChooser();
+        sk = new javax.swing.JComboBox<>();
+        edit = new javax.swing.JButton();
+        tgl = new com.toedter.calendar.JDateChooser();
 
         setBackground(new java.awt.Color(30, 30, 30));
 
@@ -56,8 +57,8 @@ public class Absensi extends javax.swing.JPanel {
         jLabel2.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
         jLabel2.setText("Nomor Induk Karyawan");
 
-        nikTxt.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
-        nikTxt.setPreferredSize(new java.awt.Dimension(64, 50));
+        nik.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
+        nik.setPreferredSize(new java.awt.Dimension(64, 50));
 
         save.setBackground(new java.awt.Color(204, 102, 0));
         save.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
@@ -74,8 +75,8 @@ public class Absensi extends javax.swing.JPanel {
         jLabel4.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
         jLabel4.setText("Tanggal");
 
-        namaTxt.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
-        namaTxt.setPreferredSize(new java.awt.Dimension(64, 50));
+        name.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
+        name.setPreferredSize(new java.awt.Dimension(64, 50));
 
         jLabel5.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
         jLabel5.setText("Nama Karyawan");
@@ -83,17 +84,15 @@ public class Absensi extends javax.swing.JPanel {
         jLabel6.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
         jLabel6.setText("Status Kehadiran");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Masuk", "Izin", "Sakit" }));
-
-        jButton2.setBackground(new java.awt.Color(255, 102, 51));
-        jButton2.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
-        jButton2.setForeground(new java.awt.Color(255, 255, 255));
-        jButton2.setText("Edit");
-        jButton2.setBorderPainted(false);
-        jButton2.setPreferredSize(new java.awt.Dimension(0, 50));
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        edit.setBackground(new java.awt.Color(255, 102, 51));
+        edit.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
+        edit.setForeground(new java.awt.Color(255, 255, 255));
+        edit.setText("Edit");
+        edit.setBorderPainted(false);
+        edit.setPreferredSize(new java.awt.Dimension(0, 50));
+        edit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                editActionPerformed(evt);
             }
         });
 
@@ -104,7 +103,7 @@ public class Absensi extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(nikTxt, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(nik, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -114,15 +113,15 @@ public class Absensi extends javax.swing.JPanel {
                         .addGap(0, 46, Short.MAX_VALUE)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 686, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 47, Short.MAX_VALUE))
-                    .addComponent(namaTxt, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(name, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 680, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(sk, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(save, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jDateChooser1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(edit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(tgl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -133,47 +132,61 @@ public class Absensi extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(nikTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(nik, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(namaTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(name, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(3, 3, 3)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(tgl, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(6, 6, 6)
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(sk, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(53, 53, 53)
                 .addComponent(save, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(edit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(32, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveActionPerformed
-      
+      try{
+          String sql = """
+                       
+                       """;
+      }catch(Exception e){
+          
+      }
     }//GEN-LAST:event_saveActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_editActionPerformed
+    private String comboSkBox(){
+        sk.addItem("Pilih");
+        sk.addItem("Masuk");
+        sk.addItem("Izin");
+        sk.addItem("Sakit");
+        String val = sk.getSelectedItem().toString();
 
+        return val;
+}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton2;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private com.toedter.calendar.JDateChooser jDateChooser1;
+    private javax.swing.JButton edit;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JTextField namaTxt;
-    private javax.swing.JTextField nikTxt;
+    private javax.swing.JTextField name;
+    private javax.swing.JTextField nik;
     private javax.swing.JButton save;
+    private javax.swing.JComboBox<String> sk;
+    private com.toedter.calendar.JDateChooser tgl;
     // End of variables declaration//GEN-END:variables
 }

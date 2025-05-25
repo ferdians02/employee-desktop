@@ -59,6 +59,11 @@ public class loginn extends javax.swing.JFrame {
                 jButton1ActionPerformed(evt);
             }
         });
+        jButton1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jButton1KeyPressed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -163,6 +168,12 @@ public class loginn extends javax.swing.JFrame {
                JOptionPane.showMessageDialog(null, "Tidak dapat terhubunr pada login : " + e.getMessage());
         }
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jButton1KeyPressed
+        // TODO add your handling code here:
+        
+        
+    }//GEN-LAST:event_jButton1KeyPressed
 
     /**
      * @param args the command line arguments

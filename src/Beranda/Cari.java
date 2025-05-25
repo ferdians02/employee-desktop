@@ -65,6 +65,11 @@ public class Cari extends javax.swing.JPanel {
 
         nikKar.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
         nikKar.setPreferredSize(new java.awt.Dimension(64, 50));
+        nikKar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nikKarActionPerformed(evt);
+            }
+        });
 
         cari.setBackground(new java.awt.Color(204, 102, 0));
         cari.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
@@ -412,6 +417,10 @@ public class Cari extends javax.swing.JPanel {
             loadResign();
         }
     }//GEN-LAST:event_searchActionPerformed
+
+    private void nikKarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nikKarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_nikKarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
