@@ -425,15 +425,28 @@ public class Tambah extends javax.swing.JPanel {
                      VALUES(?,?,?,?,?,?,?,?,?,?)
                        """;
         try {
-            PreparedStatement ps = (PreparedStatement) conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            ps.setInt(1, findJabatanName(namaJabatan));
-            ps.setInt(2, getDivisiId(divisi));
-            ps.setString(3, namaKaryawan);
-            ps.setString(4, jk);
+            PreparedStatement ps = (PreparedStatement) conn.prepareStatement(sql);
 
             String empNik = getEmployeeNumber(nik);
             System.out.println("INI EMPLOYEE NUMBER : " + empNik);
+            
+            Integer jabatanId = findJabatanName(namaJabatan);
+            Integer divisiId = getDivisiId(divisi);
             if (empNik == null) {
+                
+                if(jabatanId != null){
+                    ps.setInt(1, jabatanId);
+                    return;
+                } 
+                
+                if(divisiId != null){
+                    ps.setInt(2, divisiId);
+                    return;
+                } 
+               
+                ps.setString(3, namaKaryawan);
+                ps.setString(4, jk);
+
                 ps.setString(5, nik);
                 ps.setString(6, nohp);
                 ps.setString(7, alamat);
@@ -447,14 +460,15 @@ public class Tambah extends javax.swing.JPanel {
 
                 int empId = getEmployeeId(nik);
                 generated(namaJabatan, empId);
-                System.out.println("Generated Employee ID : " + empId);
+
+                JOptionPane.showMessageDialog(null, "Data berhasil di buat");
+                return;
+               
             } else {
                 JOptionPane.showMessageDialog(null, "NIK sudah ada");
             }
 
             loadData();
-
-            JOptionPane.showMessageDialog(null, "Data berhasil di buat");
 
             clear();
         } catch (Exception e) {
@@ -660,7 +674,7 @@ public class Tambah extends javax.swing.JPanel {
                 val = rs.getString("NAMA_JABATAN");
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Tidak terhubung ke " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Tidak terhubung ke : " + e.getMessage());
         }
 
         return val;
@@ -690,6 +704,7 @@ public class Tambah extends javax.swing.JPanel {
     private Integer findJabatanName(String valJbtn) {
         Integer find = null;
         try {
+            
             String sql = "SELECT ID_JABATAN FROM TB_JABATAN WHERE NAMA_JABATAN = ?";
             PreparedStatement ps = (PreparedStatement) conn.prepareStatement(sql);
             ps.setString(1, valJbtn);
@@ -700,7 +715,7 @@ public class Tambah extends javax.swing.JPanel {
             }
 
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Data jabatan tidak ditemukan");
+            JOptionPane.showMessageDialog(null, "Data jabatan tidak ditemukan ");
         }
         return find;
     }
