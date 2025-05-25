@@ -91,17 +91,6 @@ public class Tambah extends javax.swing.JPanel {
             }
         });
 
-        tblKar.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
-            },
-            new String [] {
-                "Id karyawan", "Nama", "No Telepon", "Alamat", "Jenis Kelamin", "Divisi", "Jabatan"
-            }
-        ));
         tblKar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tblKarMouseClicked(evt);
@@ -397,7 +386,7 @@ public class Tambah extends javax.swing.JPanel {
 
             ps.execute();
             loadData();
-            JOptionPane.showMessageDialog(null, "Data berhasil diupdate");
+            JOptionPane.showMessageDialog(null, "Data berhasil dihapus");
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Tidak bisa terhubung " + e.getMessage());
         }
@@ -413,7 +402,7 @@ public class Tambah extends javax.swing.JPanel {
         namaJabatan = jbtn.getSelectedItem().toString();
         jk = jenis.getSelectedItem().toString();
 
-        System.out.println("INI ADALAH NAMA JABATAN : " + namaJabatan);
+        ValidateUtil.validationKaryawan(nik, namaKaryawan, nohp, alamat, divisi, namaJabatan, jk);
 
         String sql = """
                         INSERT INTO TB_KARYAWAN(ID_JABATAN, ID_DIVISI,
@@ -428,31 +417,27 @@ public class Tambah extends javax.swing.JPanel {
             ps.setString(3, namaKaryawan);
             ps.setString(4, jk);
 
-//            String empNik = getEmployeeNumber(nik);
-//            System.out.println("INI EMPLOYEE NUMBER : " + empNik);
-//            if (empNik.equals(nik)) {
-//                JOptionPane.showMessageDialog(null, "NIK sudah ada");
-//            }
+            String empNik = getEmployeeNumber(nik);
+            System.out.println("INI EMPLOYEE NUMBER : " + empNik);
+            if (empNik == null) {
+                ps.setString(5, nik);
+                ps.setString(6, nohp);
+                ps.setString(7, alamat);
+                ps.setString(8, "Admin");
 
-            ps.setString(5, nik);
-            ps.setString(6, nohp);
-            ps.setString(7, alamat);
-            ps.setString(8, "Admin");
+                java.util.Date utilDate = new java.util.Date();
+                java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+                ps.setDate(9, sqlDate);
+                ps.setString(10, Constants.RECORD_FLAG_N);
+                ps.executeUpdate();
 
-            java.util.Date utilDate = new java.util.Date();
-            java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
-            ps.setDate(9, sqlDate);
-            ps.setString(10, Constants.RECORD_FLAG_N);
+                int empId = getEmployeeId(nik);
+                generated(namaJabatan, empId);
+                System.out.println("Generated Employee ID : " + empId);
+            } else {
+                JOptionPane.showMessageDialog(null, "NIK sudah ada");
+            }
 
-            ValidateUtil.validationKaryawan(nik, namaKaryawan, nohp, alamat, divisi, namaJabatan, jk);
-
-            ps.executeUpdate();
-
-            int empId = getEmployeeId(nik);
-
-            System.out.println("Generated Employee ID : " + empId);
-
-            generated(namaJabatan, empId);
             loadData();
 
             JOptionPane.showMessageDialog(null, "Data berhasil di buat");
@@ -467,10 +452,18 @@ public class Tambah extends javax.swing.JPanel {
     private void loadTbleClick() {
         try {
             String sql = """
-                        SELECT k.nik, k.nama_karyawan, k.notlp, k.alamat, k.jenis_kelamin, k.divisi, j.nama_jabatan FROM TB_KARYAWAN k
-                        INNER JOIN TB_JABATAN J ON K.ID_JABATAN = J.ID_JABATAN
-                        WHERE k.nik = ?
-                        ORDER BY K.CREATE_AT DESC
+                            select 
+                                k.nik,
+                                k.nama_karyawan as nama_karyawan,
+                                k.notlp as notlp,
+                                k.alamat as alamat,
+                                k.jenis_kelamin as jenis_kelamin,
+                                d.nama_divisi as nama_divisi,
+                                j.nama_jabatan as nama_jabatan
+                            from tb_karyawan k 
+                            inner join tb_jabatan j on k.id_jabatan = j.id_jabatan
+                            inner join tb_divisi d on k.id_divisi = d.id_divisi
+                            where k.nik = ?
                      """;
 
             int row = tblKar.getSelectedRow();
@@ -488,7 +481,7 @@ public class Tambah extends javax.swing.JPanel {
                 no.setText(rs.getString("notlp"));
                 almt.setText(rs.getString("alamat"));
                 jenis.setSelectedItem(rs.getString("jenis_kelamin"));
-                divsi.setSelectedItem(rs.getString("divisi"));
+                divsi.setSelectedItem(rs.getString("nama_divisi"));
                 jbtn.setSelectedItem(rs.getString("nama_jabatan"));
             }
 
@@ -508,26 +501,39 @@ public class Tambah extends javax.swing.JPanel {
         model.addColumn("DIVISI");
         model.addColumn("JABATAN");
 
-        String sql = """
-                        SELECT k.nik, k.nama_karyawan, k.notlp, k.alamat, k.jenis_kelamin, k.divisi, j.nama_jabatan FROM TB_KARYAWAN k
-                        INNER JOIN TB_JABATAN J ON K.ID_JABATAN = J.ID_JABATAN
-                        WHERE  K.RECORD_FLAG <> 'D'
-                        ORDER BY K.CREATE_AT DESC
-                     """;
         try {
+
+            String sql = """
+                       select 
+                           k.nik,
+                           k.nama_karyawan as nama_karyawan,
+                           k.notlp as notlp,
+                           k.alamat as alamat,
+                           k.jenis_kelamin as jenis_kelamin,
+                           d.nama_divisi as nama_divisi,
+                           j.nama_jabatan as nama_jabatan
+                       from tb_karyawan k 
+                       inner join tb_jabatan j on k.id_jabatan = j.id_jabatan
+                       inner join tb_divisi d on k.id_divisi = d.id_divisi
+                       where k.record_flag <> 'D'
+                       order by k.id_karyawan desc
+                     """;
+
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
                 model.addRow(new Object[]{
-                    rs.getString("nik"),
+                    rs.getString("NIK"),
                     rs.getString("nama_karyawan"),
                     rs.getString("notlp"),
                     rs.getString("alamat"),
                     rs.getString("jenis_kelamin"),
-                    rs.getString("divisi"),
+                    rs.getString("nama_divisi"),
                     rs.getString("nama_jabatan")
                 });
+
+                System.out.println("INI ADALAH NIK : " + rs.getString("nik"));
             }
 
             tblKar.setModel(model);
@@ -702,7 +708,7 @@ public class Tambah extends javax.swing.JPanel {
         }
         return find;
     }
-    
+
     private Integer getDivisiId(String nama) {
         Integer find = null;
         try {
@@ -741,10 +747,60 @@ public class Tambah extends javax.swing.JPanel {
 
     private void editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editActionPerformed
 
+        namaKaryawan = namaKar.getText();
+        nohp = no.getText();
+        alamat = almt.getText();
+        divisi = divsi.getSelectedItem().toString();
+        namaJabatan = jbtn.getSelectedItem().toString();
+        jk = jenis.getSelectedItem().toString();
+        nik = nikKar.getText();
+
+        ValidateUtil.validationKaryawan(nik, namaKaryawan, nohp, alamat, divisi, namaJabatan, jk);
+
+        try {
+            String sql = """
+                                   UPDATE TB_KARYAWAN
+                                   SET
+                                        ID_JABATAN = ?,
+                                        ID_DIVISI = ?,
+                                        NAMA_KARYAWAN = ?,
+                                        JENIS_KELAMIN = ?,
+                                        NIK = ?,
+                                        NOTLP = ?,
+                                        ALAMAT = ?,
+                                        UPDATE_BY = ?, 
+                                        UPDATE_AT = ?, 
+                                        RECORD_FLAG = ?
+                                    WHERE NIK = ?
+                            """;
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, findJabatanName(namaJabatan));
+            ps.setInt(2, getDivisiId(divisi));
+            ps.setString(3, namaKaryawan);
+            ps.setString(4, jk);
+
+            ps.setString(5, nik);
+            ps.setString(6, nohp);
+            ps.setString(7, alamat);
+            ps.setString(8, "Admin");
+
+            java.util.Date utilDate = new java.util.Date();
+            java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+            ps.setDate(9, sqlDate);
+            ps.setString(10, Constants.RECORD_FLAG_U);
+            ps.execute();
+
+            loadData();
+            
+            JOptionPane.showMessageDialog(null, "Data berhasil diubah");
+
+        } catch (Exception e) {
+
+        }
     }//GEN-LAST:event_editActionPerformed
 
     private void clearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearActionPerformed
-        // TODO add your handling code here:
+        clear();
     }//GEN-LAST:event_clearActionPerformed
 
     private void tblKarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblKarMouseClicked
