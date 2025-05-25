@@ -385,6 +385,7 @@ public class Tambah extends javax.swing.JPanel {
             ps.setString(4, nik);
 
             ps.execute();
+            clear();
             loadData();
             JOptionPane.showMessageDialog(null, "Data berhasil dihapus");
         } catch (Exception e) {
@@ -747,7 +748,7 @@ public class Tambah extends javax.swing.JPanel {
 
     private void editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editActionPerformed
 
-        namaKaryawan = namaKar.getText();
+         namaKaryawan = namaKar.getText();
         nohp = no.getText();
         alamat = almt.getText();
         divisi = divsi.getSelectedItem().toString();
