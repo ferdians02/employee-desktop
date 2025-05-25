@@ -4,8 +4,13 @@
  */
 package Beranda;
 
+import Connect.ConnectDB;
 import Loginreg.*;
+import com.mysql.jdbc.Connection;
+import com.mysql.jdbc.Statement;
+import constant.Constants;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import javax.swing.JOptionPane;
 
 /**
@@ -13,7 +18,8 @@ import javax.swing.JOptionPane;
  * @author Dell
  */
 public class Absensi extends javax.swing.JPanel {
-
+        private Connection conn = (Connection) new ConnectDB().connect();
+//        private final Dashboard main;
 //    private final Dashboard main;
     public Absensi(String nomor, String nama) {
         initComponents();
@@ -155,14 +161,52 @@ public class Absensi extends javax.swing.JPanel {
 
     private void saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveActionPerformed
       try{
-          String sql = """
-                       
-                       """;
-      }catch(Exception e){
           
+          String sql = """
+                       INSERT INTO TB_ABSEN 
+                       (ID_KARYAWAN, TANGGAL, STATUS_KEHADIRAN, CREATE_BY, CREATE_AT, RECORD_FLAG)
+                       VALUES (?,?,?,?,?,?)
+                       """;
+          PreparedStatement ps = (PreparedStatement) conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+          ps.setInt(1, cariId(name.getText()));
+          java.util.Date date =  tgl.getDate();
+          java.sql.Date tanggal = new java.sql.Date(date.getTime());
+          ps.setDate(2, tanggal);
+          ps.setString (3, sk.getSelectedItem().toString());
+          ps.setString(4, "Admin");
+          java.util.Date utilDate = new java.util.Date();
+          java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+          ps.setDate(5, sqlDate);
+          ps.setString(6, Constants.RECORD_FLAG_N);
+          
+          ps.executeUpdate();
+          JOptionPane.showMessageDialog(null,"Data Berhasil Di Simpan");
+      }catch(Exception e){
+          JOptionPane.showMessageDialog(null, "Tidak ke Simpan " + e.getMessage());
       }
     }//GEN-LAST:event_saveActionPerformed
-
+    private Integer cariId(String namaKaryawan){
+        Integer id = null;
+         try{
+             String sql = "SELECT ID_KARYAWAN FROM TB_KARYAWAN WHERE NAMA_KARYAWAN = ?";
+             
+             System.out.println("Ini Nama Karyawan : "+namaKaryawan);
+             System.out.println("Ini SQL : " +sql );
+             
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ps.setString(1, namaKaryawan);
+             
+             ResultSet rs = ps.executeQuery();
+             
+             if(rs.next()){
+                 id = rs.getInt("ID_KARYAWAN");
+                 System.out.println("Ini ID : "+id);
+             }
+         }catch(Exception e){
+             JOptionPane.showMessageDialog(null, "Tidak terhubung ke TB_Karyawan");
+         }
+         return id;
+    }
     private void editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_editActionPerformed

@@ -200,13 +200,14 @@ public class Cari extends javax.swing.JPanel {
 
         model.addColumn("NIK");
         model.addColumn("NAMA");
-        model.addColumn("STATUS");
-        model.addColumn("KETERANGAN");
+        model.addColumn("TANGGAL");
+        model.addColumn("STATUS KEHADIRAN");
+        
 
         try {
 
             String sql = """
-                     SELECT TK.NIK, TK.NAMA_KARYAWAN, TA.STATUS_KEHADIRAN, TA.KETERANGAN FROM TB_ABSEN  TA 
+                     SELECT TK.NIK, TK.NAMA_KARYAWAN,TA.TANGGAL, TA.STATUS_KEHADIRAN FROM TB_ABSEN  TA 
                      INNER JOIN TB_KARYAWAN  TK ON TA.ID_KARYAWAN = TK.ID_KARYAWAN
                      """;
             PreparedStatement ps =  conn.prepareStatement(sql);
@@ -216,8 +217,9 @@ public class Cari extends javax.swing.JPanel {
                 model.addRow(new Object[]{
                     rs.getString("NIK"),
                     rs.getString("NAMA_KARYAWAN"),
+                    rs.getString("TANGGAL"),
                     rs.getString("STATUS_KEHADIRAN"),
-                    rs.getString("KETERANGAN")
+                    
                 });
 
             }
