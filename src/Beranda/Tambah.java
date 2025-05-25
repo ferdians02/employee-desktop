@@ -316,16 +316,29 @@ public class Tambah extends javax.swing.JPanel {
         model.addColumn("JABATAN");
 
         String sql = """
-                        SELECT k.nik, k.nama_karyawan, k.notlp, k.alamat, k.jenis_kelamin, k.divisi, j.nama_jabatan FROM TB_KARYAWAN k
-                        INNER JOIN TB_JABATAN J ON K.ID_JABATAN = J.ID_JABATAN
-                        WHERE K.RECORD_FLAG <> 'D' AND upper(k.nama_karyawan) like upper(?) 
-                        ORDER BY K.CREATE_AT DESC
+                     
+                        select 
+                            k.nik,
+                            k.nama_karyawan as nama_karyawan,
+                            k.notlp as notlp,
+                            k.alamat as alamat,
+                            k.jenis_kelamin as jenis_kelamin,
+                            d.nama_divisi as nama_divisi,
+                            j.nama_jabatan as nama_jabatan
+                            from tb_karyawan k 
+                            inner join tb_jabatan j on k.id_jabatan = j.id_jabatan
+                            inner join tb_divisi d on k.id_divisi = d.id_divisi
+                        WHERE K.RECORD_FLAG <> 'D' 
+                        AND (UPPER (k.nik) LIKE UPPER (?))
                      """;
 
         System.out.println("Keyword : " + cari.getText());
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, "%" + cari.getText() + "%");
+            String keyword = "%" + cari.getText() + "%";
+            ps.setString(1, keyword);
+            ps.setString(2, keyword);
+            ps.setString(3, keyword);
 
             ResultSet rs = ps.executeQuery();
 
@@ -336,7 +349,7 @@ public class Tambah extends javax.swing.JPanel {
                     rs.getString("notlp"),
                     rs.getString("alamat"),
                     rs.getString("jenis_kelamin"),
-                    rs.getString("divisi"),
+                    rs.getString("nama_divisi"),
                     rs.getString("nama_jabatan")});
             }
 
@@ -748,7 +761,7 @@ public class Tambah extends javax.swing.JPanel {
 
     private void editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editActionPerformed
 
-         namaKaryawan = namaKar.getText();
+        namaKaryawan = namaKar.getText();
         nohp = no.getText();
         alamat = almt.getText();
         divisi = divsi.getSelectedItem().toString();
@@ -792,7 +805,7 @@ public class Tambah extends javax.swing.JPanel {
             ps.execute();
 
             loadData();
-            
+
             JOptionPane.showMessageDialog(null, "Data berhasil diubah");
 
         } catch (Exception e) {
