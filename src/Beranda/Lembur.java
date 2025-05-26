@@ -23,9 +23,17 @@ public class Lembur extends javax.swing.JPanel {
     private Connection conn = (Connection) new ConnectDB().connect();
     private final Dashboard main;
 
-    public Lembur(Dashboard main) {
+    private String nama;
+    
+    public Lembur(Dashboard main, String name) {
         initComponents();
         this.main = main;
+        this.nama = name;
+        
+        
+        namaKar.setText(nama);
+        namaKar.setEnabled(false);
+        spl.setEnabled(false);
     }
 
     /**

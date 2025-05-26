@@ -13,4 +13,17 @@ public interface Constants {
      final  String RECORD_FLAG_U = "U";
      final  String RECORD_FLAG_D = "D";
     //recordflag u = update
+     
+     
+//     LEAVE (LEMBUR)
+     final String LS_SUBMITED = "Submitted";
+     final String LS_REJECTED = "Rejected";
+     final String LS_NEED_REVISION = "Need Revision";
+     
+     
+//     LEMBUR
+     final String WAITING_FOR_APPROVAL = "Waiting for approval";
+     final String REVISION = "Revision";
+     final String REJECTED = "Reject";
 }
+

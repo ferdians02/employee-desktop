@@ -32,7 +32,7 @@ public class Dashboard extends javax.swing.JFrame {
    
    public void setLembur(){
         if(lembur == null){
-            lembur = new Lembur(this);
+            lembur = new Lembur(this, name);
         }
         jPanel2.removeAll();
         jPanel2.add(lembur);
@@ -41,7 +41,7 @@ public class Dashboard extends javax.swing.JFrame {
    
    public void setCuti(){
         if(cuti == null){
-            cuti = new Cuti(this);
+            cuti = new Cuti(this, nik, name);
         }
         jPanel2.removeAll();
         jPanel2.add(cuti);

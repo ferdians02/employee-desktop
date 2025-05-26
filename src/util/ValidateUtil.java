@@ -36,16 +36,17 @@ public class ValidateUtil {
             JOptionPane.showMessageDialog(null, "Alamat tidak boleh kosong");
         }
         
-        if(divisi.isEmpty() && divisi.equals("Pilih")){
+        if(divisi.equalsIgnoreCase("Pilih") || divisi == null){
             JOptionPane.showMessageDialog(null, "Divisi harus dipilih");
         }
         
-        if(jabatan.isEmpty() && jabatan.equals("Pilih")){
+        if(jabatan.equals("Pilih") || jabatan == null){
             JOptionPane.showMessageDialog(null, "Jabatan harus dipilih");
         }
         
         if(jk.isEmpty() && jk.equals("Pilih")){
             JOptionPane.showMessageDialog(null, "Jenis kelamin harus dipilih");
+            
         }
     }
 }
