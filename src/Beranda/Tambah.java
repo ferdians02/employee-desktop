@@ -429,21 +429,24 @@ public class Tambah extends javax.swing.JPanel {
 
             String empNik = getEmployeeNumber(nik);
             System.out.println("INI EMPLOYEE NUMBER : " + empNik);
-            
+
             Integer jabatanId = findJabatanName(namaJabatan);
             Integer divisiId = getDivisiId(divisi);
             if (empNik == null) {
-                
-                if(jabatanId != null){
+
+                if (jabatanId != null) {
                     ps.setInt(1, jabatanId);
+                } else {
                     return;
-                } 
-                
-                if(divisiId != null){
+                }
+
+                if (divisiId != null) {
                     ps.setInt(2, divisiId);
+
+                } else {
                     return;
-                } 
-               
+                }
+
                 ps.setString(3, namaKaryawan);
                 ps.setString(4, jk);
 
@@ -462,15 +465,14 @@ public class Tambah extends javax.swing.JPanel {
                 generated(namaJabatan, empId);
 
                 JOptionPane.showMessageDialog(null, "Data berhasil di buat");
-                return;
-               
+
+                clear();
+
+                loadData();
             } else {
                 JOptionPane.showMessageDialog(null, "NIK sudah ada");
             }
 
-            loadData();
-
-            clear();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Tidak terhubung " + e.getMessage());
         }
@@ -704,7 +706,7 @@ public class Tambah extends javax.swing.JPanel {
     private Integer findJabatanName(String valJbtn) {
         Integer find = null;
         try {
-            
+
             String sql = "SELECT ID_JABATAN FROM TB_JABATAN WHERE NAMA_JABATAN = ?";
             PreparedStatement ps = (PreparedStatement) conn.prepareStatement(sql);
             ps.setString(1, valJbtn);
