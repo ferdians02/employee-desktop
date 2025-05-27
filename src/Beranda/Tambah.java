@@ -787,6 +787,9 @@ public class Tambah extends javax.swing.JPanel {
         nik = nikKar.getText();
 
         ValidateUtil.validationKaryawan(nik, namaKaryawan, nohp, alamat, divisi, namaJabatan, jk);
+        
+        java.util.Date utilDate = new java.util.Date();
+        java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
 
         try {
             String sql = """
@@ -809,24 +812,23 @@ public class Tambah extends javax.swing.JPanel {
             ps.setInt(2, getDivisiId(divisi));
             ps.setString(3, namaKaryawan);
             ps.setString(4, jk);
-
             ps.setString(5, nik);
             ps.setString(6, nohp);
             ps.setString(7, alamat);
             ps.setString(8, "Admin");
-
-            java.util.Date utilDate = new java.util.Date();
-            java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
             ps.setDate(9, sqlDate);
             ps.setString(10, Constants.RECORD_FLAG_U);
+            ps.setString(11, nik);
             ps.execute();
+            
+            JOptionPane.showMessageDialog(null, "Data berhasil diubah");
 
             loadData();
 
-            JOptionPane.showMessageDialog(null, "Data berhasil diubah");
+           
 
         } catch (Exception e) {
-
+            JOptionPane.showMessageDialog(null, "Data tidak berhasil diubah " + e.getMessage());
         }
     }//GEN-LAST:event_editActionPerformed
 
