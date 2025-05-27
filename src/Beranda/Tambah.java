@@ -331,7 +331,7 @@ public class Tambah extends javax.swing.JPanel {
                             inner join tb_jabatan j on k.id_jabatan = j.id_jabatan
                             inner join tb_divisi d on k.id_divisi = d.id_divisi
                         WHERE K.RECORD_FLAG <> 'D' 
-                        AND (UPPER (k.nik) LIKE UPPER (?))
+                        AND (? is null or ? = '' or k.nik like ? or k.nama_karyawan like ?)
                      """;
 
         System.out.println("Keyword : " + cari.getText());
@@ -341,6 +341,7 @@ public class Tambah extends javax.swing.JPanel {
             ps.setString(1, keyword);
             ps.setString(2, keyword);
             ps.setString(3, keyword);
+            ps.setString(4, keyword);
 
             ResultSet rs = ps.executeQuery();
 
