@@ -46,7 +46,7 @@ public class Tambah extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         cari = new javax.swing.JTextField();
-        jButton3 = new javax.swing.JButton();
+        search = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblKar = new javax.swing.JTable();
         jLabel3 = new javax.swing.JLabel();
@@ -79,15 +79,15 @@ public class Tambah extends javax.swing.JPanel {
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("Tambah Karyawan");
 
-        jButton3.setBackground(new java.awt.Color(204, 102, 0));
-        jButton3.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
-        jButton3.setForeground(new java.awt.Color(255, 255, 255));
-        jButton3.setText("Cari");
-        jButton3.setBorderPainted(false);
-        jButton3.setPreferredSize(new java.awt.Dimension(0, 50));
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        search.setBackground(new java.awt.Color(204, 102, 0));
+        search.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
+        search.setForeground(new java.awt.Color(255, 255, 255));
+        search.setText("Cari");
+        search.setBorderPainted(false);
+        search.setPreferredSize(new java.awt.Dimension(0, 50));
+        search.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                searchActionPerformed(evt);
             }
         });
 
@@ -203,7 +203,6 @@ public class Tambah extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -213,9 +212,10 @@ public class Tambah extends javax.swing.JPanel {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(cari, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(search, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane2)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(no)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -246,24 +246,26 @@ public class Tambah extends javax.swing.JPanel {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(edit, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(addKaryawan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(10, 10, 10)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(hapus, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(clear, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(clear, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(3, 3, 3))
+                            .addComponent(hapus, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(23, 23, 23)
+                .addGap(30, 30, 30)
                 .addComponent(jLabel2)
                 .addGap(30, 30, 30)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(cari, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(search, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(15, 15, 15)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING)
@@ -292,19 +294,19 @@ public class Tambah extends javax.swing.JPanel {
                 .addComponent(jLabel9)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(15, 15, 15)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(hapus, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(addKaryawan, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(addKaryawan, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(clear, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(15, 15, 15)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(edit, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(clear, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(19, Short.MAX_VALUE))
+                    .addComponent(hapus, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(93, 93, 93))
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void searchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchActionPerformed
         DefaultTableModel model = new DefaultTableModel();
 
         model.addColumn("NIK");
@@ -358,7 +360,7 @@ public class Tambah extends javax.swing.JPanel {
         } catch (Exception e) {
 
         }
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_searchActionPerformed
 
     private void namaKarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_namaKarActionPerformed
         // TODO add your handling code here:
@@ -407,7 +409,7 @@ public class Tambah extends javax.swing.JPanel {
     }//GEN-LAST:event_hapusActionPerformed
 
     private void addKaryawanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addKaryawanActionPerformed
-
+        
         nik = nikKar.getText();
         namaKaryawan = namaKar.getText();
         nohp = no.getText();
@@ -419,14 +421,14 @@ public class Tambah extends javax.swing.JPanel {
         ValidateUtil.validationKaryawan(nik, namaKaryawan, nohp, alamat, divisi, namaJabatan, jk);
 
         String sql = """
-                        INSERT INTO TB_KARYAWAN(ID_JABATAN, ID_DIVISI,
+                     INSERT INTO TB_KARYAWAN(ID_JABATAN, ID_DIVISI,
                      NAMA_KARYAWAN, 
-                      JENIS_KELAMIN, NIK, NOTLP, ALAMAT, CREATE_BY, CREATE_AT, RECORD_FLAG) 
+                     JENIS_KELAMIN, NIK, NOTLP, ALAMAT, CREATE_BY, CREATE_AT, RECORD_FLAG) 
                      VALUES(?,?,?,?,?,?,?,?,?,?)
                        """;
         try {
             PreparedStatement ps = (PreparedStatement) conn.prepareStatement(sql);
-
+            
             String empNik = getEmployeeNumber(nik);
             System.out.println("INI EMPLOYEE NUMBER : " + empNik);
 
@@ -436,14 +438,14 @@ public class Tambah extends javax.swing.JPanel {
 
                 if (jabatanId != null) {
                     ps.setInt(1, jabatanId);
-                } else {
-                    return;
+
+                }else{
+                    return ;
                 }
 
                 if (divisiId != null) {
                     ps.setInt(2, divisiId);
-
-                } else {
+                }else{
                     return;
                 }
 
@@ -463,12 +465,13 @@ public class Tambah extends javax.swing.JPanel {
 
                 int empId = getEmployeeId(nik);
                 generated(namaJabatan, empId);
-
-                JOptionPane.showMessageDialog(null, "Data berhasil di buat");
+                loadData();
 
                 clear();
 
-                loadData();
+                JOptionPane.showMessageDialog(null, "Data berhasil di buat");
+                return;
+
             } else {
                 JOptionPane.showMessageDialog(null, "NIK sudah ada");
             }
@@ -619,9 +622,9 @@ public class Tambah extends javax.swing.JPanel {
         namaKar.setText("");
         no.setText("");
         almt.setText("");
-        divsi.setSelectedItem(false);
-        jbtn.setSelectedItem(false);
-        jenis.setSelectedItem(false);
+        divsi.setSelectedItem("Pilih");
+        jbtn.setSelectedItem("Pilih");
+        jenis.setSelectedItem("Pilih");
     }
 
 //    COMBO BOX
@@ -639,6 +642,7 @@ public class Tambah extends javax.swing.JPanel {
 
     private String comboJenisKelaminBox() {
         jenis.removeAllItems();
+        jenis.addItem("Pilih");
         jenis.addItem("Laki - laki");
         jenis.addItem("Perempuan");
 
@@ -777,7 +781,6 @@ public class Tambah extends javax.swing.JPanel {
 
 
     private void editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editActionPerformed
-
         namaKaryawan = namaKar.getText();
         nohp = no.getText();
         alamat = almt.getText();
@@ -786,27 +789,24 @@ public class Tambah extends javax.swing.JPanel {
         jk = jenis.getSelectedItem().toString();
         nik = nikKar.getText();
 
-        ValidateUtil.validationKaryawan(nik, namaKaryawan, nohp, alamat, divisi, namaJabatan, jk);
-        
-        java.util.Date utilDate = new java.util.Date();
-        java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
-
         try {
+
             String sql = """
-                                   UPDATE TB_KARYAWAN
-                                   SET
-                                        ID_JABATAN = ?,
-                                        ID_DIVISI = ?,
-                                        NAMA_KARYAWAN = ?,
-                                        JENIS_KELAMIN = ?,
-                                        NIK = ?,
-                                        NOTLP = ?,
-                                        ALAMAT = ?,
-                                        UPDATE_BY = ?, 
-                                        UPDATE_AT = ?, 
-                                        RECORD_FLAG = ?
-                                    WHERE NIK = ?
-                            """;
+                        UPDATE TB_KARYAWAN
+                        SET 
+                         ID_JABATAN = ?, 
+                         ID_DIVISI = ? ,
+                         NAMA_KARYAWAN = ?, 
+                         JENIS_KELAMIN = ?, 
+                         NIK = ?, 
+                         NOTLP = ? , 
+                         ALAMAT = ? ,
+                         UPDATE_BY = ?,  
+                         UPDATE_AT = ?,  
+                         RECORD_FLAG = ?
+                        WHERE NIK = ? 
+                     """;
+
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setInt(1, findJabatanName(namaJabatan));
             ps.setInt(2, getDivisiId(divisi));
@@ -815,20 +815,19 @@ public class Tambah extends javax.swing.JPanel {
             ps.setString(5, nik);
             ps.setString(6, nohp);
             ps.setString(7, alamat);
-            ps.setString(8, "Admin");
+            ps.setString(8, "admin");
+            java.util.Date utilDate = new java.util.Date();
+            java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
             ps.setDate(9, sqlDate);
             ps.setString(10, Constants.RECORD_FLAG_U);
             ps.setString(11, nik);
+
             ps.execute();
-            
-            JOptionPane.showMessageDialog(null, "Data berhasil diubah");
-
+            clear();
             loadData();
-
-           
-
+            JOptionPane.showMessageDialog(null, "Data berhasil diubah");
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Data tidak berhasil diubah " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Tidak bisa terhubung " + e.getMessage());
         }
     }//GEN-LAST:event_editActionPerformed
 
@@ -851,7 +850,6 @@ public class Tambah extends javax.swing.JPanel {
     private javax.swing.JComboBox<String> divsi;
     private javax.swing.JButton edit;
     private javax.swing.JButton hapus;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -868,6 +866,7 @@ public class Tambah extends javax.swing.JPanel {
     private javax.swing.JTextField namaKar;
     private javax.swing.JTextField nikKar;
     private javax.swing.JTextField no;
+    private javax.swing.JButton search;
     private javax.swing.JTable tblKar;
     // End of variables declaration//GEN-END:variables
 }

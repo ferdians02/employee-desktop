@@ -1,13 +1,10 @@
-
 package Beranda;
 
 import com.formdev.flatlaf.FlatDarkLaf;
 import java.awt.Color;
 import javax.swing.SwingUtilities;
 
-
 public class Dashboard extends javax.swing.JFrame {
-
    private Absensi absen;
    private Lembur lembur;
    private Cuti cuti;
@@ -301,7 +298,7 @@ public class Dashboard extends javax.swing.JFrame {
                 .addComponent(btam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(bagaj, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 167, Short.MAX_VALUE))
+                .addGap(0, 233, Short.MAX_VALUE))
         );
 
         jPanel2.setBackground(new java.awt.Color(30, 30, 30));
@@ -434,7 +431,6 @@ public class Dashboard extends javax.swing.JFrame {
      */
     public static void main(String args[]) {
         FlatDarkLaf.setup();
-
         /* Create and display the form */
 //        java.awt.EventQueue.invokeLater(new Runnable() {
 //            public void run() {

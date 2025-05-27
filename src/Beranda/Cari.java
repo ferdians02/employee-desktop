@@ -28,7 +28,6 @@ public class Cari extends javax.swing.JPanel {
         this.main = main;
         comboSearchBox();
 
-
     }
 
     /**
@@ -104,17 +103,6 @@ public class Cari extends javax.swing.JPanel {
             }
         });
 
-        tbl.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Nomor Induk Karyawan", "Nama Karyawan", "Divisi", "Jabatan"
-            }
-        ));
         tbl.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tblMouseClicked(evt);
@@ -173,13 +161,13 @@ public class Cari extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(cari, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 413, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(15, 15, 15))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void cariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cariActionPerformed
-
+        loadSearch();
     }//GEN-LAST:event_cariActionPerformed
     private String comboSearchBox() {
         search.addItem("Pilih");
@@ -202,7 +190,6 @@ public class Cari extends javax.swing.JPanel {
         model.addColumn("NAMA");
         model.addColumn("TANGGAL");
         model.addColumn("STATUS KEHADIRAN");
-        
 
         try {
 
@@ -210,7 +197,7 @@ public class Cari extends javax.swing.JPanel {
                      SELECT TK.NIK, TK.NAMA_KARYAWAN,TA.TANGGAL, TA.STATUS_KEHADIRAN FROM TB_ABSEN  TA 
                      INNER JOIN TB_KARYAWAN  TK ON TA.ID_KARYAWAN = TK.ID_KARYAWAN
                      """;
-            PreparedStatement ps =  conn.prepareStatement(sql);
+            PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
@@ -218,9 +205,7 @@ public class Cari extends javax.swing.JPanel {
                     rs.getString("NIK"),
                     rs.getString("NAMA_KARYAWAN"),
                     rs.getString("TANGGAL"),
-                    rs.getString("STATUS_KEHADIRAN"),
-                    
-                });
+                    rs.getString("STATUS_KEHADIRAN"),});
 
             }
             tbl.setModel(model);
@@ -229,31 +214,28 @@ public class Cari extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(null, "koneksi Gagal");
         }
     }
-    
-   
 
     private void loadCuti() {
         DefaultTableModel model = new DefaultTableModel();
-        
+
         model.addColumn("NIK");
         model.addColumn("NAMA KARYAWAN");
         model.addColumn("TANGGAL");
         model.addColumn("LAMA CUTI");
         model.addColumn("ALASAN CUTI");
         model.addColumn("STATUS");
-        
+
         String sql = """
                         SELECT TK.NIK, TK.NAMA_KARYAWAN, TC.TANGGAL, TC.LAMA_CUTI, TC.ALASAN_CUTI, TC.STATUS_CUTI FROM TB_CUTI TC
                         INNER JOIN TB_KARYAWAN  TK ON TC.ID_KARYAWAN = TK.ID_KARYAWAN
                         WHERE TK.RECORD_FLAG <> 'D'
                      """;
-        
-        try{
+
+        try {
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
-            
-           
-            while(rs.next()){
+
+            while (rs.next()) {
                 model.addRow(new Object[]{
                     rs.getString("NIK"),
                     rs.getString("NAMA_KARYAWAN"),
@@ -265,10 +247,9 @@ public class Cari extends javax.swing.JPanel {
             }
 //            
             tbl.setModel(model);
-        }catch(Exception e){
-            
+        } catch (Exception e) {
+
         }
-        
 
     }
 
@@ -283,14 +264,16 @@ public class Cari extends javax.swing.JPanel {
         model.addColumn("KETERANGAN");
         model.addColumn("STATUS LEMBUR");
 
-        String sql = """
+        
+
+        try {
+            String sql = """
                      SELECT a.SPL_NO, b.NAMA_KARYAWAN, a.TANGGAL, a.JAM_MULAI, a.JAM_SELESAI, a.KETERANGAN, a.STATUS_LEMBUR FROM TB_LEMBUR a
                      INNER JOIN TB_KARYAWAN b ON a.ID_KARYAWAN = b.ID_KARYAWAN
                      WHERE a.RECORD_FLAG  <> 'D'
                      ORDER BY a.ID_SPL DESC
                      """;
-
-        try {
+            
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
 
@@ -312,27 +295,28 @@ public class Cari extends javax.swing.JPanel {
 
         }
     }
-    private void loadGaji(){
-         DefaultTableModel model = new DefaultTableModel();
-         
-         model.addColumn("NIK");
-         model.addColumn("NAMA KARYAWAN");
-         model.addColumn("BULAN");
-         model.addColumn("TAHUN");
-         model.addColumn("GAJI POKOK");
-         model.addColumn("TUNJANGAN");
-         model.addColumn("TOTAL");
-         
-         String sql = """
+
+    private void loadGaji() {
+        DefaultTableModel model = new DefaultTableModel();
+
+        model.addColumn("NIK");
+        model.addColumn("NAMA KARYAWAN");
+        model.addColumn("BULAN");
+        model.addColumn("TAHUN");
+        model.addColumn("GAJI POKOK");
+        model.addColumn("TUNJANGAN");
+        model.addColumn("TOTAL");
+
+        String sql = """
                       SELECT TK.NIK, TK.NAMA_KARYAWAN, TG.BULAN, TG.TAHUN, TG.GAJI_POKOK, TG.TUNJANGAN, TG.TOTAL FROM TB_GAJI TG
                       INNER JOIN TB_KARYAWAN  TK ON TG.ID_KARYAWAN = TK.ID_KARYAWAN
                       WHERE TK.RECORD_FLAG <> 'D' 
                       """;
-         try{
+        try {
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
-            
-            while (rs.next()){
+
+            while (rs.next()) {
                 model.addRow(new Object[]{
                     rs.getString("NIK"),
                     rs.getString("NAMA_KARYAWAN"),
@@ -340,46 +324,44 @@ public class Cari extends javax.swing.JPanel {
                     rs.getString("TAHUN"),
                     rs.getString("GAJI_POKOK"),
                     rs.getString("TUNJANGAN"),
-                    rs.getString("TOTAL"),
-                });
+                    rs.getString("TOTAL"),});
             }
             tbl.setModel(model);
-         }catch(Exception e){
-             
-         }
-    }   
-    
-    private void loadResign(){
-       DefaultTableModel model = new DefaultTableModel();
-       
-       model.addColumn("NIK");
-       model.addColumn("NAMA KARYAWAN");
-       model.addColumn("TANGGAL");
-       model.addColumn("KETERANGAN");
-       model.addColumn("PERSETUJUAN");
-       
-       String sql = """
+        } catch (Exception e) {
+
+        }
+    }
+
+    private void loadResign() {
+        DefaultTableModel model = new DefaultTableModel();
+
+        model.addColumn("NIK");
+        model.addColumn("NAMA KARYAWAN");
+        model.addColumn("TANGGAL");
+        model.addColumn("KETERANGAN");
+        model.addColumn("PERSETUJUAN");
+
+        String sql = """
                     SELECT TK.NIK, TK.NAMA_KARYAWAN, TR.TANGGAL, TR.KETERANGAN, TR.PERSETUJUAN FROM TB_RESIGN TR
                     INNER JOIN TB_KARYAWAN  TK ON TR.ID_KARYAWAN = TK.ID_KARYAWAN
                     WHERE TR.RECORD_FLAG <> 'D' 
                     """;
-       try{
-           PreparedStatement ps = conn.prepareStatement(sql);
-           ResultSet rs = ps.executeQuery();
-           
-           while (rs.next()){
-               model.addRow(new Object[]{
-                   rs.getString("NIK"),
-                   rs.getString("NAMA_KARYAWAN"),
-                   rs.getString("TANGGAL"),
-                   rs.getString("KETERANGAN"),
-                   rs.getString("PERSETUJUAN"),
-                });
-           }
-           tbl.setModel(model);
-       }catch(Exception e){
-           
-       }
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                model.addRow(new Object[]{
+                    rs.getString("NIK"),
+                    rs.getString("NAMA_KARYAWAN"),
+                    rs.getString("TANGGAL"),
+                    rs.getString("KETERANGAN"),
+                    rs.getString("PERSETUJUAN"),});
+            }
+            tbl.setModel(model);
+        } catch (Exception e) {
+
+        }
     }
 
     private void namaKarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_namaKarActionPerformed
@@ -401,6 +383,9 @@ public class Cari extends javax.swing.JPanel {
 
     private void searchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchActionPerformed
 
+
+    }//GEN-LAST:event_searchActionPerformed
+    private void loadSearch() {
         String select = search.getSelectedItem().toString();
 
         if (select.equalsIgnoreCase("Pilih")) {
@@ -413,13 +398,12 @@ public class Cari extends javax.swing.JPanel {
             loadDataLembur();
         } else if (select.equalsIgnoreCase("Cuti")) {
             loadCuti();
-        }else if (select.equalsIgnoreCase("Gaji")){
+        } else if (select.equalsIgnoreCase("Gaji")) {
             loadGaji();
-        }else if (select.equalsIgnoreCase("Resign")){
+        } else if (select.equalsIgnoreCase("Resign")) {
             loadResign();
         }
-    }//GEN-LAST:event_searchActionPerformed
-
+    }
     private void nikKarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nikKarActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_nikKarActionPerformed

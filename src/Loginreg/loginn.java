@@ -10,6 +10,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
+import com.formdev.flatlaf.FlatDarkLaf;
+import java.awt.Color;
 /**
  *
  * @author ASUS
@@ -42,7 +44,7 @@ public class loginn extends javax.swing.JFrame {
         jLabel1.setText("~ LOGIN ~");
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel2.setText("USERNAME");
+        jLabel2.setText("NIK");
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel3.setText("PASSWORD");
@@ -180,6 +182,7 @@ public class loginn extends javax.swing.JFrame {
      */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
+        FlatDarkLaf.setup();
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
