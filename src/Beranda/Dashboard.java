@@ -13,6 +13,8 @@ public class Dashboard extends javax.swing.JFrame {
    private Tambah tambah;
    private Atur atur;
    private Cari cari;
+   private Atur_cuti atcut;
+   private Atur_resign ares;
    private String nik;
    private String name;
    
@@ -90,7 +92,26 @@ public class Dashboard extends javax.swing.JFrame {
         jPanel2.removeAll();
         jPanel2.add(cari);
         SwingUtilities.updateComponentTreeUI(jPanel2);
-   }
+    }
+   
+   public void setAtur_cuti(){
+        if(atcut == null){
+            atcut = new Atur_cuti(this);
+        }
+        jPanel2.removeAll();
+        jPanel2.add(atcut);
+        SwingUtilities.updateComponentTreeUI(jPanel2);
+    }
+   
+   public void setAtur_resign(){
+        if(ares == null){
+            ares = new Atur_resign(this);
+        }
+        jPanel2.removeAll();
+        jPanel2.add(ares);
+        SwingUtilities.updateComponentTreeUI(jPanel2);
+    }
+   
     public Dashboard(String nomor, String nama) {
         initComponents();
         
@@ -127,6 +148,9 @@ public class Dashboard extends javax.swing.JFrame {
         bgaj = new javax.swing.JButton();
         btam = new javax.swing.JButton();
         bagaj = new javax.swing.JButton();
+        batlem = new javax.swing.JButton();
+        batres = new javax.swing.JButton();
+        batcut = new javax.swing.JButton();
         bcar = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
 
@@ -170,20 +194,20 @@ public class Dashboard extends javax.swing.JFrame {
         jLabel4.setForeground(new java.awt.Color(77, 120, 204));
         jLabel4.setText("Nama");
 
-        namaTxt.setBackground(new java.awt.Color(255, 255, 255));
-        namaTxt.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        namaTxt.setForeground(new java.awt.Color(0, 0, 0));
-        namaTxt.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(144, 209, 202)));
+        namaTxt.setBackground(new java.awt.Color(255, 253, 246));
+        namaTxt.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
+        namaTxt.setForeground(new java.awt.Color(30, 30, 30));
+        namaTxt.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(144, 209, 202), 2));
         namaTxt.setPreferredSize(new java.awt.Dimension(0, 50));
 
         jLabel5.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(77, 120, 204));
         jLabel5.setText("Nomor Induk Karyawan ");
 
-        noTxt.setBackground(new java.awt.Color(255, 255, 255));
-        noTxt.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        noTxt.setForeground(new java.awt.Color(0, 0, 0));
-        noTxt.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(144, 209, 202)));
+        noTxt.setBackground(new java.awt.Color(255, 253, 246));
+        noTxt.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
+        noTxt.setForeground(new java.awt.Color(30, 30, 30));
+        noTxt.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(144, 209, 202), 2));
         noTxt.setPreferredSize(new java.awt.Dimension(0, 50));
 
         bres.setBackground(new java.awt.Color(44, 44, 44));
@@ -246,10 +270,46 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
 
+        batlem.setBackground(new java.awt.Color(44, 44, 44));
+        batlem.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
+        batlem.setForeground(new java.awt.Color(255, 255, 255));
+        batlem.setText("Approval lembur");
+        batlem.setBorderPainted(false);
+        batlem.setPreferredSize(new java.awt.Dimension(0, 50));
+        batlem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                batlemActionPerformed(evt);
+            }
+        });
+
+        batres.setBackground(new java.awt.Color(44, 44, 44));
+        batres.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
+        batres.setForeground(new java.awt.Color(255, 255, 255));
+        batres.setText("Approval Resign");
+        batres.setBorderPainted(false);
+        batres.setPreferredSize(new java.awt.Dimension(0, 50));
+        batres.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                batresActionPerformed(evt);
+            }
+        });
+
+        batcut.setBackground(new java.awt.Color(44, 44, 44));
+        batcut.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
+        batcut.setForeground(new java.awt.Color(255, 255, 255));
+        batcut.setText("Approval Cuti");
+        batcut.setBorderPainted(false);
+        batcut.setPreferredSize(new java.awt.Dimension(0, 50));
+        batcut.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                batcutActionPerformed(evt);
+            }
+        });
+
         bcar.setBackground(new java.awt.Color(44, 44, 44));
         bcar.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
         bcar.setForeground(new java.awt.Color(255, 255, 255));
-        bcar.setText("Cari");
+        bcar.setText("Cari Absen");
         bcar.setBorderPainted(false);
         bcar.setPreferredSize(new java.awt.Dimension(0, 50));
         bcar.addActionListener(new java.awt.event.ActionListener() {
@@ -277,6 +337,9 @@ public class Dashboard extends javax.swing.JFrame {
                     .addComponent(bgaj, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btam, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(bagaj, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(batlem, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(batres, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(batcut, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(bcar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -295,8 +358,6 @@ public class Dashboard extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(babs, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(bcar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(blem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(bcut, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -308,7 +369,15 @@ public class Dashboard extends javax.swing.JFrame {
                 .addComponent(btam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(bagaj, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 233, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(bcar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(batlem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(batcut, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(batres, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(69, 69, 69))
         );
 
         jPanel2.setLayout(new java.awt.BorderLayout());
@@ -319,17 +388,15 @@ public class Dashboard extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 828, Short.MAX_VALUE)
-                .addContainerGap())
+                .addGap(0, 0, 0)
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 852, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
                 .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addGap(0, 0, 0))
         );
 
         pack();
@@ -427,6 +494,40 @@ public class Dashboard extends javax.swing.JFrame {
         setAtur();
     }//GEN-LAST:event_bagajActionPerformed
 
+    private void batlemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_batlemActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_batlemActionPerformed
+
+    private void batresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_batresActionPerformed
+        // TODO add your handling code here:
+        batres.setBackground(new Color(77,120,204));
+        babs.setBackground(new Color(44,44,44));
+        blem.setBackground(new Color(44,44,44));
+        bres.setBackground(new Color(44,44,44));
+        bcut.setBackground(new Color(44,44,44));
+        bgaj.setBackground(new Color(44,44,44));
+        btam.setBackground(new Color(44,44,44));
+        bagaj.setBackground(new Color(44,44,44));
+        batcut.setBackground(new Color(44,44,44));
+        bcar.setBackground(new Color(44,44,44));
+        setAtur_resign();
+    }//GEN-LAST:event_batresActionPerformed
+
+    private void batcutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_batcutActionPerformed
+        // TODO add your handling code here:
+        batcut.setBackground(new Color(77,120,204));
+        babs.setBackground(new Color(44,44,44));
+        blem.setBackground(new Color(44,44,44));
+        bres.setBackground(new Color(44,44,44));
+        bcut.setBackground(new Color(44,44,44));
+        bgaj.setBackground(new Color(44,44,44));
+        btam.setBackground(new Color(44,44,44));
+        bagaj.setBackground(new Color(44,44,44));
+        batres.setBackground(new Color(44,44,44));
+        bcar.setBackground(new Color(44,44,44));
+        setAtur_cuti();
+    }//GEN-LAST:event_batcutActionPerformed
+
     private void bcarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bcarActionPerformed
         // TODO add your handling code here:
         bcar.setBackground(new Color(77,120,204));
@@ -436,6 +537,7 @@ public class Dashboard extends javax.swing.JFrame {
         bcut.setBackground(new Color(44,44,44));
         bgaj.setBackground(new Color(44,44,44));
         btam.setBackground(new Color(44,44,44));
+        bagaj.setBackground(new Color(44,44,44));
         setCari();
     }//GEN-LAST:event_bcarActionPerformed
 
@@ -444,17 +546,14 @@ public class Dashboard extends javax.swing.JFrame {
      */
     public static void main(String args[]) {
         FlatDarkLaf.setup();
-        /* Create and display the form */
-//        java.awt.EventQueue.invokeLater(new Runnable() {
-//            public void run() {
-//                new Dashboard().setVisible(true);
-//            }
-//        });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton babs;
     private javax.swing.JButton bagaj;
+    private javax.swing.JButton batcut;
+    private javax.swing.JButton batlem;
+    private javax.swing.JButton batres;
     private javax.swing.JButton bcar;
     private javax.swing.JButton bcut;
     private javax.swing.JButton bgaj;
