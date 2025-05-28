@@ -36,6 +36,17 @@ public class Dashboard extends javax.swing.JFrame {
         SwingUtilities.updateComponentTreeUI(jPanel2);
     }
    
+    public void setResign() {
+        this.nik = noTxt.getText();
+        this.name = namaTxt.getText();
+        if(resign == null){
+            resign = new Resign(nik, name);
+    }
+        jPanel2.removeAll();
+        jPanel2.add(resign);
+        SwingUtilities.updateComponentTreeUI(jPanel2);
+    }
+   
    public void setCuti(){
         if(cuti == null){
             cuti = new Cuti(this, nik, name);
@@ -51,15 +62,6 @@ public class Dashboard extends javax.swing.JFrame {
         }
         jPanel2.removeAll();
         jPanel2.add(gaji);
-        SwingUtilities.updateComponentTreeUI(jPanel2);
-    }
-   
-   public void setResign(){
-        if(resign == null){
-            resign = new Resign(this);
-        }
-        jPanel2.removeAll();
-        jPanel2.add(resign);
         SwingUtilities.updateComponentTreeUI(jPanel2);
     }
    
@@ -131,9 +133,9 @@ public class Dashboard extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(1243, 834));
 
-        jPanel1.setBackground(new java.awt.Color(44, 44, 44));
+        jPanel1.setBackground(new java.awt.Color(255, 253, 246));
 
-        jLabel1.setBackground(new java.awt.Color(64, 64, 64));
+        jLabel1.setBackground(new java.awt.Color(0, 0, 102));
         jLabel1.setFont(new java.awt.Font("Segoe UI Semibold", 0, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -165,15 +167,23 @@ public class Dashboard extends javax.swing.JFrame {
         });
 
         jLabel4.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(77, 120, 204));
         jLabel4.setText("Nama");
 
+        namaTxt.setBackground(new java.awt.Color(255, 255, 255));
         namaTxt.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        namaTxt.setForeground(new java.awt.Color(0, 0, 0));
+        namaTxt.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(144, 209, 202)));
         namaTxt.setPreferredSize(new java.awt.Dimension(0, 50));
 
         jLabel5.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(77, 120, 204));
         jLabel5.setText("Nomor Induk Karyawan ");
 
+        noTxt.setBackground(new java.awt.Color(255, 255, 255));
         noTxt.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        noTxt.setForeground(new java.awt.Color(0, 0, 0));
+        noTxt.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(144, 209, 202)));
         noTxt.setPreferredSize(new java.awt.Dimension(0, 50));
 
         bres.setBackground(new java.awt.Color(44, 44, 44));
@@ -281,8 +291,8 @@ public class Dashboard extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(noTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addComponent(noTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(babs, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(bcar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -301,7 +311,6 @@ public class Dashboard extends javax.swing.JFrame {
                 .addGap(0, 233, Short.MAX_VALUE))
         );
 
-        jPanel2.setBackground(new java.awt.Color(30, 30, 30));
         jPanel2.setLayout(new java.awt.BorderLayout());
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -310,13 +319,17 @@ public class Dashboard extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 852, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 828, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();

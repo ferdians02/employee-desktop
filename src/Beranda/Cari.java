@@ -53,16 +53,23 @@ public class Cari extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         tbl = new javax.swing.JTable();
 
-        setBackground(new java.awt.Color(30, 30, 30));
+        setBackground(new java.awt.Color(255, 253, 246));
 
+        jLabel1.setBackground(new java.awt.Color(255, 253, 246));
         jLabel1.setFont(new java.awt.Font("Segoe UI Semibold", 0, 24)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Pencarian");
 
+        jLabel2.setBackground(new java.awt.Color(255, 253, 246));
         jLabel2.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setText("Nomor Induk Karyawan");
 
+        nikKar.setBackground(new java.awt.Color(255, 253, 246));
         nikKar.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
+        nikKar.setForeground(new java.awt.Color(0, 0, 0));
+        nikKar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         nikKar.setPreferredSize(new java.awt.Dimension(64, 50));
         nikKar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -70,7 +77,7 @@ public class Cari extends javax.swing.JPanel {
             }
         });
 
-        cari.setBackground(new java.awt.Color(204, 102, 0));
+        cari.setBackground(new java.awt.Color(0, 0, 102));
         cari.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
         cari.setForeground(new java.awt.Color(255, 255, 255));
         cari.setText("Cari");
@@ -82,7 +89,10 @@ public class Cari extends javax.swing.JPanel {
             }
         });
 
+        namaKar.setBackground(new java.awt.Color(255, 253, 246));
         namaKar.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
+        namaKar.setForeground(new java.awt.Color(0, 0, 0));
+        namaKar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         namaKar.setPreferredSize(new java.awt.Dimension(64, 50));
         namaKar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -90,19 +100,27 @@ public class Cari extends javax.swing.JPanel {
             }
         });
 
+        jLabel5.setBackground(new java.awt.Color(255, 253, 246));
         jLabel5.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(0, 0, 0));
         jLabel5.setText("Nama Karyawan");
 
+        jLabel6.setBackground(new java.awt.Color(255, 253, 246));
         jLabel6.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(0, 0, 0));
         jLabel6.setText("Cari Untuk :");
 
+        search.setBackground(new java.awt.Color(255, 253, 246));
         search.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
+        search.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         search.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 searchActionPerformed(evt);
             }
         });
 
+        tbl.setBackground(new java.awt.Color(255, 253, 246));
+        tbl.setForeground(new java.awt.Color(0, 0, 0));
         tbl.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tblMouseClicked(evt);
@@ -159,8 +177,8 @@ public class Cari extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(search, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(cari, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(cari, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(15, 15, 15))
         );

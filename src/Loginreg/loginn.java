@@ -39,6 +39,7 @@ public class loginn extends javax.swing.JFrame {
         pass = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(255, 253, 246));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel1.setText("~ LOGIN ~");
@@ -154,6 +155,7 @@ public class loginn extends javax.swing.JFrame {
             
             Dashboard d = new Dashboard(nomor, nama);
             d.setVisible(true);
+            this.dispose();
             
          
 //            if(rs.next()){

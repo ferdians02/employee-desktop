@@ -61,19 +61,31 @@ public class Lembur extends javax.swing.JPanel {
         selesai = new javax.swing.JTextField();
         tgl = new com.toedter.calendar.JDateChooser();
 
-        setBackground(new java.awt.Color(30, 30, 30));
+        setBackground(new java.awt.Color(255, 253, 246));
 
+        jLabel1.setBackground(new java.awt.Color(255, 253, 246));
         jLabel1.setFont(new java.awt.Font("Segoe UI Semibold", 0, 24)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Pengisian Lembur");
 
+        jLabel2.setBackground(new java.awt.Color(255, 253, 246));
         jLabel2.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setText("No Spl");
 
+        spl.setBackground(new java.awt.Color(255, 253, 246));
         spl.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
+        spl.setForeground(new java.awt.Color(0, 0, 0));
+        spl.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         spl.setPreferredSize(new java.awt.Dimension(64, 50));
+        spl.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                splActionPerformed(evt);
+            }
+        });
 
-        save.setBackground(new java.awt.Color(204, 102, 0));
+        save.setBackground(new java.awt.Color(0, 0, 102));
         save.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
         save.setForeground(new java.awt.Color(255, 255, 255));
         save.setText("Simpan");
@@ -86,25 +98,39 @@ public class Lembur extends javax.swing.JPanel {
         });
 
         jLabel4.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(0, 0, 0));
         jLabel4.setText("Tanggal");
 
+        namaKar.setEditable(false);
+        namaKar.setBackground(new java.awt.Color(255, 253, 246));
         namaKar.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
+        namaKar.setForeground(new java.awt.Color(0, 0, 0));
+        namaKar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         namaKar.setPreferredSize(new java.awt.Dimension(64, 50));
 
+        jLabel5.setBackground(new java.awt.Color(255, 253, 246));
         jLabel5.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(0, 0, 0));
         jLabel5.setText("Nama Karyawan");
 
+        jLabel6.setBackground(new java.awt.Color(255, 253, 246));
         jLabel6.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(0, 0, 0));
         jLabel6.setText("Jam Mulai");
 
+        jLabel7.setBackground(new java.awt.Color(255, 253, 246));
         jLabel7.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(0, 0, 0));
         jLabel7.setText("Keterangan");
 
+        ket.setBackground(new java.awt.Color(255, 253, 246));
         ket.setColumns(20);
+        ket.setForeground(new java.awt.Color(0, 0, 0));
         ket.setRows(5);
+        ket.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jScrollPane1.setViewportView(ket);
 
-        edit.setBackground(new java.awt.Color(255, 102, 51));
+        edit.setBackground(new java.awt.Color(0, 0, 102));
         edit.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
         edit.setForeground(new java.awt.Color(255, 255, 255));
         edit.setText("Edit");
@@ -116,7 +142,10 @@ public class Lembur extends javax.swing.JPanel {
             }
         });
 
+        mulai.setBackground(new java.awt.Color(255, 253, 246));
         mulai.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
+        mulai.setForeground(new java.awt.Color(0, 0, 0));
+        mulai.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         mulai.setPreferredSize(new java.awt.Dimension(64, 50));
         mulai.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -124,11 +153,18 @@ public class Lembur extends javax.swing.JPanel {
             }
         });
 
+        jLabel8.setBackground(new java.awt.Color(255, 253, 246));
         jLabel8.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(0, 0, 0));
         jLabel8.setText("Jam Selesai");
 
+        selesai.setBackground(new java.awt.Color(255, 253, 246));
         selesai.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
+        selesai.setForeground(new java.awt.Color(0, 0, 0));
+        selesai.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         selesai.setPreferredSize(new java.awt.Dimension(64, 50));
+
+        tgl.setBackground(new java.awt.Color(255, 253, 246));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -160,37 +196,37 @@ public class Lembur extends javax.swing.JPanel {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(63, Short.MAX_VALUE)
+                .addGap(33, 33, 33)
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(spl, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(namaKar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel4)
-                .addGap(2, 2, 2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(tgl, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel6)
-                .addGap(3, 3, 3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(mulai, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel8)
-                .addGap(5, 5, 5)
-                .addComponent(selesai, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(2, 2, 2)
-                .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(selesai, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel7)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(save, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(edit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(63, Short.MAX_VALUE))
+                .addContainerGap(73, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -253,6 +289,10 @@ public class Lembur extends javax.swing.JPanel {
     private void mulaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mulaiActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_mulaiActionPerformed
+
+    private void splActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_splActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_splActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
