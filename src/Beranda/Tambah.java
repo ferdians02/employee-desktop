@@ -117,7 +117,6 @@ public class Tambah extends javax.swing.JPanel {
 
         nikKar.setBackground(new java.awt.Color(255, 253, 246));
         nikKar.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
-        nikKar.setForeground(new java.awt.Color(30, 30, 30));
         nikKar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jLabel4.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
@@ -189,12 +188,8 @@ public class Tambah extends javax.swing.JPanel {
 
         almt.setBackground(new java.awt.Color(255, 253, 246));
         almt.setColumns(20);
-        almt.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
-<<<<<<< Updated upstream
-        almt.setForeground(new java.awt.Color(0, 0, 0));
-=======
+        almt.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
         almt.setForeground(new java.awt.Color(30, 30, 30));
->>>>>>> Stashed changes
         almt.setRows(5);
         almt.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jScrollPane2.setViewportView(almt);
@@ -347,7 +342,7 @@ public class Tambah extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(edit, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(hapus, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(30, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
