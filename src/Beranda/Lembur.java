@@ -12,6 +12,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import javax.swing.JOptionPane;
 
 /**
@@ -24,13 +25,14 @@ public class Lembur extends javax.swing.JPanel {
     private final Dashboard main;
 
     private String nama;
-    
-    public Lembur(Dashboard main, String name) {
+    private String nik;
+
+    public Lembur(Dashboard main, String nik, String name) {
         initComponents();
         this.main = main;
         this.nama = name;
-        
-        
+        this.nik = nik;
+
         namaKar.setText(nama);
         namaKar.setEnabled(false);
         spl.setEnabled(false);
@@ -108,6 +110,11 @@ public class Lembur extends javax.swing.JPanel {
         namaKar.setForeground(new java.awt.Color(30, 30, 30));
         namaKar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         namaKar.setPreferredSize(new java.awt.Dimension(64, 50));
+        namaKar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                namaKarActionPerformed(evt);
+            }
+        });
 
         jLabel5.setBackground(new java.awt.Color(30, 30, 30));
         jLabel5.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
@@ -242,8 +249,8 @@ public class Lembur extends javax.swing.JPanel {
                      """;
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setInt(1, cariId(namaKar.getText()));
-            ps.setString(2, spl.getText());
-            java.util.Date date =  tgl.getDate();
+            ps.setString(2, generateSpl());
+            java.util.Date date = tgl.getDate();
             java.sql.Date tanggal = new java.sql.Date(date.getTime());
             ps.setDate(3, tanggal);
             ps.setString(4, mulai.getText());
@@ -257,45 +264,95 @@ public class Lembur extends javax.swing.JPanel {
             ps.setString(10, Constants.RECORD_FLAG_N);
 
             ps.executeUpdate();
-            JOptionPane.showMessageDialog(null,"Data Berhasil Di Simpan");
+            JOptionPane.showMessageDialog(null, "Data Berhasil Di Simpan");
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Tidak ke Simpan " + e.getMessage());
         }
     }//GEN-LAST:event_saveActionPerformed
-    private Integer cariId(String namaKaryawan){
+    private Integer cariId(String namaKaryawan) {
         Integer id = null;
-         try{
-             String sql = "SELECT ID_KARYAWAN FROM TB_KARYAWAN WHERE NAMA_KARYAWAN = ?";
-             
-             System.out.println("Ini Nama Karyawan : "+namaKaryawan);
-             System.out.println("Ini SQL : " +sql );
-             
-             PreparedStatement ps = conn.prepareStatement(sql);
-             ps.setString(1, namaKaryawan);
-             
-             ResultSet rs = ps.executeQuery();
-             
-             if(rs.next()){
-                 id = rs.getInt("ID_KARYAWAN");
-                 System.out.println("Ini ID : "+id);
-             }
-         }catch(Exception e){
-             JOptionPane.showMessageDialog(null, "Tidak terhubung ke TB_Karyawan");
-         }
-         return id;
+        try {
+            String sql = "SELECT ID_KARYAWAN FROM TB_KARYAWAN WHERE NAMA_KARYAWAN = ?";
+
+            System.out.println("Ini Nama Karyawan : " + namaKaryawan);
+            System.out.println("Ini SQL : " + sql);
+
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, namaKaryawan);
+
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                id = rs.getInt("ID_KARYAWAN");
+                System.out.println("Ini ID : " + id);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Tidak terhubung ke TB_Karyawan");
+        }
+        return id;
     }
     private void mulaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mulaiActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_mulaiActionPerformed
 
     private void splActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_splActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_splActionPerformed
 
+    }//GEN-LAST:event_splActionPerformed
+    private String generateSpl() {
+        String val = null;
+        SimpleDateFormat sdf = new SimpleDateFormat("MMyy");
+        SimpleDateFormat sdf2 = new SimpleDateFormat("yy");
+        java.util.Date utilDate = new java.util.Date();
+
+        try {
+            int noUrut = 0;
+            String spl = "SPL/";
+
+            String sql = """
+                       SELECT TB.SPL_NO FROM TB_LEMBUR TB
+                       INNER JOIN TB_KARYAWAN TK ON TB.ID_KARYAWAN = TK.ID_KARYAWAN
+                       WHERE TK.NIK = ? 
+                       ORDER BY TB.SPL_NO DESC
+                       """;
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, nik);
+
+            ResultSet rs = ps.executeQuery();
+            String nospl = null;
+
+            if (rs.next()) {
+                nospl = rs.getString("SPL_NO");
+
+            }
+
+            if (nospl == null) {
+                noUrut = 1;
+            } else {
+                String year = nospl.substring(6, 8);
+                
+                if (!year.equals(sdf2.format(utilDate))) {
+                    noUrut = 1;
+                } else {
+                    noUrut = Integer.parseInt(nospl.substring(15, 18));
+                    noUrut++;
+                }
+            }
+
+            val = spl + sdf.format(utilDate) + "/" + nik + "/" + String.format("%03d", noUrut);
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Tidak terhubung ke " + e.getMessage());
+        }
+        return val;
+    }
     private void editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_editActionPerformed
+
+    private void namaKarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_namaKarActionPerformed
+
+    }//GEN-LAST:event_namaKarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

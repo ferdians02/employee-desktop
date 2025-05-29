@@ -115,7 +115,7 @@
         jButton2.setBackground(new java.awt.Color(0, 0, 102));
         jButton2.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
         jButton2.setForeground(new java.awt.Color(255, 255, 255));
-        jButton2.setText("Edit");
+        jButton2.setText("Clear");
         jButton2.setBorderPainted(false);
         jButton2.setPreferredSize(new java.awt.Dimension(0, 50));
         jButton2.addActionListener(new java.awt.event.ActionListener() {

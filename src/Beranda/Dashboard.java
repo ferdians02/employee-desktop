@@ -33,7 +33,7 @@ public class Dashboard extends javax.swing.JFrame {
    
    public void setLembur(){
         if(lembur == null){
-            lembur = new Lembur(this, name);
+            lembur = new Lembur(this,nik, name);
         }
         jPanel2.removeAll();
         jPanel2.add(lembur);
