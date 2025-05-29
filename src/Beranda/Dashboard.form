@@ -79,7 +79,7 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <Component id="jLabel1" min="-2" pref="57" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
                   <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="namaTxt" min="-2" pref="25" max="-2" attributes="0"/>
@@ -87,7 +87,7 @@
                   <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="noTxt" min="-2" pref="31" max="-2" attributes="0"/>
-                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
                   <Component id="babs" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="blem" min="-2" max="-2" attributes="0"/>
@@ -108,8 +108,13 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="bApvCuti" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
+<<<<<<< Updated upstream
                   <Component id="bApvResign" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="69" max="-2" attributes="0"/>
+=======
+                  <Component id="batres" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
+>>>>>>> Stashed changes
               </Group>
           </Group>
         </DimensionLayout>

@@ -394,7 +394,7 @@ public class Dashboard extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(32, 32, 32)
+                .addGap(10, 10, 10)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(namaTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -423,8 +423,13 @@ public class Dashboard extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(bApvCuti, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+<<<<<<< Updated upstream
                 .addComponent(bApvResign, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(69, 69, 69))
+=======
+                .addComponent(batres, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(10, 10, 10))
+>>>>>>> Stashed changes
         );
 
         jPanel2.setLayout(new java.awt.BorderLayout());
@@ -455,9 +460,17 @@ public class Dashboard extends javax.swing.JFrame {
         bres.setBackground(new Color(44,44,44));
         bcut.setBackground(new Color(44,44,44));
         bgaj.setBackground(new Color(44,44,44));
+<<<<<<< Updated upstream
         bAturGaji.setBackground(new Color(44,44,44));
         bTambah.setBackground(new Color(44,44,44));
         bCariAbsen.setBackground(new Color(44,44,44));
+=======
+        bagaj.setBackground(new Color(44,44,44));
+        btam.setBackground(new Color(44,44,44));
+        bcar.setBackground(new Color(44,44,44));
+        batres.setBackground(new Color(44,44,44));
+        batcut.setBackground(new Color(44,44,44));
+>>>>>>> Stashed changes
         setAbsensi();
     }//GEN-LAST:event_babsActionPerformed
 
@@ -468,9 +481,17 @@ public class Dashboard extends javax.swing.JFrame {
         bres.setBackground(new Color(44,44,44));
         bcut.setBackground(new Color(44,44,44));
         bgaj.setBackground(new Color(44,44,44));
+<<<<<<< Updated upstream
         bAturGaji.setBackground(new Color(44,44,44));
         bTambah.setBackground(new Color(44,44,44));
         bCariAbsen.setBackground(new Color(44,44,44));
+=======
+        bagaj.setBackground(new Color(44,44,44));
+        btam.setBackground(new Color(44,44,44));
+        bcar.setBackground(new Color(44,44,44));
+        batres.setBackground(new Color(44,44,44));
+        batcut.setBackground(new Color(44,44,44));
+>>>>>>> Stashed changes
         setLembur();
     }//GEN-LAST:event_blemActionPerformed
 
@@ -482,8 +503,15 @@ public class Dashboard extends javax.swing.JFrame {
         bcut.setBackground(new Color(44,44,44));
         bgaj.setBackground(new Color(44,44,44));
         bgaj.setBackground(new Color(44,44,44));
+<<<<<<< Updated upstream
         bTambah.setBackground(new Color(44,44,44));
         bCariAbsen.setBackground(new Color(44,44,44));
+=======
+        btam.setBackground(new Color(44,44,44));
+        bcar.setBackground(new Color(44,44,44));
+        batres.setBackground(new Color(44,44,44));
+        batcut.setBackground(new Color(44,44,44));
+>>>>>>> Stashed changes
         setResign();
     }//GEN-LAST:event_bresActionPerformed
 
@@ -494,9 +522,17 @@ public class Dashboard extends javax.swing.JFrame {
         blem.setBackground(new Color(44,44,44));
         bres.setBackground(new Color(44,44,44));
         bgaj.setBackground(new Color(44,44,44));
+<<<<<<< Updated upstream
         bAturGaji.setBackground(new Color(44,44,44));
         bTambah.setBackground(new Color(44,44,44));
         bCariAbsen.setBackground(new Color(44,44,44));
+=======
+        bagaj.setBackground(new Color(44,44,44));
+        btam.setBackground(new Color(44,44,44));
+        bcar.setBackground(new Color(44,44,44));
+        batres.setBackground(new Color(44,44,44));
+        batcut.setBackground(new Color(44,44,44));
+>>>>>>> Stashed changes
         setCuti();
     }//GEN-LAST:event_bcutActionPerformed
 
@@ -507,9 +543,17 @@ public class Dashboard extends javax.swing.JFrame {
         blem.setBackground(new Color(44,44,44));
         bres.setBackground(new Color(44,44,44));
         bcut.setBackground(new Color(44,44,44));
+<<<<<<< Updated upstream
         bAturGaji.setBackground(new Color(44,44,44));
         bTambah.setBackground(new Color(44,44,44));
         bCariAbsen.setBackground(new Color(44,44,44));
+=======
+        bagaj.setBackground(new Color(44,44,44));
+        btam.setBackground(new Color(44,44,44));
+        bcar.setBackground(new Color(44,44,44));
+        batres.setBackground(new Color(44,44,44));
+        batcut.setBackground(new Color(44,44,44));
+>>>>>>> Stashed changes
         setGaji();
     }//GEN-LAST:event_bgajActionPerformed
 
@@ -522,7 +566,13 @@ public class Dashboard extends javax.swing.JFrame {
         bcut.setBackground(new Color(44,44,44));
         bAturGaji.setBackground(new Color(44,44,44));
         bgaj.setBackground(new Color(44,44,44));
+<<<<<<< Updated upstream
         bCariAbsen.setBackground(new Color(44,44,44));
+=======
+        bcar.setBackground(new Color(44,44,44));
+        batres.setBackground(new Color(44,44,44));
+        batcut.setBackground(new Color(44,44,44));
+>>>>>>> Stashed changes
         setTambah();
     }//GEN-LAST:event_bTambahActionPerformed
 
@@ -534,8 +584,15 @@ public class Dashboard extends javax.swing.JFrame {
         bres.setBackground(new Color(44,44,44));
         bcut.setBackground(new Color(44,44,44));
         bgaj.setBackground(new Color(44,44,44));
+<<<<<<< Updated upstream
         bTambah.setBackground(new Color(44,44,44));
         bCariAbsen.setBackground(new Color(44,44,44));
+=======
+        btam.setBackground(new Color(44,44,44));
+        bcar.setBackground(new Color(44,44,44));
+        batres.setBackground(new Color(44,44,44));
+        batcut.setBackground(new Color(44,44,44));
+>>>>>>> Stashed changes
         setAtur();
     }//GEN-LAST:event_bAturGajiActionPerformed
 
@@ -581,8 +638,15 @@ public class Dashboard extends javax.swing.JFrame {
         bres.setBackground(new Color(44,44,44));
         bcut.setBackground(new Color(44,44,44));
         bgaj.setBackground(new Color(44,44,44));
+<<<<<<< Updated upstream
         bTambah.setBackground(new Color(44,44,44));
         bAturGaji.setBackground(new Color(44,44,44));
+=======
+        btam.setBackground(new Color(44,44,44));
+        bagaj.setBackground(new Color(44,44,44));
+        batres.setBackground(new Color(44,44,44));
+        batcut.setBackground(new Color(44,44,44));
+>>>>>>> Stashed changes
         setCari();
     }//GEN-LAST:event_bCariAbsenActionPerformed
 

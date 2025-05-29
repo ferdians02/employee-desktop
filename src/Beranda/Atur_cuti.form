@@ -24,39 +24,45 @@
           <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jLabel1" alignment="0" max="32767" attributes="0"/>
-                  <Component id="jScrollPane2" alignment="0" max="32767" attributes="0"/>
-                  <Group type="102" alignment="0" attributes="0">
-                      <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
+                  <Group type="102" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="jLabel1" alignment="0" max="32767" attributes="0"/>
+                          <Component id="jScrollPane2" alignment="0" max="32767" attributes="0"/>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="nikTxt1" min="-2" pref="346" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="jButton1" max="32767" attributes="0"/>
+                          </Group>
+                          <Component id="jLabel8" alignment="0" max="32767" attributes="0"/>
+                          <Component id="jScrollPane1" alignment="0" max="32767" attributes="0"/>
+                          <Component id="jLabel7" alignment="1" max="32767" attributes="0"/>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="jLabel4" alignment="0" min="-2" pref="198" max="-2" attributes="0"/>
+                                  <Component id="nikTxt" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="jDateChooser1" alignment="0" pref="399" max="32767" attributes="0"/>
+                              </Group>
+                              <EmptySpace max="32767" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="namaTxt" alignment="0" min="-2" pref="385" max="-2" attributes="0"/>
+                                  <Component id="jTextField3" min="-2" pref="385" max="-2" attributes="0"/>
+                                  <Component id="jLabel5" alignment="0" min="-2" pref="198" max="-2" attributes="0"/>
+                                  <Component id="jLabel6" min="-2" pref="340" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                      </Group>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="nikTxt1" min="-2" pref="346" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jButton1" max="32767" attributes="0"/>
                   </Group>
                   <Component id="jButton2" alignment="1" max="32767" attributes="0"/>
-                  <Component id="jLabel8" alignment="0" max="32767" attributes="0"/>
                   <Component id="jLabel9" alignment="0" max="32767" attributes="0"/>
                   <Component id="jTextField4" alignment="0" max="32767" attributes="0"/>
                   <Component id="jLabel10" alignment="1" max="32767" attributes="0"/>
-                  <Component id="jScrollPane1" alignment="0" max="32767" attributes="0"/>
                   <Component id="jButton3" alignment="0" max="32767" attributes="0"/>
-                  <Component id="jLabel7" alignment="1" max="32767" attributes="0"/>
-                  <Group type="102" alignment="0" attributes="0">
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="jLabel4" alignment="0" min="-2" pref="198" max="-2" attributes="0"/>
-                          <Component id="nikTxt" alignment="0" max="32767" attributes="0"/>
-                          <Component id="jDateChooser1" alignment="0" pref="399" max="32767" attributes="0"/>
-                      </Group>
-                      <EmptySpace max="32767" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="namaTxt" alignment="0" min="-2" pref="385" max="-2" attributes="0"/>
-                          <Component id="jTextField3" min="-2" pref="385" max="-2" attributes="0"/>
-                          <Component id="jLabel5" alignment="0" min="-2" pref="198" max="-2" attributes="0"/>
-                          <Component id="jLabel6" min="-2" pref="340" max="-2" attributes="0"/>
-                      </Group>
-                  </Group>
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="cb1" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
@@ -64,12 +70,10 @@
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="cb3" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <Component id="jLabel2" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="-2" pref="473" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="479" max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -128,9 +132,9 @@
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jButton3" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
               <Component id="jButton2" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="50" max="-2" attributes="0"/>
+              <EmptySpace pref="30" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
