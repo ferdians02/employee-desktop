@@ -36,10 +36,7 @@
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Component id="jPanel1" max="32767" attributes="0"/>
-          <Group type="102" alignment="0" attributes="0">
-              <Component id="jPanel2" max="32767" attributes="0"/>
-              <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-          </Group>
+          <Component id="jPanel2" alignment="0" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
   </Layout>
@@ -67,12 +64,12 @@
                       <Component id="bres" alignment="0" max="32767" attributes="0"/>
                       <Component id="bcut" alignment="0" max="32767" attributes="0"/>
                       <Component id="bgaj" alignment="0" max="32767" attributes="0"/>
-                      <Component id="btam" alignment="1" max="32767" attributes="0"/>
-                      <Component id="bagaj" alignment="0" max="32767" attributes="0"/>
-                      <Component id="batlem" alignment="1" max="32767" attributes="0"/>
-                      <Component id="batres" alignment="0" max="32767" attributes="0"/>
-                      <Component id="batcut" alignment="0" max="32767" attributes="0"/>
-                      <Component id="bcar" alignment="0" max="32767" attributes="0"/>
+                      <Component id="bTambah" alignment="1" max="32767" attributes="0"/>
+                      <Component id="bAturGaji" alignment="0" max="32767" attributes="0"/>
+                      <Component id="bApvLembur" alignment="1" max="32767" attributes="0"/>
+                      <Component id="bApvResign" alignment="0" max="32767" attributes="0"/>
+                      <Component id="bApvCuti" alignment="0" max="32767" attributes="0"/>
+                      <Component id="bCariAbsen" alignment="0" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -101,17 +98,17 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="bres" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="btam" min="-2" max="-2" attributes="0"/>
+                  <Component id="bTambah" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="bagaj" min="-2" max="-2" attributes="0"/>
+                  <Component id="bAturGaji" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="bcar" min="-2" max="-2" attributes="0"/>
+                  <Component id="bCariAbsen" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="batlem" min="-2" max="-2" attributes="0"/>
+                  <Component id="bApvLembur" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="batcut" min="-2" max="-2" attributes="0"/>
+                  <Component id="bApvCuti" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="batres" min="-2" max="-2" attributes="0"/>
+                  <Component id="bApvResign" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="69" max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -307,7 +304,7 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bgajActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="btam">
+        <Component class="javax.swing.JButton" name="bTambah">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="2c" green="2c" red="2c" type="rgb"/>
@@ -325,10 +322,10 @@
             </Property>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btamActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bTambahActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="bagaj">
+        <Component class="javax.swing.JButton" name="bAturGaji">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="2c" green="2c" red="2c" type="rgb"/>
@@ -346,10 +343,10 @@
             </Property>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bagajActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bAturGajiActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="batlem">
+        <Component class="javax.swing.JButton" name="bApvLembur">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="2c" green="2c" red="2c" type="rgb"/>
@@ -367,10 +364,10 @@
             </Property>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="batlemActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bApvLemburActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="batres">
+        <Component class="javax.swing.JButton" name="bApvResign">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="2c" green="2c" red="2c" type="rgb"/>
@@ -388,10 +385,10 @@
             </Property>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="batresActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bApvResignActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="batcut">
+        <Component class="javax.swing.JButton" name="bApvCuti">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="2c" green="2c" red="2c" type="rgb"/>
@@ -409,10 +406,10 @@
             </Property>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="batcutActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bApvCutiActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="bcar">
+        <Component class="javax.swing.JButton" name="bCariAbsen">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="2c" green="2c" red="2c" type="rgb"/>
@@ -430,7 +427,7 @@
             </Property>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bcarActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bCariAbsenActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>

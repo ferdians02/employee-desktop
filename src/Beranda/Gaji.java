@@ -1,17 +1,27 @@
 package Beranda;
 
+import Connect.ConnectDB;
 import Loginreg.*;
+import com.mysql.jdbc.Connection;
+import com.mysql.jdbc.Statement;
+import constant.Constants;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author Dell
  */
 public class Gaji extends javax.swing.JPanel {
+    private Connection conn = (Connection) new ConnectDB().connect();
+        public Gaji (String nomor, String nama) {
+            initComponents();
+            nik.setText(nomor);
+            name.setText(nama);
 
-    private final Dashboard main;
-    public Gaji(Dashboard main) {
-        initComponents();
-        this.main = main;
+            nik.setEnabled(false);
+            name.setEnabled(false);
     }
 
     /**
@@ -24,9 +34,9 @@ public class Gaji extends javax.swing.JPanel {
 
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        nik = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        name = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
@@ -36,45 +46,41 @@ public class Gaji extends javax.swing.JPanel {
         jLabel9 = new javax.swing.JLabel();
         jButton3 = new javax.swing.JButton();
         jTextField6 = new javax.swing.JTextField();
-        jMonthChooser2 = new com.toedter.calendar.JMonthChooser();
+        tgl = new com.toedter.calendar.JMonthChooser();
         jYearChooser2 = new com.toedter.calendar.JYearChooser();
 
         setBackground(new java.awt.Color(255, 253, 246));
 
-        jLabel1.setBackground(new java.awt.Color(30, 30, 30));
         jLabel1.setFont(new java.awt.Font("Segoe UI Semibold", 0, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(30, 30, 30));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Lihat Gaji");
 
-        jLabel2.setBackground(new java.awt.Color(30, 30, 30));
         jLabel2.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(30, 30, 30));
         jLabel2.setText("Nomor Induk Karyawan");
 
-        jTextField1.setBackground(new java.awt.Color(255, 253, 246));
-        jTextField1.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
-        jTextField1.setForeground(new java.awt.Color(30, 30, 30));
-        jTextField1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jTextField1.setPreferredSize(new java.awt.Dimension(64, 50));
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        nik.setBackground(new java.awt.Color(255, 253, 246));
+        nik.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
+        nik.setForeground(new java.awt.Color(30, 30, 30));
+        nik.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        nik.setPreferredSize(new java.awt.Dimension(64, 50));
+        nik.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                nikActionPerformed(evt);
             }
         });
 
-        jLabel4.setBackground(new java.awt.Color(30, 30, 30));
         jLabel4.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(30, 30, 30));
         jLabel4.setText("Bulan");
 
-        jTextField2.setBackground(new java.awt.Color(255, 253, 246));
-        jTextField2.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
-        jTextField2.setForeground(new java.awt.Color(30, 30, 30));
-        jTextField2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jTextField2.setPreferredSize(new java.awt.Dimension(64, 50));
+        name.setBackground(new java.awt.Color(255, 253, 246));
+        name.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
+        name.setForeground(new java.awt.Color(30, 30, 30));
+        name.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        name.setPreferredSize(new java.awt.Dimension(64, 50));
 
-        jLabel5.setBackground(new java.awt.Color(30, 30, 30));
         jLabel5.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(30, 30, 30));
         jLabel5.setText("Nama Karyawan");
@@ -84,7 +90,6 @@ public class Gaji extends javax.swing.JPanel {
         jLabel6.setForeground(new java.awt.Color(30, 30, 30));
         jLabel6.setText("Gaji Pokok");
 
-        jLabel7.setBackground(new java.awt.Color(30, 30, 30));
         jLabel7.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(30, 30, 30));
         jLabel7.setText("Total");
@@ -100,7 +105,6 @@ public class Gaji extends javax.swing.JPanel {
             }
         });
 
-        jLabel8.setBackground(new java.awt.Color(30, 30, 30));
         jLabel8.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(30, 30, 30));
         jLabel8.setText("Tunjangan");
@@ -111,7 +115,6 @@ public class Gaji extends javax.swing.JPanel {
         jTextField5.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jTextField5.setPreferredSize(new java.awt.Dimension(64, 50));
 
-        jLabel9.setBackground(new java.awt.Color(30, 30, 30));
         jLabel9.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(30, 30, 30));
         jLabel9.setText("Tahun");
@@ -139,10 +142,9 @@ public class Gaji extends javax.swing.JPanel {
             }
         });
 
-        jMonthChooser2.setForeground(new java.awt.Color(30, 30, 30));
+        tgl.setForeground(new java.awt.Color(30, 30, 30));
 
         jYearChooser2.setBackground(new java.awt.Color(255, 253, 246));
-        jYearChooser2.setForeground(new java.awt.Color(30, 30, 30));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -152,12 +154,12 @@ public class Gaji extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jTextField6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(name, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jTextField5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jTextField4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(nik, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jMonthChooser2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(tgl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jYearChooser2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -180,15 +182,15 @@ public class Gaji extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(nik, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(name, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jMonthChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(tgl, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel9)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -215,9 +217,9 @@ public class Gaji extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton3ActionPerformed
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void nikActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nikActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_nikActionPerformed
 
     private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
         // TODO add your handling code here:
@@ -238,12 +240,12 @@ public class Gaji extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private com.toedter.calendar.JMonthChooser jMonthChooser2;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField5;
     private javax.swing.JTextField jTextField6;
     private com.toedter.calendar.JYearChooser jYearChooser2;
+    private javax.swing.JTextField name;
+    private javax.swing.JTextField nik;
+    private com.toedter.calendar.JMonthChooser tgl;
     // End of variables declaration//GEN-END:variables
 }

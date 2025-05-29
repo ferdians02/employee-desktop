@@ -11,7 +11,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
 import com.formdev.flatlaf.FlatDarkLaf;
-import java.awt.Color;
+import java.awt.Color;      
 /**
  *
  * @author ASUS
@@ -185,12 +185,13 @@ public class loginn extends javax.swing.JFrame {
          
 //        String sql ="SELECT * FROM  tb_user WHERE username = '"+ email +"'AND password='"+ pw +"'";
         String sql = """
-                                SELECT TK.NIK, TK.NAMA_KARYAWAN, TR.ROLE_DESC, TJ.NAMA_JABATAN FROM TB_USER TU 
-                                INNER JOIN TB_KARYAWAN TK ON TU.ID_KARYAWAN = TK.ID_KARYAWAN
-                                INNER JOIN TB_JABATAN TJ ON TK.ID_JABATAN = TK.ID_JABATAN
-                                INNER JOIN TB_ROLE TR ON TJ.ROLE_ID = TR.ROLE_ID
-                                WHERE TU.USERNAME = ? AND TU.PASSWORD = ?
-                             """;
+            SELECT TK.NIK, TK.NAMA_KARYAWAN, TR.ROLE_DESC, TJ.NAMA_JABATAN 
+            FROM TB_USER TU 
+            INNER JOIN TB_KARYAWAN TK ON TU.ID_KARYAWAN = TK.ID_KARYAWAN
+            INNER JOIN TB_JABATAN TJ ON TK.ID_JABATAN = TJ.ID_JABATAN
+            INNER JOIN TB_ROLE TR ON TJ.ROLE_ID = TR.ROLE_ID
+            WHERE TU.USERNAME = ? AND TU.PASSWORD = ?
+        """;
       
         System.out.println("ini sql : " + sql);
         
@@ -202,18 +203,30 @@ public class loginn extends javax.swing.JFrame {
             
             ResultSet rs = ps.executeQuery();
             
-            while(rs.next()){
+            if(rs.next()){
                 role = rs.getString("ROLE_DESC");
                 nomor = rs.getString("NIK");
                 nama = rs.getString("NAMA_KARYAWAN");
                 jabatan = rs.getString("NAMA_JABATAN");
                 
-            }
-            
             Dashboard d = new Dashboard(nomor, nama);
             d.setVisible(true);
+
+            if (role.equalsIgnoreCase("admin")) {
+                d.aksesAdmin();
+            } else if (role.equalsIgnoreCase("user")) {
+                if (jabatan.equalsIgnoreCase("staff it")) {
+                    d.aksesStaff();
+                } else if (jabatan.equalsIgnoreCase("manager")) {
+                    d.aksesManager();
+                } else if (jabatan.equalsIgnoreCase("hrd")) {
+                    d.aksesHRD();
+                }
+            }
             this.dispose();
-            
+
+
+            }
          
 //            if(rs.next()){
 ////                role = rs.getString("role_cd");

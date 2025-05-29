@@ -4,6 +4,8 @@ import com.formdev.flatlaf.FlatDarkLaf;
 import java.awt.Color;
 import javax.swing.SwingUtilities;
 
+
+
 public class Dashboard extends javax.swing.JFrame {
    private Absensi absen;
    private Lembur lembur;
@@ -49,21 +51,23 @@ public class Dashboard extends javax.swing.JFrame {
         SwingUtilities.updateComponentTreeUI(jPanel2);
     }
    
+     public void setGaji(){
+        this.nik = noTxt.getText();
+        this.name = namaTxt.getText();
+        if(gaji == null){
+            gaji = new Gaji(nik, name);
+    }
+        jPanel2.removeAll();
+        jPanel2.add(gaji);
+        SwingUtilities.updateComponentTreeUI(jPanel2);
+    }
+    
    public void setCuti(){
         if(cuti == null){
             cuti = new Cuti(this, nik, name);
         }
         jPanel2.removeAll();
         jPanel2.add(cuti);
-        SwingUtilities.updateComponentTreeUI(jPanel2);
-    }
-   
-   public void setGaji(){
-        if(gaji == null){
-            gaji = new Gaji(this);
-        }
-        jPanel2.removeAll();
-        jPanel2.add(gaji);
         SwingUtilities.updateComponentTreeUI(jPanel2);
     }
    
@@ -125,7 +129,50 @@ public class Dashboard extends javax.swing.JFrame {
         namaTxt.setEnabled(false);
         setAbsensi();
     }
+    
+    public void aksesAdmin() {
+        babs.setVisible(true);
+        blem.setVisible(true);
+        bcut.setVisible(true);
+        bres.setVisible(true);
+        bCariAbsen.setVisible(true);
+        bTambah.setVisible(true);
+        bgaj.setVisible(true);
+        bAturGaji.setVisible(true);
+        bApvCuti.setVisible(true);
+        bApvLembur.setVisible(true);
+        bApvResign.setVisible(true);
+}
 
+    public void aksesStaff() {
+        babs.setVisible(true);
+        blem.setVisible(true);
+        bcut.setVisible(true);
+        bres.setVisible(true);
+        bgaj.setVisible(true);
+        bCariAbsen.setVisible(false);
+        bTambah.setVisible(false);
+        bAturGaji.setVisible(false);
+        bApvCuti.setVisible(false);
+        bApvLembur.setVisible(false);
+        bApvResign.setVisible(false);
+    }
+
+    public void aksesManager() {
+        aksesStaff(); // dapat akses seperti staff
+        bCariAbsen.setVisible(true); // tambahan
+        bApvCuti.setVisible(true);
+        bApvLembur.setVisible(true);
+        bApvResign.setVisible(true);
+    }
+
+    public void aksesHRD() {
+        aksesStaff(); // dapat akses seperti manager
+        bTambah.setVisible(true); // tambahan
+    }
+
+
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -146,12 +193,12 @@ public class Dashboard extends javax.swing.JFrame {
         bres = new javax.swing.JButton();
         bcut = new javax.swing.JButton();
         bgaj = new javax.swing.JButton();
-        btam = new javax.swing.JButton();
-        bagaj = new javax.swing.JButton();
-        batlem = new javax.swing.JButton();
-        batres = new javax.swing.JButton();
-        batcut = new javax.swing.JButton();
-        bcar = new javax.swing.JButton();
+        bTambah = new javax.swing.JButton();
+        bAturGaji = new javax.swing.JButton();
+        bApvLembur = new javax.swing.JButton();
+        bApvResign = new javax.swing.JButton();
+        bApvCuti = new javax.swing.JButton();
+        bCariAbsen = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -246,75 +293,75 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
 
-        btam.setBackground(new java.awt.Color(44, 44, 44));
-        btam.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
-        btam.setForeground(new java.awt.Color(255, 255, 255));
-        btam.setText("Tambah Karyawan");
-        btam.setBorderPainted(false);
-        btam.setPreferredSize(new java.awt.Dimension(0, 50));
-        btam.addActionListener(new java.awt.event.ActionListener() {
+        bTambah.setBackground(new java.awt.Color(44, 44, 44));
+        bTambah.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
+        bTambah.setForeground(new java.awt.Color(255, 255, 255));
+        bTambah.setText("Tambah Karyawan");
+        bTambah.setBorderPainted(false);
+        bTambah.setPreferredSize(new java.awt.Dimension(0, 50));
+        bTambah.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btamActionPerformed(evt);
+                bTambahActionPerformed(evt);
             }
         });
 
-        bagaj.setBackground(new java.awt.Color(44, 44, 44));
-        bagaj.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
-        bagaj.setForeground(new java.awt.Color(255, 255, 255));
-        bagaj.setText("Atur Gaji");
-        bagaj.setBorderPainted(false);
-        bagaj.setPreferredSize(new java.awt.Dimension(0, 50));
-        bagaj.addActionListener(new java.awt.event.ActionListener() {
+        bAturGaji.setBackground(new java.awt.Color(44, 44, 44));
+        bAturGaji.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
+        bAturGaji.setForeground(new java.awt.Color(255, 255, 255));
+        bAturGaji.setText("Atur Gaji");
+        bAturGaji.setBorderPainted(false);
+        bAturGaji.setPreferredSize(new java.awt.Dimension(0, 50));
+        bAturGaji.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bagajActionPerformed(evt);
+                bAturGajiActionPerformed(evt);
             }
         });
 
-        batlem.setBackground(new java.awt.Color(44, 44, 44));
-        batlem.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
-        batlem.setForeground(new java.awt.Color(255, 255, 255));
-        batlem.setText("Approval lembur");
-        batlem.setBorderPainted(false);
-        batlem.setPreferredSize(new java.awt.Dimension(0, 50));
-        batlem.addActionListener(new java.awt.event.ActionListener() {
+        bApvLembur.setBackground(new java.awt.Color(44, 44, 44));
+        bApvLembur.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
+        bApvLembur.setForeground(new java.awt.Color(255, 255, 255));
+        bApvLembur.setText("Approval lembur");
+        bApvLembur.setBorderPainted(false);
+        bApvLembur.setPreferredSize(new java.awt.Dimension(0, 50));
+        bApvLembur.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                batlemActionPerformed(evt);
+                bApvLemburActionPerformed(evt);
             }
         });
 
-        batres.setBackground(new java.awt.Color(44, 44, 44));
-        batres.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
-        batres.setForeground(new java.awt.Color(255, 255, 255));
-        batres.setText("Approval Resign");
-        batres.setBorderPainted(false);
-        batres.setPreferredSize(new java.awt.Dimension(0, 50));
-        batres.addActionListener(new java.awt.event.ActionListener() {
+        bApvResign.setBackground(new java.awt.Color(44, 44, 44));
+        bApvResign.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
+        bApvResign.setForeground(new java.awt.Color(255, 255, 255));
+        bApvResign.setText("Approval Resign");
+        bApvResign.setBorderPainted(false);
+        bApvResign.setPreferredSize(new java.awt.Dimension(0, 50));
+        bApvResign.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                batresActionPerformed(evt);
+                bApvResignActionPerformed(evt);
             }
         });
 
-        batcut.setBackground(new java.awt.Color(44, 44, 44));
-        batcut.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
-        batcut.setForeground(new java.awt.Color(255, 255, 255));
-        batcut.setText("Approval Cuti");
-        batcut.setBorderPainted(false);
-        batcut.setPreferredSize(new java.awt.Dimension(0, 50));
-        batcut.addActionListener(new java.awt.event.ActionListener() {
+        bApvCuti.setBackground(new java.awt.Color(44, 44, 44));
+        bApvCuti.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
+        bApvCuti.setForeground(new java.awt.Color(255, 255, 255));
+        bApvCuti.setText("Approval Cuti");
+        bApvCuti.setBorderPainted(false);
+        bApvCuti.setPreferredSize(new java.awt.Dimension(0, 50));
+        bApvCuti.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                batcutActionPerformed(evt);
+                bApvCutiActionPerformed(evt);
             }
         });
 
-        bcar.setBackground(new java.awt.Color(44, 44, 44));
-        bcar.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
-        bcar.setForeground(new java.awt.Color(255, 255, 255));
-        bcar.setText("Cari Absen");
-        bcar.setBorderPainted(false);
-        bcar.setPreferredSize(new java.awt.Dimension(0, 50));
-        bcar.addActionListener(new java.awt.event.ActionListener() {
+        bCariAbsen.setBackground(new java.awt.Color(44, 44, 44));
+        bCariAbsen.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
+        bCariAbsen.setForeground(new java.awt.Color(255, 255, 255));
+        bCariAbsen.setText("Cari Absen");
+        bCariAbsen.setBorderPainted(false);
+        bCariAbsen.setPreferredSize(new java.awt.Dimension(0, 50));
+        bCariAbsen.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bcarActionPerformed(evt);
+                bCariAbsenActionPerformed(evt);
             }
         });
 
@@ -335,12 +382,12 @@ public class Dashboard extends javax.swing.JFrame {
                     .addComponent(bres, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(bcut, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(bgaj, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btam, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(bagaj, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(batlem, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(batres, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(batcut, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(bcar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(bTambah, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(bAturGaji, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(bApvLembur, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(bApvResign, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(bApvCuti, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(bCariAbsen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -366,17 +413,17 @@ public class Dashboard extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(bres, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(bTambah, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(bagaj, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(bAturGaji, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(bcar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(bCariAbsen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(batlem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(bApvLembur, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(batcut, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(bApvCuti, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(batres, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(bApvResign, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(69, 69, 69))
         );
 
@@ -394,9 +441,7 @@ public class Dashboard extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(0, 0, 0))
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -410,9 +455,9 @@ public class Dashboard extends javax.swing.JFrame {
         bres.setBackground(new Color(44,44,44));
         bcut.setBackground(new Color(44,44,44));
         bgaj.setBackground(new Color(44,44,44));
-        bagaj.setBackground(new Color(44,44,44));
-        btam.setBackground(new Color(44,44,44));
-        bcar.setBackground(new Color(44,44,44));
+        bAturGaji.setBackground(new Color(44,44,44));
+        bTambah.setBackground(new Color(44,44,44));
+        bCariAbsen.setBackground(new Color(44,44,44));
         setAbsensi();
     }//GEN-LAST:event_babsActionPerformed
 
@@ -423,9 +468,9 @@ public class Dashboard extends javax.swing.JFrame {
         bres.setBackground(new Color(44,44,44));
         bcut.setBackground(new Color(44,44,44));
         bgaj.setBackground(new Color(44,44,44));
-        bagaj.setBackground(new Color(44,44,44));
-        btam.setBackground(new Color(44,44,44));
-        bcar.setBackground(new Color(44,44,44));
+        bAturGaji.setBackground(new Color(44,44,44));
+        bTambah.setBackground(new Color(44,44,44));
+        bCariAbsen.setBackground(new Color(44,44,44));
         setLembur();
     }//GEN-LAST:event_blemActionPerformed
 
@@ -437,8 +482,8 @@ public class Dashboard extends javax.swing.JFrame {
         bcut.setBackground(new Color(44,44,44));
         bgaj.setBackground(new Color(44,44,44));
         bgaj.setBackground(new Color(44,44,44));
-        btam.setBackground(new Color(44,44,44));
-        bcar.setBackground(new Color(44,44,44));
+        bTambah.setBackground(new Color(44,44,44));
+        bCariAbsen.setBackground(new Color(44,44,44));
         setResign();
     }//GEN-LAST:event_bresActionPerformed
 
@@ -449,9 +494,9 @@ public class Dashboard extends javax.swing.JFrame {
         blem.setBackground(new Color(44,44,44));
         bres.setBackground(new Color(44,44,44));
         bgaj.setBackground(new Color(44,44,44));
-        bagaj.setBackground(new Color(44,44,44));
-        btam.setBackground(new Color(44,44,44));
-        bcar.setBackground(new Color(44,44,44));
+        bAturGaji.setBackground(new Color(44,44,44));
+        bTambah.setBackground(new Color(44,44,44));
+        bCariAbsen.setBackground(new Color(44,44,44));
         setCuti();
     }//GEN-LAST:event_bcutActionPerformed
 
@@ -462,84 +507,84 @@ public class Dashboard extends javax.swing.JFrame {
         blem.setBackground(new Color(44,44,44));
         bres.setBackground(new Color(44,44,44));
         bcut.setBackground(new Color(44,44,44));
-        bagaj.setBackground(new Color(44,44,44));
-        btam.setBackground(new Color(44,44,44));
-        bcar.setBackground(new Color(44,44,44));
+        bAturGaji.setBackground(new Color(44,44,44));
+        bTambah.setBackground(new Color(44,44,44));
+        bCariAbsen.setBackground(new Color(44,44,44));
         setGaji();
     }//GEN-LAST:event_bgajActionPerformed
 
-    private void btamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btamActionPerformed
+    private void bTambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bTambahActionPerformed
         // TODO add your handling code here:
-        btam.setBackground(new Color(77,120,204));
+        bTambah.setBackground(new Color(77,120,204));
         babs.setBackground(new Color(44,44,44));
         blem.setBackground(new Color(44,44,44));
         bres.setBackground(new Color(44,44,44));
         bcut.setBackground(new Color(44,44,44));
-        bagaj.setBackground(new Color(44,44,44));
+        bAturGaji.setBackground(new Color(44,44,44));
         bgaj.setBackground(new Color(44,44,44));
-        bcar.setBackground(new Color(44,44,44));
+        bCariAbsen.setBackground(new Color(44,44,44));
         setTambah();
-    }//GEN-LAST:event_btamActionPerformed
+    }//GEN-LAST:event_bTambahActionPerformed
 
-    private void bagajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bagajActionPerformed
+    private void bAturGajiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bAturGajiActionPerformed
         // TODO add your handling code here:
-        bagaj.setBackground(new Color(77,120,204));
+        bAturGaji.setBackground(new Color(77,120,204));
         babs.setBackground(new Color(44,44,44));
         blem.setBackground(new Color(44,44,44));
         bres.setBackground(new Color(44,44,44));
         bcut.setBackground(new Color(44,44,44));
         bgaj.setBackground(new Color(44,44,44));
-        btam.setBackground(new Color(44,44,44));
-        bcar.setBackground(new Color(44,44,44));
+        bTambah.setBackground(new Color(44,44,44));
+        bCariAbsen.setBackground(new Color(44,44,44));
         setAtur();
-    }//GEN-LAST:event_bagajActionPerformed
+    }//GEN-LAST:event_bAturGajiActionPerformed
 
-    private void batlemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_batlemActionPerformed
+    private void bApvLemburActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bApvLemburActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_batlemActionPerformed
+    }//GEN-LAST:event_bApvLemburActionPerformed
 
-    private void batresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_batresActionPerformed
+    private void bApvResignActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bApvResignActionPerformed
         // TODO add your handling code here:
-        batres.setBackground(new Color(77,120,204));
+        bApvResign.setBackground(new Color(77,120,204));
         babs.setBackground(new Color(44,44,44));
         blem.setBackground(new Color(44,44,44));
         bres.setBackground(new Color(44,44,44));
         bcut.setBackground(new Color(44,44,44));
         bgaj.setBackground(new Color(44,44,44));
-        btam.setBackground(new Color(44,44,44));
-        bagaj.setBackground(new Color(44,44,44));
-        batcut.setBackground(new Color(44,44,44));
-        bcar.setBackground(new Color(44,44,44));
+        bTambah.setBackground(new Color(44,44,44));
+        bAturGaji.setBackground(new Color(44,44,44));
+        bApvCuti.setBackground(new Color(44,44,44));
+        bCariAbsen.setBackground(new Color(44,44,44));
         setAtur_resign();
-    }//GEN-LAST:event_batresActionPerformed
+    }//GEN-LAST:event_bApvResignActionPerformed
 
-    private void batcutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_batcutActionPerformed
+    private void bApvCutiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bApvCutiActionPerformed
         // TODO add your handling code here:
-        batcut.setBackground(new Color(77,120,204));
+        bApvCuti.setBackground(new Color(77,120,204));
         babs.setBackground(new Color(44,44,44));
         blem.setBackground(new Color(44,44,44));
         bres.setBackground(new Color(44,44,44));
         bcut.setBackground(new Color(44,44,44));
         bgaj.setBackground(new Color(44,44,44));
-        btam.setBackground(new Color(44,44,44));
-        bagaj.setBackground(new Color(44,44,44));
-        batres.setBackground(new Color(44,44,44));
-        bcar.setBackground(new Color(44,44,44));
+        bTambah.setBackground(new Color(44,44,44));
+        bAturGaji.setBackground(new Color(44,44,44));
+        bApvResign.setBackground(new Color(44,44,44));
+        bCariAbsen.setBackground(new Color(44,44,44));
         setAtur_cuti();
-    }//GEN-LAST:event_batcutActionPerformed
+    }//GEN-LAST:event_bApvCutiActionPerformed
 
-    private void bcarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bcarActionPerformed
+    private void bCariAbsenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCariAbsenActionPerformed
         // TODO add your handling code here:
-        bcar.setBackground(new Color(77,120,204));
+        bCariAbsen.setBackground(new Color(77,120,204));
         babs.setBackground(new Color(44,44,44));
         blem.setBackground(new Color(44,44,44));
         bres.setBackground(new Color(44,44,44));
         bcut.setBackground(new Color(44,44,44));
         bgaj.setBackground(new Color(44,44,44));
-        btam.setBackground(new Color(44,44,44));
-        bagaj.setBackground(new Color(44,44,44));
+        bTambah.setBackground(new Color(44,44,44));
+        bAturGaji.setBackground(new Color(44,44,44));
         setCari();
-    }//GEN-LAST:event_bcarActionPerformed
+    }//GEN-LAST:event_bCariAbsenActionPerformed
 
     /**
      * @param args the command line arguments
@@ -549,17 +594,17 @@ public class Dashboard extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton bApvCuti;
+    private javax.swing.JButton bApvLembur;
+    private javax.swing.JButton bApvResign;
+    private javax.swing.JButton bAturGaji;
+    private javax.swing.JButton bCariAbsen;
+    private javax.swing.JButton bTambah;
     private javax.swing.JButton babs;
-    private javax.swing.JButton bagaj;
-    private javax.swing.JButton batcut;
-    private javax.swing.JButton batlem;
-    private javax.swing.JButton batres;
-    private javax.swing.JButton bcar;
     private javax.swing.JButton bcut;
     private javax.swing.JButton bgaj;
     private javax.swing.JButton blem;
     private javax.swing.JButton bres;
-    private javax.swing.JButton btam;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;

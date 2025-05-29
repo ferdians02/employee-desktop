@@ -72,13 +72,11 @@ public class Tambah extends javax.swing.JPanel {
         setBackground(new java.awt.Color(255, 253, 246));
         setForeground(new java.awt.Color(255, 253, 246));
 
-        jLabel1.setBackground(new java.awt.Color(30, 30, 30));
         jLabel1.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(30, 30, 30));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Cari Karyawan :");
 
-        jLabel2.setBackground(new java.awt.Color(30, 30, 30));
         jLabel2.setFont(new java.awt.Font("Segoe UI Semibold", 0, 24)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(30, 30, 30));
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -112,7 +110,6 @@ public class Tambah extends javax.swing.JPanel {
         });
         jScrollPane1.setViewportView(tblKar);
 
-        jLabel3.setBackground(new java.awt.Color(30, 30, 30));
         jLabel3.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(30, 30, 30));
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -122,7 +119,6 @@ public class Tambah extends javax.swing.JPanel {
         nikKar.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
         nikKar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        jLabel4.setBackground(new java.awt.Color(30, 30, 30));
         jLabel4.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(30, 30, 30));
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -138,7 +134,6 @@ public class Tambah extends javax.swing.JPanel {
             }
         });
 
-        jLabel5.setBackground(new java.awt.Color(30, 30, 30));
         jLabel5.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(30, 30, 30));
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -148,7 +143,6 @@ public class Tambah extends javax.swing.JPanel {
         divsi.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
         divsi.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pilih" }));
 
-        jLabel6.setBackground(new java.awt.Color(30, 30, 30));
         jLabel6.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(30, 30, 30));
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -163,7 +157,6 @@ public class Tambah extends javax.swing.JPanel {
             }
         });
 
-        jLabel7.setBackground(new java.awt.Color(30, 30, 30));
         jLabel7.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(30, 30, 30));
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -179,7 +172,6 @@ public class Tambah extends javax.swing.JPanel {
             }
         });
 
-        jLabel8.setBackground(new java.awt.Color(30, 30, 30));
         jLabel8.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(30, 30, 30));
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -189,7 +181,6 @@ public class Tambah extends javax.swing.JPanel {
         jenis.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
         jenis.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        jLabel9.setBackground(new java.awt.Color(30, 30, 30));
         jLabel9.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(30, 30, 30));
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -198,6 +189,7 @@ public class Tambah extends javax.swing.JPanel {
         almt.setBackground(new java.awt.Color(255, 253, 246));
         almt.setColumns(20);
         almt.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
+        almt.setForeground(new java.awt.Color(0, 0, 0));
         almt.setRows(5);
         almt.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jScrollPane2.setViewportView(almt);
