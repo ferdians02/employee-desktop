@@ -653,8 +653,9 @@ public class Tambah extends javax.swing.JPanel {
         String nama = namaKar.getText();
         Random random = new Random();
         int intRandom = random.nextInt(12);
+        nama = nama.substring(0,5);
         String value = nama.toLowerCase() + intRandom;
-
+        
         return value;
     }
 
