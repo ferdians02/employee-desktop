@@ -53,11 +53,10 @@
         jLabel10 = new javax.swing.JLabel();
         persetujuan = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
-        c1 = new javax.swing.JCheckBox();
-        c2 = new javax.swing.JCheckBox();
-        c3 = new javax.swing.JCheckBox();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        jTextField4 = new javax.swing.JTextField();
+        persetujuan1 = new javax.swing.JTextField();
 
         setBackground(new java.awt.Color(255, 253, 246));
 
@@ -154,20 +153,6 @@
         jLabel9.setForeground(new java.awt.Color(30, 30, 30));
         jLabel9.setText("Keterangan");
 
-        c1.setBackground(new java.awt.Color(255, 253, 246));
-        c1.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
-        c1.setForeground(new java.awt.Color(30, 30, 30));
-        c1.setText("Disetujui");
-
-        c2.setBackground(new java.awt.Color(255, 253, 246));
-        c2.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
-        c2.setForeground(new java.awt.Color(30, 30, 30));
-        c2.setText("Tidak Disetujui");
-
-        c3.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
-        c3.setForeground(new java.awt.Color(30, 30, 30));
-        c3.setText("Revisi");
-
         jTable1.setBackground(new java.awt.Color(255, 253, 246));
         jTable1.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
         jTable1.setForeground(new java.awt.Color(30, 30, 30));
@@ -184,6 +169,18 @@
         ));
         jScrollPane2.setViewportView(jTable1);
 
+        jTextField4.setBackground(new java.awt.Color(255, 253, 246));
+        jTextField4.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
+        jTextField4.setForeground(new java.awt.Color(30, 30, 30));
+        jTextField4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jTextField4.setPreferredSize(new java.awt.Dimension(64, 50));
+
+        persetujuan1.setBackground(new java.awt.Color(255, 253, 246));
+        persetujuan1.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
+        persetujuan1.setForeground(new java.awt.Color(30, 30, 30));
+        persetujuan1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        persetujuan1.setPreferredSize(new java.awt.Dimension(64, 50));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -192,14 +189,7 @@
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel10)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(c1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(c2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(c3)))
+                        .addComponent(jLabel10)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel9)
@@ -234,8 +224,14 @@
                                             .addComponent(namaTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 331, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, 331, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                .addGap(0, 0, Short.MAX_VALUE)))
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(persetujuan1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addContainerGap())))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(jTextField4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addContainerGap()))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -274,15 +270,17 @@
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel9)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(c1)
-                    .addComponent(c2)
-                    .addComponent(c3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(persetujuan1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(5, 5, 5)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(30, Short.MAX_VALUE))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(402, 402, 402)
+                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(402, Short.MAX_VALUE)))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -296,9 +294,6 @@
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JCheckBox c1;
-    private javax.swing.JCheckBox c2;
-    private javax.swing.JCheckBox c3;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private com.toedter.calendar.JDateChooser jDateChooser1;
@@ -317,9 +312,11 @@
     private javax.swing.JTable jTable1;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextField jTextField3;
+    private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField namaTxt;
     private javax.swing.JTextField nikTxt;
     private javax.swing.JTextField persetujuan;
+    private javax.swing.JTextField persetujuan1;
     // End of variables declaration//GEN-END:variables
 
         private static class upstream {
