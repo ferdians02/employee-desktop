@@ -14,6 +14,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -29,6 +30,7 @@ public class Lembur extends javax.swing.JPanel {
 
     public Lembur(Dashboard main, String nik, String name) {
         initComponents();
+        loadData();
         this.main = main;
         this.nama = name;
         this.nik = nik;
@@ -64,7 +66,7 @@ public class Lembur extends javax.swing.JPanel {
         selesai = new javax.swing.JTextField();
         tgl = new com.toedter.calendar.JDateChooser();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tbl = new javax.swing.JTable();
         jLabel10 = new javax.swing.JLabel();
         persetujuan = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
@@ -183,21 +185,21 @@ public class Lembur extends javax.swing.JPanel {
         tgl.setBackground(new java.awt.Color(255, 253, 246));
         tgl.setForeground(new java.awt.Color(30, 30, 30));
 
-        jTable1.setBackground(new java.awt.Color(255, 253, 246));
-        jTable1.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
-        jTable1.setForeground(new java.awt.Color(30, 30, 30));
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tbl.setBackground(new java.awt.Color(255, 253, 246));
+        tbl.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
+        tbl.setForeground(new java.awt.Color(30, 30, 30));
+        tbl.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {},
+                {},
+                {},
+                {}
             },
             new String [] {
-                "No Spl", "Nama Karyawan", "Tanggal", "Keterangan"
+
             }
         ));
-        jScrollPane2.setViewportView(jTable1);
+        jScrollPane2.setViewportView(tbl);
 
         jLabel10.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(30, 30, 30));
@@ -325,6 +327,7 @@ public class Lembur extends javax.swing.JPanel {
             ps.setString(10, Constants.RECORD_FLAG_N);
 
             ps.executeUpdate();
+            loadData();
             JOptionPane.showMessageDialog(null, "Data Berhasil Di Simpan");
 
         } catch (Exception e) {
@@ -352,6 +355,51 @@ public class Lembur extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(null, "Tidak terhubung ke TB_Karyawan");
         }
         return id;
+    }
+    private void loadData() {
+        DefaultTableModel model = new DefaultTableModel();
+
+        model.addColumn("NO SPL");
+        model.addColumn("NAMA KARYAWAN");
+        model.addColumn("TANGGAL");
+        model.addColumn("JAM MULAI");
+        model.addColumn("JAM SELESAI");
+        model.addColumn("KETERANGAN");
+
+        try {
+            String sql = """
+                         SELECT
+                            TL.SPL_NO,
+                            TK.NAMA_KARYAWAN,
+                            TL.TANGGAL,
+                            TL.JAM_MULAI,
+                            TL.JAM_SELESAI,
+                            TL.KETERANGAN
+                         FROM TB_LEMBUR TL 
+                         INNER JOIN TB_KARYAWAN TK ON TL.ID_KARYAWAN = TK.ID_KARYAWAN
+                         WHERE TL.RECORD_FLAG <> 'D'
+                         """;
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, nik);
+            
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                model.addRow(new Object[]{
+                    rs.getString("SPL_NO"),
+                    rs.getString("nama_karyawan"),
+                    rs.getString("tanggal"),
+                    rs.getString("jam_mulai"),
+                    rs.getString("jam_selesai"),
+                    rs.getString("keterangan")
+                    });
+            }
+            
+             tbl.setModel(model);
+
+        } catch (Exception e) {
+
+        }
     }
     private void mulaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mulaiActionPerformed
         // TODO add your handling code here:
@@ -430,7 +478,6 @@ public class Lembur extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTextArea ket;
     private javax.swing.JTextField mulai;
     private javax.swing.JTextField namaKar;
@@ -439,6 +486,7 @@ public class Lembur extends javax.swing.JPanel {
     private javax.swing.JButton save;
     private javax.swing.JTextField selesai;
     private javax.swing.JTextField spl;
+    private javax.swing.JTable tbl;
     private com.toedter.calendar.JDateChooser tgl;
     // End of variables declaration//GEN-END:variables
 }

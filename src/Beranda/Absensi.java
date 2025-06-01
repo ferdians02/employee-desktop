@@ -12,24 +12,29 @@ import constant.Constants;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author Dell
  */
 public class Absensi extends javax.swing.JPanel {
+
     private Connection conn = (Connection) new ConnectDB().connect();
+
     public Absensi(String nomor, String nama) {
         initComponents();
         comboSkBox();
 //        this.main = main;
-        
+        loadData();
+
         nik.setText(nomor);
         name.setText(nama);
-        
+
         nik.setEnabled(false);
         name.setEnabled(false);
         tgl.setDate(new java.util.Date());
+       
     }
 
     void kosong() {
@@ -51,7 +56,7 @@ public class Absensi extends javax.swing.JPanel {
         sk = new javax.swing.JComboBox<>();
         tgl = new com.toedter.calendar.JDateChooser();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tbl = new javax.swing.JTable();
 
         setBackground(new java.awt.Color(255, 253, 246));
 
@@ -128,21 +133,21 @@ public class Absensi extends javax.swing.JPanel {
         tgl.setBackground(new java.awt.Color(255, 253, 246));
         tgl.setForeground(new java.awt.Color(30, 30, 30));
 
-        jTable1.setBackground(new java.awt.Color(255, 253, 246));
-        jTable1.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
-        jTable1.setForeground(new java.awt.Color(30, 30, 30));
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tbl.setBackground(new java.awt.Color(255, 253, 246));
+        tbl.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
+        tbl.setForeground(new java.awt.Color(30, 30, 30));
+        tbl.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {},
+                {},
+                {},
+                {}
             },
             new String [] {
-                "Nomor Induk Karyawan", "Nama Karyawan", "Tanggal", "Status"
+
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tbl);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -203,56 +208,94 @@ public class Absensi extends javax.swing.JPanel {
         sk.setSelectedItem("Pilih");
     }
     private void saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveActionPerformed
-      
-        try{
-          
-          String sql = """
+
+        try {
+
+            String sql = """
                        INSERT INTO TB_ABSEN 
                        (ID_KARYAWAN, TANGGAL, STATUS_KEHADIRAN, CREATE_BY, CREATE_AT, RECORD_FLAG)
                        VALUES (?,?,?,?,?,?)
                        """;
-          PreparedStatement ps = (PreparedStatement) conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-          ps.setInt(1, cariId(name.getText()));
-          java.util.Date date =  tgl.getDate();
-          java.sql.Date tanggal = new java.sql.Date(date.getTime());
-          ps.setDate(2, tanggal);
-          ps.setString (3, sk.getSelectedItem().toString());
-          ps.setString(4, "Admin");
-          java.util.Date utilDate = new java.util.Date();
-          java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
-          ps.setDate(5, sqlDate);
-          ps.setString(6, Constants.RECORD_FLAG_N);
-          
-          ps.executeUpdate();
-          clear();
-          JOptionPane.showMessageDialog(null,"Data Berhasil Di Simpan");
-          kosong();
-      }catch(Exception e){
-          JOptionPane.showMessageDialog(null, "Tidak ke Simpan " + e.getMessage());
-      }
-      
+            PreparedStatement ps = (PreparedStatement) conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            ps.setInt(1, cariId(name.getText()));
+            java.util.Date date = tgl.getDate();
+            java.sql.Date tanggal = new java.sql.Date(date.getTime());
+            ps.setDate(2, tanggal);
+            ps.setString(3, sk.getSelectedItem().toString());
+            ps.setString(4, "Admin");
+            java.util.Date utilDate = new java.util.Date();
+            java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+            ps.setDate(5, sqlDate);
+            ps.setString(6, Constants.RECORD_FLAG_N);
+
+            ps.executeUpdate();
+            loadData();
+            clear();
+            JOptionPane.showMessageDialog(null, "Data Berhasil Di Simpan");
+            kosong();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Tidak ke Simpan " + e.getMessage());
+        }
+
     }//GEN-LAST:event_saveActionPerformed
-    private Integer cariId(String namaKaryawan){
+    private void loadData() {
+        DefaultTableModel model = new DefaultTableModel();
+
+        model.addColumn("NIK");
+        model.addColumn("NAMA KARYAWAN");
+        model.addColumn("TANGGAL");
+        model.addColumn("STATUS");
+
+        try {
+            String sql = """
+                         SELECT
+                            TK.NIK,
+                            TK.NAMA_KARYAWAN,
+                            TA. TANGGAL,
+                            TA.STATUS_KEHADIRAN
+                         FROM TB_KARYAWAN TK 
+                         INNER JOIN TB_ABSEN TA ON TA.ID_KARYAWAN = TK.ID_KARYAWAN
+                         """;
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                model.addRow(new Object[]{
+                    rs.getString("NIK"),
+                    rs.getString("nama_karyawan"),
+                    rs.getString("tanggal"),
+                    rs.getString("status_kehadiran")
+                });
+            }
+            
+             tbl.setModel(model);
+
+        } catch (Exception e) {
+
+        }
+    }
+
+    private Integer cariId(String namaKaryawan) {
         Integer id = null;
-         try{
-             String sql = "SELECT ID_KARYAWAN FROM TB_KARYAWAN WHERE NAMA_KARYAWAN = ?";
-             
-             System.out.println("Ini Nama Karyawan : "+namaKaryawan);
-             System.out.println("Ini SQL : " +sql );
-             
-             PreparedStatement ps = conn.prepareStatement(sql);
-             ps.setString(1, namaKaryawan);
-             
-             ResultSet rs = ps.executeQuery();
-             
-             if(rs.next()){
-                 id = rs.getInt("ID_KARYAWAN");
-                 System.out.println("Ini ID : "+id);
-             }
-         }catch(Exception e){
-             JOptionPane.showMessageDialog(null, "Tidak terhubung ke TB_Karyawan");
-         }
-         return id;
+        try {
+            String sql = "SELECT ID_KARYAWAN FROM TB_KARYAWAN WHERE NAMA_KARYAWAN = ?";
+
+            System.out.println("Ini Nama Karyawan : " + namaKaryawan);
+            System.out.println("Ini SQL : " + sql);
+
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, namaKaryawan);
+
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                id = rs.getInt("ID_KARYAWAN");
+                System.out.println("Ini ID : " + id);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Tidak terhubung ke TB_Karyawan");
+        }
+        return id;
     }
     private void nikActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nikActionPerformed
         // TODO add your handling code here:
@@ -265,7 +308,7 @@ public class Absensi extends javax.swing.JPanel {
     private void skActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_skActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_skActionPerformed
-    private String comboSkBox(){
+    private String comboSkBox() {
         sk.addItem("Pilih");
         sk.addItem("Masuk");
         sk.addItem("Izin");
@@ -273,7 +316,7 @@ public class Absensi extends javax.swing.JPanel {
         String val = sk.getSelectedItem().toString();
 
         return val;
-}
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
@@ -282,11 +325,11 @@ public class Absensi extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTextField name;
     private javax.swing.JTextField nik;
     private javax.swing.JButton save;
     private javax.swing.JComboBox<String> sk;
+    private javax.swing.JTable tbl;
     private com.toedter.calendar.JDateChooser tgl;
     // End of variables declaration//GEN-END:variables
 }
