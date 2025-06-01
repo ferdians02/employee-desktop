@@ -10,14 +10,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import javax.swing.table.DefaultTableModel;
 
-
 /**
  *
  * @author Dell
  */
 public class Cari extends javax.swing.JPanel {
+
     private Connection conn = (Connection) new ConnectDB().connect();
     private final Dashboard main;
+
     public Cari(Dashboard main) {
         initComponents();
         this.main = main;
@@ -206,12 +207,14 @@ public class Cari extends javax.swing.JPanel {
 
     private void searchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchActionPerformed
         String val = cari.getSelectedItem().toString();
-        if(val.equalsIgnoreCase("Absensi")){
-           loadDataAbsen();
-        }else if (val.equalsIgnoreCase("Lembur")){
+        String no = nik.getText();
+        String name = namkar.getText();
+        if (val.equalsIgnoreCase("Absensi")) {
+            loadDataAbsen(no, name);
+        } else if (val.equalsIgnoreCase("Lembur")) {
             loadDataLembur();
         }
-        
+
     }//GEN-LAST:event_searchActionPerformed
 
     private void nikActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nikActionPerformed
@@ -219,10 +222,10 @@ public class Cari extends javax.swing.JPanel {
     }//GEN-LAST:event_nikActionPerformed
 
     private void cariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cariActionPerformed
-     
+
     }//GEN-LAST:event_cariActionPerformed
 
- private String comboSearchBox() {
+    private String comboSearchBox() {
         cari.addItem("Pilih");
         cari.addItem("Absensi");
         cari.addItem("Lembur");
@@ -231,17 +234,19 @@ public class Cari extends javax.swing.JPanel {
 
         return val;
     }
- 
- protected void loadDataAbsen() {
-        DefaultTableModel model = new DefaultTableModel();
 
-        model.addColumn("NIK");
-        model.addColumn("NAMA KARYAWAN");
-        model.addColumn("TANGGAL");
-        model.addColumn("STATUS");
+    protected void loadDataAbsen(String nik, String nama) {
 
-        try {
-            String sql = """
+        if (nik.isEmpty() && nama.isEmpty()) {
+            DefaultTableModel model = new DefaultTableModel();
+
+            model.addColumn("NIK");
+            model.addColumn("NAMA KARYAWAN");
+            model.addColumn("TANGGAL");
+            model.addColumn("STATUS");
+
+            try {
+                String sql = """
                          SELECT
                             TK.NIK,
                             TK.NAMA_KARYAWAN,
@@ -249,27 +254,75 @@ public class Cari extends javax.swing.JPanel {
                             TA.STATUS_KEHADIRAN
                          FROM TB_KARYAWAN TK 
                          INNER JOIN TB_ABSEN TA ON TA.ID_KARYAWAN = TK.ID_KARYAWAN
+                        
                          """;
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
 
-            while (rs.next()) {
-                model.addRow(new Object[]{
-                    rs.getString("NIK"),
-                    rs.getString("nama_karyawan"),
-                    rs.getString("tanggal"),
-                    rs.getString("status_kehadiran")
-                });
+                PreparedStatement ps = conn.prepareStatement(sql);
+                ResultSet rs = ps.executeQuery();
+                while (rs.next()) {
+                    model.addRow(new Object[]{
+                        rs.getString("NIK"),
+                        rs.getString("nama_karyawan"),
+                        rs.getString("tanggal"),
+                        rs.getString("status_kehadiran")
+                    });
+                }
+
+                tbl.setModel(model);
+
+            } catch (Exception e) {
+
             }
-            
-             tbl.setModel(model);
+        } else {
+            DefaultTableModel model = new DefaultTableModel();
 
-        } catch (Exception e) {
+            model.addColumn("NIK");
+            model.addColumn("NAMA KARYAWAN");
+            model.addColumn("TANGGAL");
+            model.addColumn("STATUS");
 
+            try {
+                String sql = """
+                         SELECT
+                            TK.NIK,
+                            TK.NAMA_KARYAWAN,
+                            TA. TANGGAL,
+                            TA.STATUS_KEHADIRAN
+                         FROM TB_KARYAWAN TK 
+                         INNER JOIN TB_ABSEN TA ON TA.ID_KARYAWAN = TK.ID_KARYAWAN
+                         WHERE 1 = 1 
+                             AND (TK.NIK IS NULL OR TK.NIK = '' OR TK.NIK LIKE ?)
+                             AND (TK.NAMA_KARYAWAN OR TK.NAMA_KARYAWAN = '' OR TK.NAMA_KARYAWAN LIKE ?)
+                            
+                             
+                         """;
+                String no = "%" + nik + "%";
+                String name = "%" + nama + "%";
+                
+                PreparedStatement ps = conn.prepareStatement(sql);
+                ps.setString(1, no);
+                ps.setString(2, name);
+
+                ResultSet rs = ps.executeQuery();
+                while (rs.next()) {
+                    model.addRow(new Object[]{
+                        rs.getString("NIK"),
+                        rs.getString("nama_karyawan"),
+                        rs.getString("tanggal"),
+                        rs.getString("status_kehadiran")
+                    });
+                }
+
+                tbl.setModel(model);
+
+            } catch (Exception e) {
+
+            }
         }
+
     }
- 
- private void loadDataLembur() {
+
+    private void loadDataLembur() {
         DefaultTableModel model = new DefaultTableModel();
 
         model.addColumn("NO SPL");
