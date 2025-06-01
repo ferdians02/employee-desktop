@@ -4,17 +4,24 @@
  */
 package Beranda;
 
+import Connect.ConnectDB;
+import com.mysql.jdbc.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import javax.swing.table.DefaultTableModel;
+
 
 /**
  *
  * @author Dell
  */
 public class Cari extends javax.swing.JPanel {
-
+    private Connection conn = (Connection) new ConnectDB().connect();
     private final Dashboard main;
     public Cari(Dashboard main) {
         initComponents();
         this.main = main;
+        comboSearchBox();
     }
 
     /**
@@ -116,6 +123,12 @@ public class Cari extends javax.swing.JPanel {
         jLabel7.setForeground(new java.awt.Color(30, 30, 30));
         jLabel7.setText("Tanggal Akhir");
 
+        cari.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cariActionPerformed(evt);
+            }
+        });
+
         jLabel8.setBackground(new java.awt.Color(30, 30, 30));
         jLabel8.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(30, 30, 30));
@@ -192,14 +205,113 @@ public class Cari extends javax.swing.JPanel {
     }//GEN-LAST:event_namkarActionPerformed
 
     private void searchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchActionPerformed
-        // TODO add your handling code here:
+        String val = cari.getSelectedItem().toString();
+        if(val.equalsIgnoreCase("Absensi")){
+           loadDataAbsen();
+        }else if (val.equalsIgnoreCase("Lembur")){
+            loadDataLembur();
+        }
+        
     }//GEN-LAST:event_searchActionPerformed
 
     private void nikActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nikActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_nikActionPerformed
 
+    private void cariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cariActionPerformed
+     
+    }//GEN-LAST:event_cariActionPerformed
 
+ private String comboSearchBox() {
+        cari.addItem("Pilih");
+        cari.addItem("Absensi");
+        cari.addItem("Lembur");
+        cari.addItem("Cuti");
+        String val = cari.getSelectedItem().toString();
+
+        return val;
+    }
+ 
+ protected void loadDataAbsen() {
+        DefaultTableModel model = new DefaultTableModel();
+
+        model.addColumn("NIK");
+        model.addColumn("NAMA KARYAWAN");
+        model.addColumn("TANGGAL");
+        model.addColumn("STATUS");
+
+        try {
+            String sql = """
+                         SELECT
+                            TK.NIK,
+                            TK.NAMA_KARYAWAN,
+                            TA. TANGGAL,
+                            TA.STATUS_KEHADIRAN
+                         FROM TB_KARYAWAN TK 
+                         INNER JOIN TB_ABSEN TA ON TA.ID_KARYAWAN = TK.ID_KARYAWAN
+                         """;
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                model.addRow(new Object[]{
+                    rs.getString("NIK"),
+                    rs.getString("nama_karyawan"),
+                    rs.getString("tanggal"),
+                    rs.getString("status_kehadiran")
+                });
+            }
+            
+             tbl.setModel(model);
+
+        } catch (Exception e) {
+
+        }
+    }
+ 
+ private void loadDataLembur() {
+        DefaultTableModel model = new DefaultTableModel();
+
+        model.addColumn("NO SPL");
+        model.addColumn("NAMA KARYAWAN");
+        model.addColumn("TANGGAL");
+        model.addColumn("JAM MULAI");
+        model.addColumn("JAM SELESAI");
+        model.addColumn("KETERANGAN");
+
+        try {
+            String sql = """
+                         SELECT
+                            TL.SPL_NO,
+                            TK.NAMA_KARYAWAN,
+                            TL.TANGGAL,
+                            TL.JAM_MULAI,
+                            TL.JAM_SELESAI,
+                            TL.KETERANGAN
+                         FROM TB_LEMBUR TL 
+                         INNER JOIN TB_KARYAWAN TK ON TL.ID_KARYAWAN = TK.ID_KARYAWAN
+                         """;
+            PreparedStatement ps = conn.prepareStatement(sql);
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                model.addRow(new Object[]{
+                    rs.getString("SPL_NO"),
+                    rs.getString("nama_karyawan"),
+                    rs.getString("tanggal"),
+                    rs.getString("jam_mulai"),
+                    rs.getString("jam_selesai"),
+                    rs.getString("keterangan")
+                });
+            }
+
+            tbl.setModel(model);
+
+        } catch (Exception e) {
+
+        }
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> cari;
     private com.toedter.calendar.JDateChooser cari1;

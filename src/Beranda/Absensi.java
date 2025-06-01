@@ -37,6 +37,10 @@ public class Absensi extends javax.swing.JPanel {
        
     }
 
+    public  Absensi() {
+//        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
     void kosong() {
         tgl.setDate(new java.util.Date());
         sk.setSelectedIndex(0);
@@ -238,7 +242,7 @@ public class Absensi extends javax.swing.JPanel {
         }
 
     }//GEN-LAST:event_saveActionPerformed
-    private void loadData() {
+    protected void loadData() {
         DefaultTableModel model = new DefaultTableModel();
 
         model.addColumn("NIK");

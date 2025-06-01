@@ -142,6 +142,11 @@ public class Tambah extends javax.swing.JPanel {
         divsi.setBackground(new java.awt.Color(0, 0, 102));
         divsi.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
         divsi.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pilih" }));
+        divsi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                divsiActionPerformed(evt);
+            }
+        });
 
         jLabel6.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(30, 30, 30));
@@ -886,6 +891,10 @@ public class Tambah extends javax.swing.JPanel {
     private void jbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jbtnActionPerformed
+
+    private void divsiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_divsiActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_divsiActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
