@@ -15,6 +15,8 @@ import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import util.ValidateUtil;
+import util.ValidationOption;
 
 /**
  *
@@ -304,6 +306,16 @@ public class Lembur extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveActionPerformed
+
+        java.util.Date date = tgl.getDate();
+
+        ValidationOption result = ValidateUtil.validationLembur(date, mulai.getText(), selesai.getText(), ket.getText());
+
+        if (!result.isValid()) {
+            JOptionPane.showMessageDialog(null, result.getMessage());
+            return;
+        }
+        
         try {
             String sql = """
                      INSERT INTO TB_LEMBUR 
@@ -313,7 +325,7 @@ public class Lembur extends javax.swing.JPanel {
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setInt(1, cariId(namaKar.getText()));
             ps.setString(2, generateSpl());
-            java.util.Date date = tgl.getDate();
+
             java.sql.Date tanggal = new java.sql.Date(date.getTime());
             ps.setDate(3, tanggal);
             ps.setString(4, mulai.getText());
@@ -333,6 +345,8 @@ public class Lembur extends javax.swing.JPanel {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Tidak ke Simpan " + e.getMessage());
         }
+
+
     }//GEN-LAST:event_saveActionPerformed
     private Integer cariId(String namaKaryawan) {
         Integer id = null;
@@ -356,6 +370,7 @@ public class Lembur extends javax.swing.JPanel {
         }
         return id;
     }
+
     private void loadData() {
         DefaultTableModel model = new DefaultTableModel();
 
@@ -377,11 +392,9 @@ public class Lembur extends javax.swing.JPanel {
                             TL.KETERANGAN
                          FROM TB_LEMBUR TL 
                          INNER JOIN TB_KARYAWAN TK ON TL.ID_KARYAWAN = TK.ID_KARYAWAN
-                         WHERE TL.RECORD_FLAG <> 'D'
                          """;
             PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, nik);
-            
+
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
@@ -392,10 +405,10 @@ public class Lembur extends javax.swing.JPanel {
                     rs.getString("jam_mulai"),
                     rs.getString("jam_selesai"),
                     rs.getString("keterangan")
-                    });
+                });
             }
-            
-             tbl.setModel(model);
+
+            tbl.setModel(model);
 
         } catch (Exception e) {
 
@@ -439,7 +452,7 @@ public class Lembur extends javax.swing.JPanel {
                 noUrut = 1;
             } else {
                 String year = nospl.substring(6, 8);
-                
+
                 if (!year.equals(sdf2.format(utilDate))) {
                     noUrut = 1;
                 } else {
