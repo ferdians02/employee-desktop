@@ -37,8 +37,8 @@ public class Lembur extends javax.swing.JPanel {
         this.nama = name;
         this.nik = nik;
 
-        namaKar.setText(nama);
-        namaKar.setEnabled(false);
+        namkar.setText(name);
+        namkar.setEnabled(false);
         spl.setEnabled(false);
     }
 
@@ -56,7 +56,7 @@ public class Lembur extends javax.swing.JPanel {
         spl = new javax.swing.JTextField();
         save = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
-        namaKar = new javax.swing.JTextField();
+        namkar = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
@@ -115,15 +115,15 @@ public class Lembur extends javax.swing.JPanel {
         jLabel4.setForeground(new java.awt.Color(30, 30, 30));
         jLabel4.setText("Tanggal");
 
-        namaKar.setEditable(false);
-        namaKar.setBackground(new java.awt.Color(255, 253, 246));
-        namaKar.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
-        namaKar.setForeground(new java.awt.Color(30, 30, 30));
-        namaKar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        namaKar.setPreferredSize(new java.awt.Dimension(64, 50));
-        namaKar.addActionListener(new java.awt.event.ActionListener() {
+        namkar.setEditable(false);
+        namkar.setBackground(new java.awt.Color(255, 253, 246));
+        namkar.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
+        namkar.setForeground(new java.awt.Color(30, 30, 30));
+        namkar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        namkar.setPreferredSize(new java.awt.Dimension(64, 50));
+        namkar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                namaKarActionPerformed(evt);
+                namkarActionPerformed(evt);
             }
         });
 
@@ -234,7 +234,7 @@ public class Lembur extends javax.swing.JPanel {
                     .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jScrollPane1)
                     .addComponent(spl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(namaKar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(namkar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(mulai, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(selesai, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(save, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -272,7 +272,7 @@ public class Lembur extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(namaKar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(namkar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -323,7 +323,7 @@ public class Lembur extends javax.swing.JPanel {
                      VALUES (?,?,?,?,?,?,?,?,?,?)
                      """;
             PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setInt(1, cariId(namaKar.getText()));
+            ps.setInt(1, cariId(namkar.getText()));
             ps.setString(2, generateSpl());
 
             java.sql.Date tanggal = new java.sql.Date(date.getTime());
@@ -379,7 +379,7 @@ public class Lembur extends javax.swing.JPanel {
         model.addColumn("TANGGAL");
         model.addColumn("JAM MULAI");
         model.addColumn("JAM SELESAI");
-        model.addColumn("KETERANGAN");
+        model.addColumn("STATUS");
 
         try {
             String sql = """
@@ -389,7 +389,7 @@ public class Lembur extends javax.swing.JPanel {
                             TL.TANGGAL,
                             TL.JAM_MULAI,
                             TL.JAM_SELESAI,
-                            TL.KETERANGAN
+                            TL.STATUS_LEMBUR
                          FROM TB_LEMBUR TL 
                          INNER JOIN TB_KARYAWAN TK ON TL.ID_KARYAWAN = TK.ID_KARYAWAN
                          """;
@@ -404,7 +404,7 @@ public class Lembur extends javax.swing.JPanel {
                     rs.getString("tanggal"),
                     rs.getString("jam_mulai"),
                     rs.getString("jam_selesai"),
-                    rs.getString("keterangan")
+                    rs.getString("status_lembur")
                 });
             }
 
@@ -472,9 +472,9 @@ public class Lembur extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_editActionPerformed
 
-    private void namaKarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_namaKarActionPerformed
+    private void namkarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_namkarActionPerformed
 
-    }//GEN-LAST:event_namaKarActionPerformed
+    }//GEN-LAST:event_namkarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -493,7 +493,7 @@ public class Lembur extends javax.swing.JPanel {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTextArea ket;
     private javax.swing.JTextField mulai;
-    private javax.swing.JTextField namaKar;
+    private javax.swing.JTextField namkar;
     private javax.swing.JTextField persetujuan;
     private javax.swing.JTextField persetujuan1;
     private javax.swing.JButton save;

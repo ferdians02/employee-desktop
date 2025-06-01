@@ -82,13 +82,13 @@
                       <Component id="jLabel9" alignment="0" max="32767" attributes="0"/>
                       <Component id="jLabel10" alignment="1" max="32767" attributes="0"/>
                       <Group type="102" alignment="0" attributes="0">
-                          <Component id="cb1" min="-2" max="-2" attributes="0"/>
+                          <Component id="s" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="cb2" min="-2" max="-2" attributes="0"/>
+                          <Component id="td" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="cb3" min="-2" max="-2" attributes="0"/>
+                          <Component id="r" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <Component id="jTextField4" alignment="0" max="32767" attributes="0"/>
+                      <Component id="persetujuan" alignment="0" max="32767" attributes="0"/>
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
@@ -156,14 +156,14 @@
                   <EmptySpace min="456" pref="456" max="-2" attributes="0"/>
                   <Component id="jLabel9" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jTextField4" min="-2" pref="30" max="-2" attributes="0"/>
+                  <Component id="persetujuan" min="-2" pref="30" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jLabel10" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="cb1" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="cb2" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="cb3" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="s" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="td" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="r" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace pref="114" max="32767" attributes="0"/>
               </Group>
@@ -453,7 +453,7 @@
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
       <SubComponents>
-        <Component class="javax.swing.JTable" name="jTable1">
+        <Component class="javax.swing.JTable" name="tbl">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="f6" green="fd" red="ff" type="rgb"/>
@@ -546,7 +546,7 @@
         <Property name="text" type="java.lang.String" value="Persetujuan"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="jTextField4">
+    <Component class="javax.swing.JTextField" name="persetujuan">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="f6" green="fd" red="ff" type="rgb"/>
@@ -581,7 +581,7 @@
         <Property name="text" type="java.lang.String" value="Keterangan"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JCheckBox" name="cb1">
+    <Component class="javax.swing.JCheckBox" name="s">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="f6" green="fd" red="ff" type="rgb"/>
@@ -596,10 +596,10 @@
         <Property name="autoscrolls" type="boolean" value="true"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cb1ActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="sActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JCheckBox" name="cb2">
+    <Component class="javax.swing.JCheckBox" name="td">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Segoe UI Semibold" size="18" style="0"/>
@@ -610,10 +610,10 @@
         <Property name="text" type="java.lang.String" value="Tidak Disetujui"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cb2ActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="tdActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JCheckBox" name="cb3">
+    <Component class="javax.swing.JCheckBox" name="r">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Segoe UI Semibold" size="18" style="0"/>

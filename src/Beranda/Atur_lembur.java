@@ -14,6 +14,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -32,7 +33,9 @@ public class Atur_lembur extends javax.swing.JPanel {
         this.main = main;
         this.nama = name;
         this.nik = nik;
-
+        
+        loadData();
+        
         namaKar.setText(nama);
         namaKar.setEnabled(false);
         spl.setEnabled(false);
@@ -64,16 +67,16 @@ public class Atur_lembur extends javax.swing.JPanel {
         selesai = new javax.swing.JTextField();
         tgl = new com.toedter.calendar.JDateChooser();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tbl = new javax.swing.JTable();
         jLabel3 = new javax.swing.JLabel();
         nikTxt1 = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
+        persetujuan = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
-        cb1 = new javax.swing.JCheckBox();
-        cb2 = new javax.swing.JCheckBox();
-        cb3 = new javax.swing.JCheckBox();
+        s = new javax.swing.JCheckBox();
+        td = new javax.swing.JCheckBox();
+        r = new javax.swing.JCheckBox();
 
         setBackground(new java.awt.Color(255, 253, 246));
 
@@ -188,10 +191,10 @@ public class Atur_lembur extends javax.swing.JPanel {
         tgl.setBackground(new java.awt.Color(255, 253, 246));
         tgl.setForeground(new java.awt.Color(30, 30, 30));
 
-        jTable1.setBackground(new java.awt.Color(255, 253, 246));
-        jTable1.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
-        jTable1.setForeground(new java.awt.Color(30, 30, 30));
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tbl.setBackground(new java.awt.Color(255, 253, 246));
+        tbl.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
+        tbl.setForeground(new java.awt.Color(30, 30, 30));
+        tbl.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -202,7 +205,7 @@ public class Atur_lembur extends javax.swing.JPanel {
                 "No Spl", "Nama Karyawan", "Tanggal", "Keterangan"
             }
         ));
-        jScrollPane2.setViewportView(jTable1);
+        jScrollPane2.setViewportView(tbl);
 
         jLabel3.setBackground(new java.awt.Color(30, 30, 30));
         jLabel3.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
@@ -232,40 +235,40 @@ public class Atur_lembur extends javax.swing.JPanel {
         jLabel9.setForeground(new java.awt.Color(30, 30, 30));
         jLabel9.setText("Persetujuan");
 
-        jTextField4.setBackground(new java.awt.Color(255, 253, 246));
-        jTextField4.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
-        jTextField4.setForeground(new java.awt.Color(30, 30, 30));
-        jTextField4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jTextField4.setPreferredSize(new java.awt.Dimension(64, 50));
+        persetujuan.setBackground(new java.awt.Color(255, 253, 246));
+        persetujuan.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
+        persetujuan.setForeground(new java.awt.Color(30, 30, 30));
+        persetujuan.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        persetujuan.setPreferredSize(new java.awt.Dimension(64, 50));
 
         jLabel10.setBackground(new java.awt.Color(30, 30, 30));
         jLabel10.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(30, 30, 30));
         jLabel10.setText("Keterangan");
 
-        cb1.setBackground(new java.awt.Color(255, 253, 246));
-        cb1.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
-        cb1.setForeground(new java.awt.Color(30, 30, 30));
-        cb1.setText("Disetujui");
-        cb1.setAutoscrolls(true);
-        cb1.addActionListener(new java.awt.event.ActionListener() {
+        s.setBackground(new java.awt.Color(255, 253, 246));
+        s.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
+        s.setForeground(new java.awt.Color(30, 30, 30));
+        s.setText("Disetujui");
+        s.setAutoscrolls(true);
+        s.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cb1ActionPerformed(evt);
+                sActionPerformed(evt);
             }
         });
 
-        cb2.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
-        cb2.setForeground(new java.awt.Color(30, 30, 30));
-        cb2.setText("Tidak Disetujui");
-        cb2.addActionListener(new java.awt.event.ActionListener() {
+        td.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
+        td.setForeground(new java.awt.Color(30, 30, 30));
+        td.setText("Tidak Disetujui");
+        td.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cb2ActionPerformed(evt);
+                tdActionPerformed(evt);
             }
         });
 
-        cb3.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
-        cb3.setForeground(new java.awt.Color(30, 30, 30));
-        cb3.setText("Revisi");
+        r.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
+        r.setForeground(new java.awt.Color(30, 30, 30));
+        r.setText("Revisi");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -315,12 +318,12 @@ public class Atur_lembur extends javax.swing.JPanel {
                         .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createSequentialGroup()
-                            .addComponent(cb1)
+                            .addComponent(s)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(cb2)
+                            .addComponent(td)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(cb3))
-                        .addComponent(jTextField4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(r))
+                        .addComponent(persetujuan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createSequentialGroup()
                             .addComponent(jLabel3)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -376,69 +379,63 @@ public class Atur_lembur extends javax.swing.JPanel {
                     .addGap(456, 456, 456)
                     .addComponent(jLabel9)
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(persetujuan, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                     .addComponent(jLabel10)
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(cb1)
-                        .addComponent(cb2)
-                        .addComponent(cb3))
+                        .addComponent(s)
+                        .addComponent(td)
+                        .addComponent(r))
                     .addContainerGap(114, Short.MAX_VALUE)))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveActionPerformed
+        
+    }//GEN-LAST:event_saveActionPerformed
+    private void loadData() {
+        DefaultTableModel model = new DefaultTableModel();
+
+        model.addColumn("NO SPL");
+        model.addColumn("NAMA KARYAWAN");
+        model.addColumn("TANGGAL");
+        model.addColumn("JAM MULAI");
+        model.addColumn("JAM SELESAI");
+        model.addColumn("STATUS");
+
         try {
             String sql = """
-                     INSERT INTO TB_LEMBUR 
-                     (ID_KARYAWAN,SPL_NO, TANGGAL, JAM_MULAI, JAM_SELESAI,STATUS_LEMBUR, KETERANGAN, CREATE_BY, CREATE_AT, RECORD_FLAG) 
-                     VALUES (?,?,?,?,?,?,?,?,?,?)
-                     """;
+                         SELECT
+                            TL.SPL_NO,
+                            TK.NAMA_KARYAWAN,
+                            TL.TANGGAL,
+                            TL.JAM_MULAI,
+                            TL.JAM_SELESAI,
+                            TL.STATUS_LEMBUR
+                         FROM TB_LEMBUR TL 
+                         INNER JOIN TB_KARYAWAN TK ON TL.ID_KARYAWAN = TK.ID_KARYAWAN
+                         """;
             PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setInt(1, cariId(namaKar.getText()));
-            ps.setString(2, generateSpl());
-            java.util.Date date = tgl.getDate();
-            java.sql.Date tanggal = new java.sql.Date(date.getTime());
-            ps.setDate(3, tanggal);
-            ps.setString(4, mulai.getText());
-            ps.setString(5, selesai.getText());
-            ps.setString(6, "Waiting for approve");
-            ps.setString(7, ket.getText());
-            ps.setString(8, "Admin");
-            java.util.Date utilDate = new java.util.Date();
-            java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
-            ps.setDate(9, sqlDate);
-            ps.setString(10, Constants.RECORD_FLAG_N);
-
-            ps.executeUpdate();
-            JOptionPane.showMessageDialog(null, "Data Berhasil Di Simpan");
-
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Tidak ke Simpan " + e.getMessage());
-        }
-    }//GEN-LAST:event_saveActionPerformed
-    private Integer cariId(String namaKaryawan) {
-        Integer id = null;
-        try {
-            String sql = "SELECT ID_KARYAWAN FROM TB_KARYAWAN WHERE NAMA_KARYAWAN = ?";
-
-            System.out.println("Ini Nama Karyawan : " + namaKaryawan);
-            System.out.println("Ini SQL : " + sql);
-
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, namaKaryawan);
 
             ResultSet rs = ps.executeQuery();
 
-            if (rs.next()) {
-                id = rs.getInt("ID_KARYAWAN");
-                System.out.println("Ini ID : " + id);
+            while (rs.next()) {
+                model.addRow(new Object[]{
+                    rs.getString("SPL_NO"),
+                    rs.getString("nama_karyawan"),
+                    rs.getString("tanggal"),
+                    rs.getString("jam_mulai"),
+                    rs.getString("jam_selesai"),
+                    rs.getString("status_lembur")
+                });
             }
+
+            tbl.setModel(model);
+
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Tidak terhubung ke TB_Karyawan");
+
         }
-        return id;
     }
     private void mulaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mulaiActionPerformed
         // TODO add your handling code here:
@@ -447,53 +444,8 @@ public class Atur_lembur extends javax.swing.JPanel {
     private void splActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_splActionPerformed
 
     }//GEN-LAST:event_splActionPerformed
-    private String generateSpl() {
-        String val = null;
-        SimpleDateFormat sdf = new SimpleDateFormat("MMyy");
-        SimpleDateFormat sdf2 = new SimpleDateFormat("yy");
-        java.util.Date utilDate = new java.util.Date();
-
-        try {
-            int noUrut = 0;
-            String spl = "SPL/";
-
-            String sql = """
-                       SELECT TB.SPL_NO FROM TB_LEMBUR TB
-                       INNER JOIN TB_KARYAWAN TK ON TB.ID_KARYAWAN = TK.ID_KARYAWAN
-                       WHERE TK.NIK = ? 
-                       ORDER BY TB.SPL_NO DESC
-                       """;
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, nik);
-
-            ResultSet rs = ps.executeQuery();
-            String nospl = null;
-
-            if (rs.next()) {
-                nospl = rs.getString("SPL_NO");
-
-            }
-
-            if (nospl == null) {
-                noUrut = 1;
-            } else {
-                String year = nospl.substring(6, 8);
-                
-                if (!year.equals(sdf2.format(utilDate))) {
-                    noUrut = 1;
-                } else {
-                    noUrut = Integer.parseInt(nospl.substring(15, 18));
-                    noUrut++;
-                }
-            }
-
-            val = spl + sdf.format(utilDate) + "/" + nik + "/" + String.format("%03d", noUrut);
-
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Tidak terhubung ke " + e.getMessage());
-        }
-        return val;
-    }
+    
+    
     private void editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_editActionPerformed
@@ -506,19 +458,16 @@ public class Atur_lembur extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void cb1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb1ActionPerformed
+    private void sActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_cb1ActionPerformed
+    }//GEN-LAST:event_sActionPerformed
 
-    private void cb2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb2ActionPerformed
+    private void tdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tdActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_cb2ActionPerformed
+    }//GEN-LAST:event_tdActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JCheckBox cb1;
-    private javax.swing.JCheckBox cb2;
-    private javax.swing.JCheckBox cb3;
     private javax.swing.JButton edit;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
@@ -534,15 +483,18 @@ public class Atur_lembur extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField4;
     private javax.swing.JTextArea ket;
     private javax.swing.JTextField mulai;
     private javax.swing.JTextField namaKar;
     private javax.swing.JTextField nikTxt1;
+    private javax.swing.JTextField persetujuan;
+    private javax.swing.JCheckBox r;
+    private javax.swing.JCheckBox s;
     private javax.swing.JButton save;
     private javax.swing.JTextField selesai;
     private javax.swing.JTextField spl;
+    private javax.swing.JTable tbl;
+    private javax.swing.JCheckBox td;
     private com.toedter.calendar.JDateChooser tgl;
     // End of variables declaration//GEN-END:variables
 }

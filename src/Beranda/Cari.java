@@ -8,6 +8,11 @@ import Connect.ConnectDB;
 import com.mysql.jdbc.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.Date;
+//import java.sql.Date;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -23,6 +28,8 @@ public class Cari extends javax.swing.JPanel {
         initComponents();
         this.main = main;
         comboSearchBox();
+        spl.setVisible(false);
+        nospl.setVisible(false);
     }
 
     /**
@@ -34,19 +41,21 @@ public class Cari extends javax.swing.JPanel {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        niko = new javax.swing.JLabel();
         nik = new javax.swing.JTextField();
         search = new javax.swing.JButton();
-        namkar = new javax.swing.JTextField();
-        jLabel5 = new javax.swing.JLabel();
+        spl = new javax.swing.JTextField();
+        nospl = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbl = new javax.swing.JTable();
         jLabel6 = new javax.swing.JLabel();
-        cari1 = new com.toedter.calendar.JDateChooser();
+        fr = new com.toedter.calendar.JDateChooser();
         jLabel7 = new javax.swing.JLabel();
-        cari2 = new com.toedter.calendar.JDateChooser();
+        fr2 = new com.toedter.calendar.JDateChooser();
         cari = new javax.swing.JComboBox<>();
-        jLabel8 = new javax.swing.JLabel();
+        nm = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        namkar = new javax.swing.JTextField();
 
         setBackground(new java.awt.Color(255, 253, 246));
 
@@ -56,10 +65,10 @@ public class Cari extends javax.swing.JPanel {
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Pencarian ");
 
-        jLabel2.setBackground(new java.awt.Color(30, 30, 30));
-        jLabel2.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(30, 30, 30));
-        jLabel2.setText("Nomor Induk Karyawan");
+        niko.setBackground(new java.awt.Color(30, 30, 30));
+        niko.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
+        niko.setForeground(new java.awt.Color(30, 30, 30));
+        niko.setText("Nomor Induk Karyawan");
 
         nik.setBackground(new java.awt.Color(255, 253, 246));
         nik.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
@@ -84,21 +93,21 @@ public class Cari extends javax.swing.JPanel {
             }
         });
 
-        namkar.setBackground(new java.awt.Color(255, 253, 246));
-        namkar.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
-        namkar.setForeground(new java.awt.Color(30, 30, 30));
-        namkar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        namkar.setPreferredSize(new java.awt.Dimension(64, 50));
-        namkar.addActionListener(new java.awt.event.ActionListener() {
+        spl.setBackground(new java.awt.Color(255, 253, 246));
+        spl.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
+        spl.setForeground(new java.awt.Color(30, 30, 30));
+        spl.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        spl.setPreferredSize(new java.awt.Dimension(64, 50));
+        spl.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                namkarActionPerformed(evt);
+                splActionPerformed(evt);
             }
         });
 
-        jLabel5.setBackground(new java.awt.Color(30, 30, 30));
-        jLabel5.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(30, 30, 30));
-        jLabel5.setText("Cari Layanan");
+        nospl.setBackground(new java.awt.Color(30, 30, 30));
+        nospl.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
+        nospl.setForeground(new java.awt.Color(30, 30, 30));
+        nospl.setText("No Spl");
 
         tbl.setBackground(new java.awt.Color(255, 253, 246));
         tbl.setModel(new javax.swing.table.DefaultTableModel(
@@ -130,10 +139,26 @@ public class Cari extends javax.swing.JPanel {
             }
         });
 
-        jLabel8.setBackground(new java.awt.Color(30, 30, 30));
-        jLabel8.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
-        jLabel8.setForeground(new java.awt.Color(30, 30, 30));
-        jLabel8.setText("Nama Karyawan");
+        nm.setBackground(new java.awt.Color(30, 30, 30));
+        nm.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
+        nm.setForeground(new java.awt.Color(30, 30, 30));
+        nm.setText("Nama Karyawan");
+
+        jLabel9.setBackground(new java.awt.Color(30, 30, 30));
+        jLabel9.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(30, 30, 30));
+        jLabel9.setText("Cari Layanan");
+
+        namkar.setBackground(new java.awt.Color(255, 253, 246));
+        namkar.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
+        namkar.setForeground(new java.awt.Color(30, 30, 30));
+        namkar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        namkar.setPreferredSize(new java.awt.Dimension(64, 50));
+        namkar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                namkarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -147,24 +172,26 @@ public class Cari extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(cari, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(namkar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(search, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jScrollPane1)
                     .addComponent(nik, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
-                            .addComponent(cari1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(fr, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(86, 86, 86)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
-                            .addComponent(cari2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(fr2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(86, 86, 86)
+                        .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE))
+                    .addComponent(namkar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 384, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 384, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 384, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                            .addComponent(niko, javax.swing.GroupLayout.PREFERRED_SIZE, 384, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(nospl, javax.swing.GroupLayout.PREFERRED_SIZE, 384, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(nm, javax.swing.GroupLayout.PREFERRED_SIZE, 384, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 384, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(spl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -175,44 +202,60 @@ public class Cari extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel2)
+                .addComponent(niko)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(nik, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel8)
+                .addComponent(nm)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(namkar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(5, 5, 5)
-                .addComponent(jLabel5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(nospl)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(spl, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, Short.MAX_VALUE)
+                .addComponent(jLabel9)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(cari, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(jLabel7))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(cari1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(search, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(cari2, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(31, Short.MAX_VALUE))
+                    .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(fr, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(fr2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(28, 28, 28)
+                .addComponent(search, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(26, 26, 26))
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void namkarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_namkarActionPerformed
+    private void splActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_splActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_namkarActionPerformed
+    }//GEN-LAST:event_splActionPerformed
 
     private void searchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchActionPerformed
         String val = cari.getSelectedItem().toString();
         String no = nik.getText();
-        String name = namkar.getText();
-        if (val.equalsIgnoreCase("Absensi")) {
-            loadDataAbsen(no, name);
+        String n = spl.getText();
+        String nama = namkar.getText();
+        Date from = fr.getDate();
+        Date to = fr2.getDate();
+
+        if (val.equalsIgnoreCase("Pilih")) {
+            DefaultTableModel model = (DefaultTableModel) tbl.getModel();
+
+            model.setRowCount(0);
+
+        } else if (val.equalsIgnoreCase("Absensi")) {
+            loadDataAbsen(no, nama);
         } else if (val.equalsIgnoreCase("Lembur")) {
-            loadDataLembur();
+            loadDataLembur(nama, n, from, to);
+            nospl.setVisible(true);
+            spl.setVisible(true);
+            nik.setVisible(false);
+            niko.setVisible(false);
         }
 
     }//GEN-LAST:event_searchActionPerformed
@@ -225,6 +268,10 @@ public class Cari extends javax.swing.JPanel {
 
     }//GEN-LAST:event_cariActionPerformed
 
+    private void namkarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_namkarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_namkarActionPerformed
+
     private String comboSearchBox() {
         cari.addItem("Pilih");
         cari.addItem("Absensi");
@@ -235,7 +282,7 @@ public class Cari extends javax.swing.JPanel {
         return val;
     }
 
-    protected void loadDataAbsen(String nik, String nama) {
+    private void loadDataAbsen(String nik, String nama) {
 
         if (nik.isEmpty() && nama.isEmpty()) {
             DefaultTableModel model = new DefaultTableModel();
@@ -298,7 +345,7 @@ public class Cari extends javax.swing.JPanel {
                          """;
                 String no = "%" + nik + "%";
                 String name = "%" + nama + "%";
-                
+
                 PreparedStatement ps = conn.prepareStatement(sql);
                 ps.setString(1, no);
                 ps.setString(2, name);
@@ -322,18 +369,19 @@ public class Cari extends javax.swing.JPanel {
 
     }
 
-    private void loadDataLembur() {
-        DefaultTableModel model = new DefaultTableModel();
+    private void loadDataLembur(String nama, String spl, Date from, Date to) {
+        if (nama.isEmpty() && spl.isEmpty() && from == null && to == null) {
+            DefaultTableModel model = new DefaultTableModel();
 
-        model.addColumn("NO SPL");
-        model.addColumn("NAMA KARYAWAN");
-        model.addColumn("TANGGAL");
-        model.addColumn("JAM MULAI");
-        model.addColumn("JAM SELESAI");
-        model.addColumn("KETERANGAN");
+            model.addColumn("NO SPL");
+            model.addColumn("NAMA KARYAWAN");
+            model.addColumn("TANGGAL");
+            model.addColumn("JAM MULAI");
+            model.addColumn("JAM SELESAI");
+            model.addColumn("KETERANGAN");
 
-        try {
-            String sql = """
+            try {
+                String sql = """
                          SELECT
                             TL.SPL_NO,
                             TK.NAMA_KARYAWAN,
@@ -344,41 +392,117 @@ public class Cari extends javax.swing.JPanel {
                          FROM TB_LEMBUR TL 
                          INNER JOIN TB_KARYAWAN TK ON TL.ID_KARYAWAN = TK.ID_KARYAWAN
                          """;
-            PreparedStatement ps = conn.prepareStatement(sql);
+                PreparedStatement ps = conn.prepareStatement(sql);
 
-            ResultSet rs = ps.executeQuery();
+                ResultSet rs = ps.executeQuery();
 
-            while (rs.next()) {
-                model.addRow(new Object[]{
-                    rs.getString("SPL_NO"),
-                    rs.getString("nama_karyawan"),
-                    rs.getString("tanggal"),
-                    rs.getString("jam_mulai"),
-                    rs.getString("jam_selesai"),
-                    rs.getString("keterangan")
-                });
+                while (rs.next()) {
+                    model.addRow(new Object[]{
+                        rs.getString("SPL_NO"),
+                        rs.getString("nama_karyawan"),
+                        rs.getString("tanggal"),
+                        rs.getString("jam_mulai"),
+                        rs.getString("jam_selesai"),
+                        rs.getString("keterangan")
+                    });
+                }
+
+                tbl.setModel(model);
+
+            } catch (Exception e) {
+
             }
+        } else {
+            DefaultTableModel model = new DefaultTableModel();
 
-            tbl.setModel(model);
+            model.addColumn("NO SPL");
+            model.addColumn("NAMA KARYAWAN");
+            model.addColumn("TANGGAL");
+            model.addColumn("JAM MULAI");
+            model.addColumn("JAM SELESAI");
+            model.addColumn("KETERANGAN");
 
-        } catch (Exception e) {
+            try {
+                String sql = """
+                             SELECT
+                             TL.SPL_NO,
+                             TK.NAMA_KARYAWAN,
+                             TL.TANGGAL,
+                             TL.JAM_MULAI,
+                             TL.JAM_SELESAI,
+                             TL.KETERANGAN
+                             FROM TB_LEMBUR TL 
+                             INNER JOIN TB_KARYAWAN TK ON TL.ID_KARYAWAN = TK.ID_KARYAWAN
+                             WHERE  (TK.NAMA_KARYAWAN IS NULL OR TK.NAMA_KARYAWAN = '' OR TK.NAMA_KARYAWAN LIKE ?)
+                             AND (TL.SPL_NO OR TL.SPL_NO = '' OR TL.SPL_NO LIKE ?)
+                             AND (? IS NULL OR TL.TANGGAL >= DATE(?))
+                             AND (? IS NULL OR TL.TANGGAL <= DATE(?))
+                             """;
+                String name = "%" + nama + "%";
+                String n = "%" + spl + "%";
 
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+                PreparedStatement ps = conn.prepareStatement(sql);
+
+                ps.setString(1, name);
+                ps.setString(2, n);
+
+//                ps.setString(3, sdf.format(from));
+//                ps.setString(4, sdf.format(from));
+                if (from == null) {
+                    ps.setNull(3, java.sql.Types.VARCHAR);
+                    ps.setNull(4, java.sql.Types.VARCHAR);
+                } else {
+                    ps.setString(3, sdf.format(from));
+                    ps.setString(4, sdf.format(from));
+                }
+
+//                ps.setString(5, sdf.format(to));
+//                ps.setString(6, sdf.format(to));
+                if (to == null) {
+                    ps.setNull(5, java.sql.Types.VARCHAR);
+                    ps.setNull(6, java.sql.Types.VARCHAR);
+                } else {
+                    ps.setString(5, sdf.format(to));
+                    ps.setString(6, sdf.format(to));
+                }
+
+                ResultSet rs = ps.executeQuery();
+                while (rs.next()) {
+                    model.addRow(new Object[]{
+                        rs.getString("SPL_NO"),
+                        rs.getString("NAMA_KARYAWAN"),
+                        rs.getString("TANGGAL"),
+                        rs.getString("JAM_MULAI"),
+                        rs.getString("JAM_SELESAI"),
+                        rs.getString("KETERANGAN")
+                    });
+                }
+
+                tbl.setModel(model);
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "tidak masuk ke query" + e.getMessage());
+            }
         }
+
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> cari;
-    private com.toedter.calendar.JDateChooser cari1;
-    private com.toedter.calendar.JDateChooser cari2;
+    private com.toedter.calendar.JDateChooser fr;
+    private com.toedter.calendar.JDateChooser fr2;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField namkar;
     private javax.swing.JTextField nik;
+    private javax.swing.JLabel niko;
+    private javax.swing.JLabel nm;
+    private javax.swing.JLabel nospl;
     private javax.swing.JButton search;
+    private javax.swing.JTextField spl;
     private javax.swing.JTable tbl;
     // End of variables declaration//GEN-END:variables
 }
