@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package Loginreg;
+
 import Beranda.Dashboard;
 import Connect.ConnectDB;
 import com.mysql.jdbc.Connection;
@@ -11,13 +12,17 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
 import com.formdev.flatlaf.FlatDarkLaf;
-import java.awt.Color;      
+import java.awt.Color;
+import java.awt.event.KeyEvent;
+
 /**
  *
  * @author ASUS
  */
 public class loginn extends javax.swing.JFrame {
-        private Connection conn = (Connection) new ConnectDB().connect();
+
+    private Connection conn = (Connection) new ConnectDB().connect();
+
     public loginn() {
         initComponents();
     }
@@ -76,6 +81,11 @@ public class loginn extends javax.swing.JFrame {
         pass.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
         pass.setForeground(new java.awt.Color(30, 30, 30));
         pass.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
+        pass.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                passKeyPressed(evt);
+            }
+        });
 
         jButton1.setBackground(new java.awt.Color(0, 0, 102));
         jButton1.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
@@ -169,19 +179,19 @@ public class loginn extends javax.swing.JFrame {
     }//GEN-LAST:event_nikActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-       String email = nik.getText();
+        String email = nik.getText();
         String pw = pass.getText();
-        
-        if (email.isEmpty()){
+
+        if (email.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Email Tidak Boleh Kosong");
         }
-        
-        if (pw.isEmpty()){
+
+        if (pw.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Password Tidak Boleh Kosong");
-        }else if (pw.length()>8) {
+        } else if (pw.length() > 8) {
             JOptionPane.showMessageDialog(null, "Panjang Tidak Boleh lebih dari 8");
         }
-         
+
 //        String sql ="SELECT * FROM  tb_user WHERE username = '"+ email +"'AND password='"+ pw +"'";
         String sql = """
             SELECT TK.NIK, TK.NAMA_KARYAWAN, TR.ROLE_DESC, TJ.NAMA_JABATAN 
@@ -191,44 +201,43 @@ public class loginn extends javax.swing.JFrame {
             INNER JOIN TB_ROLE TR ON TJ.ROLE_ID = TR.ROLE_ID
             WHERE TU.USERNAME = ? AND TU.PASSWORD = ?
         """;
-      
+
         System.out.println("ini sql : " + sql);
-        
+
         String role = "", nomor = "", nama = "", jabatan = "";
-        try{ 
+        try {
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, email);
             ps.setString(2, pw);
-            
+
             ResultSet rs = ps.executeQuery();
-            
-            if(rs.next()){
+
+            if (rs.next()) {
                 role = rs.getString("ROLE_DESC");
                 nomor = rs.getString("NIK");
                 nama = rs.getString("NAMA_KARYAWAN");
                 jabatan = rs.getString("NAMA_JABATAN");
-                
-            Dashboard d = new Dashboard(nomor, nama);
-            d.setVisible(true);
 
-            if (role.equalsIgnoreCase("admin")) {
-                d.aksesAdmin();
-            } else if (role.equalsIgnoreCase("user")) {
-                if (jabatan.equalsIgnoreCase("staff it")) {
-                    d.aksesStaff();
-                } else if (jabatan.equalsIgnoreCase("manager")) {
-                    d.aksesManager();
-                } else if (jabatan.equalsIgnoreCase("hrd")) {
-                    d.aksesHRD();
+                Dashboard d = new Dashboard(nomor, nama);
+                d.setVisible(true);
+
+                if (role.equalsIgnoreCase("admin")) {
+                    d.aksesAdmin();
+                } else if (role.equalsIgnoreCase("user")) {
+                    if (jabatan.equalsIgnoreCase("staff it")) {
+                        d.aksesStaff();
+                    } else if (jabatan.equalsIgnoreCase("manager")) {
+                        d.aksesManager();
+                    } else if (jabatan.equalsIgnoreCase("hrd")) {
+                        d.aksesHRD();
+                    }
                 }
-            }
-            this.dispose();
-
+                this.dispose();
 
             }
-         
+
 //            if(rs.next()){
-////                role = rs.getString("role_cd");
+         ////                role = rs.getString("role_cd");
 ////                System.out.println("INI ROLE : " + role);
 ////                Dashboard d = new Dashboard(nomor, nama, role);
 ////                d.setVisible(true);
@@ -238,15 +247,23 @@ public class loginn extends javax.swing.JFrame {
 //                JOptionPane.showMessageDialog(null, "Tidak Berhasil Login");
 //            }   
         }catch (Exception e) {
-               JOptionPane.showMessageDialog(null, "Tidak dapat terhubunr pada login : " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Tidak dapat terhubunr pada login : " + e.getMessage());
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jButton1KeyPressed
-        // TODO add your handling code here:
-        
-        
+
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            jButton1.doClick(); // Memanggil aksi tombol login
+        }
+
     }//GEN-LAST:event_jButton1KeyPressed
+
+    private void passKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_passKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            jButton1.doClick(); // Memanggil aksi tombol login
+        }
+    }//GEN-LAST:event_passKeyPressed
 
     /**
      * @param args the command line arguments
