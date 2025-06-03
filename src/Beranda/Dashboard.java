@@ -64,8 +64,10 @@ public class Dashboard extends javax.swing.JFrame {
     }
     
    public void setCuti(){
+       this.nik = noTxt.getText();
+       this.name = noTxt.getText();
         if(cuti == null){
-            cuti = new Cuti(this, nik, name);
+            cuti = new Cuti(nik, name);
         }
         jPanel2.removeAll();
         jPanel2.add(cuti);
@@ -366,7 +368,7 @@ public class Dashboard extends javax.swing.JFrame {
         bCariAbsen.setBackground(new java.awt.Color(44, 44, 44));
         bCariAbsen.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
         bCariAbsen.setForeground(new java.awt.Color(255, 255, 255));
-        bCariAbsen.setText("Cari Absen");
+        bCariAbsen.setText("Cari Aja");
         bCariAbsen.setBorderPainted(false);
         bCariAbsen.setPreferredSize(new java.awt.Dimension(0, 50));
         bCariAbsen.addActionListener(new java.awt.event.ActionListener() {
@@ -451,9 +453,7 @@ public class Dashboard extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(0, 0, 0))
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
