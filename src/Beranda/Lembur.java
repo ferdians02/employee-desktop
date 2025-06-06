@@ -36,8 +36,8 @@ public class Lembur extends javax.swing.JPanel {
         this.main = main;
         this.nama = name;
         this.nik = nik;
-//        loadData(nik);
-        loadData2();
+        loadData(nik);
+//        loadData2();
 
         namkar.setText(name);
         namkar.setEnabled(false);
@@ -441,57 +441,53 @@ public class Lembur extends javax.swing.JPanel {
         }
     }
 
-    private void loadData2() {
-        DefaultTableModel model = new DefaultTableModel();
-
-        model.addColumn("NO SPL");
-        model.addColumn("NAMA KARYAWAN");
-        model.addColumn("TANGGAL");
-        model.addColumn("JAM MULAI");
-        model.addColumn("JAM SELESAI");
-        model.addColumn("STATUS");
-
-        try {
-            String sql = """
-                         SELECT
-                            TL.SPL_NO,
-                            TK.NAMA_KARYAWAN,
-                            TL.TANGGAL,
-                            TL.JAM_MULAI,
-                            TL.JAM_SELESAI,
-                            TL.STATUS_LEMBUR
-                         FROM TB_LEMBUR TL 
-                         INNER JOIN TB_KARYAWAN TK ON TL.ID_KARYAWAN = TK.ID_KARYAWAN
-                         
-                         """;
-            PreparedStatement ps = conn.prepareStatement(sql);
-//            ps.setString(1, no);
-            ResultSet rs = ps.executeQuery();
-
-            while (rs.next()) {
-                model.addRow(new Object[]{
-                    rs.getString("SPL_NO"),
-                    rs.getString("nama_karyawan"),
-                    rs.getString("tanggal"),
-                    rs.getString("jam_mulai"),
-                    rs.getString("jam_selesai"),
-                    rs.getString("status_lembur")
-                });
-            }
-
-            tbl.setModel(model);
-
-        } catch (Exception e) {
-
-        }
-    }
+//    private void loadData2() {
+//        DefaultTableModel model = new DefaultTableModel();
+//
+//        model.addColumn("NO SPL");
+//        model.addColumn("NAMA KARYAWAN");
+//        model.addColumn("TANGGAL");
+//        model.addColumn("JAM MULAI");
+//        model.addColumn("JAM SELESAI");
+//        model.addColumn("STATUS");
+//
+//        try {
+//            String sql = """
+//                         SELECT
+//                            TL.SPL_NO,
+//                            TK.NAMA_KARYAWAN,
+//                            TL.TANGGAL,
+//                            TL.JAM_MULAI,
+//                            TL.JAM_SELESAI,
+//                            TL.STATUS_LEMBUR
+//                         FROM TB_LEMBUR TL 
+//                         INNER JOIN TB_KARYAWAN TK ON TL.ID_KARYAWAN = TK.ID_KARYAWAN
+//                         
+//                         """;
+//            PreparedStatement ps = conn.prepareStatement(sql);
+////            ps.setString(1, no);
+//            ResultSet rs = ps.executeQuery();
+//
+//            while (rs.next()) {
+//                model.addRow(new Object[]{
+//                    rs.getString("SPL_NO"),
+//                    rs.getString("nama_karyawan"),
+//                    rs.getString("tanggal"),
+//                    rs.getString("jam_mulai"),
+//                    rs.getString("jam_selesai"),
+//                    rs.getString("status_lembur")
+//                });
+//            }
+//
+//            tbl.setModel(model);
+//
+//        } catch (Exception e) {
+//
+//        }
+//    }
     private void mulaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mulaiActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_mulaiActionPerformed
-
-    private void splActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_splActionPerformed
-
-    }//GEN-LAST:event_splActionPerformed
     private String generateSpl() {
         String val = null;
         SimpleDateFormat sdf = new SimpleDateFormat("MMyy");
@@ -546,6 +542,10 @@ public class Lembur extends javax.swing.JPanel {
     private void namkarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_namkarActionPerformed
 
     }//GEN-LAST:event_namkarActionPerformed
+
+    private void splActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_splActionPerformed
+
+    }//GEN-LAST:event_splActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

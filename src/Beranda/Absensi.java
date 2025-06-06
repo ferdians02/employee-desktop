@@ -34,7 +34,7 @@ public class Absensi extends javax.swing.JPanel {
         nik.setEnabled(false);
         name.setEnabled(false);
         tgl.setDate(new java.util.Date());
-       
+      
     }
 
     public  Absensi() {
@@ -318,8 +318,14 @@ public class Absensi extends javax.swing.JPanel {
         sk.addItem("Izin");
         sk.addItem("Sakit");
         String val = sk.getSelectedItem().toString();
-
+       if(val.equals("Pilih")){
+           sk.setEnabled(false);
+           
+       }else{
+           sk.addItem(val);
+       }
         return val;
+   
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -141,6 +141,7 @@ public class Tambah extends javax.swing.JPanel {
 
         divsi.setBackground(new java.awt.Color(0, 0, 102));
         divsi.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
+        divsi.setForeground(new java.awt.Color(255, 255, 255));
         divsi.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pilih" }));
         divsi.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -155,6 +156,7 @@ public class Tambah extends javax.swing.JPanel {
 
         jbtn.setBackground(new java.awt.Color(0, 0, 102));
         jbtn.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
+        jbtn.setForeground(new java.awt.Color(255, 255, 255));
         jbtn.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jbtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -184,6 +186,7 @@ public class Tambah extends javax.swing.JPanel {
 
         jenis.setBackground(new java.awt.Color(0, 0, 102));
         jenis.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
+        jenis.setForeground(new java.awt.Color(255, 255, 255));
         jenis.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jLabel9.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
