@@ -32,7 +32,7 @@
                   <Component id="cari" max="32767" attributes="0"/>
                   <Component id="search" alignment="0" max="32767" attributes="0"/>
                   <Component id="jScrollPane1" alignment="0" max="32767" attributes="0"/>
-                  <Component id="nik" alignment="1" max="32767" attributes="0"/>
+                  <Component id="nikKar" alignment="1" max="32767" attributes="0"/>
                   <Component id="namkar" alignment="0" max="32767" attributes="0"/>
                   <Component id="spl" alignment="0" max="32767" attributes="0"/>
                   <Group type="102" alignment="0" attributes="0">
@@ -69,7 +69,7 @@
               <EmptySpace max="-2" attributes="0"/>
               <Component id="niko" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="nik" min="-2" pref="30" max="-2" attributes="0"/>
+              <Component id="nikKar" min="-2" pref="30" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="nm" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
@@ -131,7 +131,7 @@
         <Property name="text" type="java.lang.String" value="Nomor Induk Karyawan"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="nik">
+    <Component class="javax.swing.JTextField" name="nikKar">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="f6" green="fd" red="ff" type="rgb"/>
@@ -152,7 +152,7 @@
         </Property>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="nikActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="nikKarActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JButton" name="search">

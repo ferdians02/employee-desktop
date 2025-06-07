@@ -225,7 +225,7 @@ public class loginn extends javax.swing.JFrame {
                 if (role.equalsIgnoreCase("admin")) {
                     d.aksesAdmin();
                 } else if (role.equalsIgnoreCase("user")) {
-                    if (jabatan.equalsIgnoreCase("staff it")) {
+                    if (jabatan.equalsIgnoreCase("staff")) {
                         d.aksesStaff();
                     } else if (jabatan.equalsIgnoreCase("manager")) {
                         d.aksesManager();

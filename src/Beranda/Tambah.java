@@ -86,6 +86,11 @@ public class Tambah extends javax.swing.JPanel {
         cari.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
         cari.setForeground(new java.awt.Color(30, 30, 30));
         cari.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        cari.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cariActionPerformed(evt);
+            }
+        });
 
         search.setBackground(new java.awt.Color(0, 0, 102));
         search.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
@@ -898,6 +903,10 @@ public class Tambah extends javax.swing.JPanel {
     private void divsiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_divsiActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_divsiActionPerformed
+
+    private void cariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cariActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cariActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

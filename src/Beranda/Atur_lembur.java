@@ -33,12 +33,12 @@ public class Atur_lembur extends javax.swing.JPanel {
         this.main = main;
         this.nama = name;
         this.nik = nik;
-        
-        loadData();
-        
-        namaKar.setText(nama);
-        namaKar.setEnabled(false);
+        loadData(nik);
+        buttonGroup();
+//        namaKar.setText(nama);
+//        namaKar.setEnabled(false);
         spl.setEnabled(false);
+        persetujuan.setText(name);
     }
 
     /**
@@ -53,7 +53,7 @@ public class Atur_lembur extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         spl = new javax.swing.JTextField();
-        save = new javax.swing.JButton();
+        Submit = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         namaKar = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
@@ -61,7 +61,6 @@ public class Atur_lembur extends javax.swing.JPanel {
         jLabel7 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         ket = new javax.swing.JTextArea();
-        edit = new javax.swing.JButton();
         mulai = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         selesai = new javax.swing.JTextField();
@@ -78,7 +77,7 @@ public class Atur_lembur extends javax.swing.JPanel {
         td = new javax.swing.JCheckBox();
         r = new javax.swing.JCheckBox();
         jLabel11 = new javax.swing.JLabel();
-        persetujuan1 = new javax.swing.JTextField();
+        desc = new javax.swing.JTextField();
 
         setBackground(new java.awt.Color(255, 253, 246));
 
@@ -104,15 +103,15 @@ public class Atur_lembur extends javax.swing.JPanel {
             }
         });
 
-        save.setBackground(new java.awt.Color(0, 0, 102));
-        save.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
-        save.setForeground(new java.awt.Color(255, 255, 255));
-        save.setText("Simpan");
-        save.setBorderPainted(false);
-        save.setPreferredSize(new java.awt.Dimension(0, 50));
-        save.addActionListener(new java.awt.event.ActionListener() {
+        Submit.setBackground(new java.awt.Color(0, 0, 102));
+        Submit.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
+        Submit.setForeground(new java.awt.Color(255, 255, 255));
+        Submit.setText("Submit");
+        Submit.setBorderPainted(false);
+        Submit.setPreferredSize(new java.awt.Dimension(0, 50));
+        Submit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                saveActionPerformed(evt);
+                SubmitActionPerformed(evt);
             }
         });
 
@@ -156,18 +155,6 @@ public class Atur_lembur extends javax.swing.JPanel {
         ket.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jScrollPane1.setViewportView(ket);
 
-        edit.setBackground(new java.awt.Color(0, 0, 102));
-        edit.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
-        edit.setForeground(new java.awt.Color(255, 255, 255));
-        edit.setText("Clear");
-        edit.setBorderPainted(false);
-        edit.setPreferredSize(new java.awt.Dimension(0, 50));
-        edit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                editActionPerformed(evt);
-            }
-        });
-
         mulai.setBackground(new java.awt.Color(255, 253, 246));
         mulai.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
         mulai.setForeground(new java.awt.Color(30, 30, 30));
@@ -207,6 +194,11 @@ public class Atur_lembur extends javax.swing.JPanel {
                 "No Spl", "Nama Karyawan", "Tanggal", "Keterangan"
             }
         ));
+        tbl.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(tbl);
 
         jLabel3.setBackground(new java.awt.Color(30, 30, 30));
@@ -277,11 +269,11 @@ public class Atur_lembur extends javax.swing.JPanel {
         jLabel11.setForeground(new java.awt.Color(30, 30, 30));
         jLabel11.setText("Keterangan");
 
-        persetujuan1.setBackground(new java.awt.Color(255, 253, 246));
-        persetujuan1.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
-        persetujuan1.setForeground(new java.awt.Color(30, 30, 30));
-        persetujuan1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        persetujuan1.setPreferredSize(new java.awt.Dimension(64, 50));
+        desc.setBackground(new java.awt.Color(255, 253, 246));
+        desc.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
+        desc.setForeground(new java.awt.Color(30, 30, 30));
+        desc.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        desc.setPreferredSize(new java.awt.Dimension(64, 50));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -296,7 +288,7 @@ public class Atur_lembur extends javax.swing.JPanel {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))
+                                .addGap(0, 45, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(selesai, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addContainerGap())))
@@ -305,8 +297,7 @@ public class Atur_lembur extends javax.swing.JPanel {
                             .addComponent(jScrollPane1)
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(save, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(edit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(Submit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 384, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -338,7 +329,7 @@ public class Atur_lembur extends javax.swing.JPanel {
                                 .addGap(51, 51, 51)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(persetujuan1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                    .addComponent(desc, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                         .addContainerGap())))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
@@ -388,7 +379,7 @@ public class Atur_lembur extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(persetujuan, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(persetujuan1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(desc, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel10)
                 .addGap(1, 1, 1)
@@ -397,10 +388,8 @@ public class Atur_lembur extends javax.swing.JPanel {
                     .addComponent(td)
                     .addComponent(r))
                 .addGap(10, 10, 10)
-                .addComponent(save, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(edit, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30))
+                .addComponent(Submit, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(57, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(114, 114, 114)
@@ -409,47 +398,109 @@ public class Atur_lembur extends javax.swing.JPanel {
                             .addComponent(jLabel3)
                             .addComponent(nikTxt1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                    .addContainerGap(781, Short.MAX_VALUE)))
+                    .addContainerGap(684, Short.MAX_VALUE)))
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveActionPerformed
-        
-    }//GEN-LAST:event_saveActionPerformed
-    private void loadData() {
+    private void SubmitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SubmitActionPerformed
+        try {
+            String sql = """
+                         UPDATE TB_LEMBUR TL
+                     
+                         SET
+                         TL.STATUS_LEMBUR = ?,
+                         TL.UPDATE_BY  = ?,
+                         TL.UPDATE_AT = ?,
+                         TL.APPROVAL_SPV_BY1 = ?,
+                         TL.APPROVAL_SPV_ON1 = ?,
+                         TL.APPROVAL_SPV_DESC1 = ?
+                         WHERE tl.SPL_NO =?
+                         """;
+            PreparedStatement ps = conn.prepareStatement(sql);
+
+            String select = null;
+            java.util.Date utilDate = new java.util.Date();
+            java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+
+            if (s.isSelected()) {
+                select = Constants.SPL_APPROVE;
+            }
+
+            if (td.isSelected()) {
+                select = Constants.SPL_REJECT;
+            }
+
+            if (r.isSelected()) {
+                select = Constants.SPL_REVISION;
+            }
+
+            ps.setString(1, select);
+            ps.setString(2, nik);
+            ps.setDate(3, sqlDate);
+            ps.setString(4, nik);
+            ps.setDate(5, sqlDate);
+            ps.setString(6, desc.getText());
+            ps.setString(7, spl.getText());
+           
+            ps.execute();
+            loadData(nik);
+            
+            JOptionPane.showMessageDialog(null, "Data berhasil SUBMIT");
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Erro : " + e.getMessage());
+        }
+    }//GEN-LAST:event_SubmitActionPerformed
+
+    private void loadData(String no) {
         DefaultTableModel model = new DefaultTableModel();
 
         model.addColumn("NO SPL");
+        model.addColumn("NIK");
         model.addColumn("NAMA KARYAWAN");
         model.addColumn("TANGGAL");
         model.addColumn("JAM MULAI");
         model.addColumn("JAM SELESAI");
         model.addColumn("STATUS");
+        model.addColumn("ATASAN");
 
         try {
             String sql = """
                          SELECT
-                            TL.SPL_NO,
-                            TK.NAMA_KARYAWAN,
-                            TL.TANGGAL,
-                            TL.JAM_MULAI,
-                            TL.JAM_SELESAI,
-                            TL.STATUS_LEMBUR
-                         FROM TB_LEMBUR TL 
-                         INNER JOIN TB_KARYAWAN TK ON TL.ID_KARYAWAN = TK.ID_KARYAWAN
+                                TL.SPL_NO,
+                                TK.NIK,
+                                TK.NAMA_KARYAWAN,
+                                TL.TANGGAL,
+                                TL.JAM_MULAI,
+                                TL.JAM_SELESAI,
+                                TL.STATUS_LEMBUR,
+                                TKA.NAMA_KARYAWAN AS NAMA_ATASAN FROM TB_LEMBUR TL 
+                                INNER JOIN TB_KARYAWAN TK ON TL.ID_KARYAWAN = TK.ID_KARYAWAN
+                                INNER JOIN TB_DIVISI TD ON TK.ID_DIVISI = TD.ID_DIVISI
+                                INNER JOIN TB_JABATAN TJ ON TK.ID_JABATAN = TJ.ID_JABATAN
+                                                  
+                                INNER JOIN TB_KARYAWAN TKA ON TKA.ID_DIVISI = TK.ID_DIVISI AND 
+                                TKA.ID_JABATAN > TK.ID_JABATAN  
+                                INNER JOIN TB_JABATAN TJA ON TKA.ID_JABATAN = TJA.ID_JABATAN 
+                                WHERE TL.status_lembur = 'Waiting for approve'
+                                AND TKA.NIK = ?
+                         ORDER BY TL.ID_SPL
+                         
                          """;
             PreparedStatement ps = conn.prepareStatement(sql);
-
+            ps.setString(1, no);
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
                 model.addRow(new Object[]{
                     rs.getString("SPL_NO"),
+                    rs.getString("NIK"),
                     rs.getString("nama_karyawan"),
-                    rs.getString("tanggal"),
+                    rs.getDate("tanggal"),
                     rs.getString("jam_mulai"),
                     rs.getString("jam_selesai"),
-                    rs.getString("status_lembur")
+                    rs.getString("status_lembur"),
+                    rs.getString("nama_atasan")
                 });
             }
 
@@ -459,6 +510,133 @@ public class Atur_lembur extends javax.swing.JPanel {
 
         }
     }
+    
+    private void loadData() {
+        DefaultTableModel model = new DefaultTableModel();
+
+        model.addColumn("NO SPL");
+        model.addColumn("NIK");
+        model.addColumn("NAMA KARYAWAN");
+        model.addColumn("TANGGAL");
+        model.addColumn("JAM MULAI");
+        model.addColumn("JAM SELESAI");
+        model.addColumn("STATUS");
+        model.addColumn("ATASAN");
+
+        try {
+            String sql = """
+                         SELECT
+                                TL.SPL_NO,
+                                TK.NIK,
+                                TK.NAMA_KARYAWAN,
+                                TL.TANGGAL,
+                                TL.JAM_MULAI,
+                                TL.JAM_SELESAI,
+                                TL.STATUS_LEMBUR,
+                                TKA.NAMA_KARYAWAN AS NAMA_ATASAN FROM TB_LEMBUR TL 
+                                INNER JOIN TB_KARYAWAN TK ON TL.ID_KARYAWAN = TK.ID_KARYAWAN
+                                INNER JOIN TB_DIVISI TD ON TK.ID_DIVISI = TD.ID_DIVISI
+                                INNER JOIN TB_JABATAN TJ ON TK.ID_JABATAN = TJ.ID_JABATAN
+                                                  
+                                INNER JOIN TB_KARYAWAN TKA ON TKA.ID_DIVISI = TK.ID_DIVISI AND 
+                                TKA.ID_JABATAN > TK.ID_JABATAN  
+                                INNER JOIN TB_JABATAN TJA ON TKA.ID_JABATAN = TJA.ID_JABATAN 
+                                WHERE TL.status_lembur = 'Waiting for approve'
+                                
+                         ORDER BY TL.ID_SPL
+                         
+                         """;
+            PreparedStatement ps = conn.prepareStatement(sql);
+//            ps.setString(1, nik);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                model.addRow(new Object[]{
+                    rs.getString("SPL_NO"),
+                    rs.getString("NIK"),
+                    rs.getString("nama_karyawan"),
+                    rs.getDate("tanggal"),
+                    rs.getString("jam_mulai"),
+                    rs.getString("jam_selesai"),
+                    rs.getString("status_lembur"),
+                    rs.getString("nama_atasan")
+                });
+            }
+
+            tbl.setModel(model);
+
+        } catch (Exception e) {
+
+        }
+    }
+
+    private void loadTbleClick() {
+        try {
+            String sql = """
+                            SELECT
+                                TL.SPL_NO,
+                                TK.NIK,
+                                TK.NAMA_KARYAWAN,
+                                TL.TANGGAL,
+                                TL.JAM_MULAI,
+                                TL.JAM_SELESAI,
+                                TL.KETERANGAN,
+                                TL.STATUS_LEMBUR,
+                                TKA.NAMA_KARYAWAN AS NAMA_ATASAN FROM TB_LEMBUR TL 
+                                INNER JOIN TB_KARYAWAN TK ON TL.ID_KARYAWAN = TK.ID_KARYAWAN
+                                INNER JOIN TB_DIVISI TD ON TK.ID_DIVISI = TD.ID_DIVISI
+                                INNER JOIN TB_JABATAN TJ ON TK.ID_JABATAN = TJ.ID_JABATAN
+                                                                                                       
+                                INNER JOIN TB_KARYAWAN TKA ON TKA.ID_DIVISI = TK.ID_DIVISI AND 
+                                TKA.ID_JABATAN > TK.ID_JABATAN  
+                                INNER JOIN TB_JABATAN TJA ON TKA.ID_JABATAN = TJA.ID_JABATAN 
+                                WHERE TK.NIK = ?
+                                """;
+
+            int row = tbl.getSelectedRow();
+            String clickTable = (tbl.getModel().getValueAt(row, 1).toString());
+
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, clickTable);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                spl.setText(rs.getString("spl_no"));
+                spl.setEnabled(false);
+
+                namaKar.setText(rs.getString("nama_karyawan"));
+                tgl.setDate(rs.getDate("TANGGAL"));
+                mulai.setText(rs.getString("jam_mulai"));
+                selesai.setText(rs.getString("jam_selesai"));
+                ket.setText(rs.getString("keterangan"));
+            }
+
+        } catch (Exception e) {
+
+        }
+    }
+
+    private void buttonGroup() {
+        s.addActionListener(e -> {
+            if (s.isSelected()) {
+                td.setSelected(false);
+                r.setSelected(false);
+            }
+        });
+
+        td.addActionListener(e -> {
+            if (td.isSelected()) {
+                s.setSelected(false);
+                r.setSelected(false);
+            }
+        });
+        r.addActionListener(e -> {
+            if (r.isSelected()) {
+                td.setSelected(false);
+                s.setSelected(false);
+            }
+        });
+    }
     private void mulaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mulaiActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_mulaiActionPerformed
@@ -466,11 +644,7 @@ public class Atur_lembur extends javax.swing.JPanel {
     private void splActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_splActionPerformed
 
     }//GEN-LAST:event_splActionPerformed
-    
-    
-    private void editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_editActionPerformed
+
 
     private void namaKarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_namaKarActionPerformed
 
@@ -488,9 +662,15 @@ public class Atur_lembur extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_tdActionPerformed
 
+    private void tblMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblMouseClicked
+        // TODO add your handling code here:
+        loadTbleClick();
+    }//GEN-LAST:event_tblMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton edit;
+    private javax.swing.JButton Submit;
+    private javax.swing.JTextField desc;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -511,10 +691,8 @@ public class Atur_lembur extends javax.swing.JPanel {
     private javax.swing.JTextField namaKar;
     private javax.swing.JTextField nikTxt1;
     private javax.swing.JTextField persetujuan;
-    private javax.swing.JTextField persetujuan1;
     private javax.swing.JCheckBox r;
     private javax.swing.JCheckBox s;
-    private javax.swing.JButton save;
     private javax.swing.JTextField selesai;
     private javax.swing.JTextField spl;
     private javax.swing.JTable tbl;

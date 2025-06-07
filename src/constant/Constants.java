@@ -22,9 +22,14 @@ public interface Constants {
      
      
 //     LEMBUR
-     final String WAITING_FOR_APPROVAL = "Waiting for approval";
+     final String WAITING_FOR_APPROVAL = "Waiting for approve";
      final String REVISION = "Revision";
      final String REJECTED = "Reject";
+     
+     final String SPL_DONE = "Done";
+     final String SPL_APPROVE = "Approve";
+     final String SPL_REJECT = "Reject";
+     final String SPL_REVISION ="Revision";
      
      final String LVE_TRANS_NO = "LVE";
      final String SPL_TRANS_NO = "SPL";

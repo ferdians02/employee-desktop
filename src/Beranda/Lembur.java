@@ -15,6 +15,7 @@ import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 import util.ValidateUtil;
 import util.ValidationOption;
 
@@ -74,9 +75,9 @@ public class Lembur extends javax.swing.JPanel {
         jLabel10 = new javax.swing.JLabel();
         persetujuan = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
-        persetujuan1 = new javax.swing.JTextField();
+        stts = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
-        persetujuan2 = new javax.swing.JTextField();
+        keter = new javax.swing.JTextField();
 
         setBackground(new java.awt.Color(255, 253, 246));
 
@@ -205,6 +206,11 @@ public class Lembur extends javax.swing.JPanel {
 
             }
         ));
+        tbl.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(tbl);
 
         jLabel10.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
@@ -221,21 +227,21 @@ public class Lembur extends javax.swing.JPanel {
         jLabel9.setForeground(new java.awt.Color(30, 30, 30));
         jLabel9.setText("Status");
 
-        persetujuan1.setBackground(new java.awt.Color(255, 253, 246));
-        persetujuan1.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
-        persetujuan1.setForeground(new java.awt.Color(30, 30, 30));
-        persetujuan1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        persetujuan1.setPreferredSize(new java.awt.Dimension(64, 50));
+        stts.setBackground(new java.awt.Color(255, 253, 246));
+        stts.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
+        stts.setForeground(new java.awt.Color(30, 30, 30));
+        stts.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        stts.setPreferredSize(new java.awt.Dimension(64, 50));
 
         jLabel11.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
         jLabel11.setForeground(new java.awt.Color(30, 30, 30));
         jLabel11.setText("Keterangan");
 
-        persetujuan2.setBackground(new java.awt.Color(255, 253, 246));
-        persetujuan2.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
-        persetujuan2.setForeground(new java.awt.Color(30, 30, 30));
-        persetujuan2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        persetujuan2.setPreferredSize(new java.awt.Dimension(64, 50));
+        keter.setBackground(new java.awt.Color(255, 253, 246));
+        keter.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
+        keter.setForeground(new java.awt.Color(30, 30, 30));
+        keter.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        keter.setPreferredSize(new java.awt.Dimension(64, 50));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -271,12 +277,12 @@ public class Lembur extends javax.swing.JPanel {
                             .addComponent(persetujuan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(persetujuan1, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(stts, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel9))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel11)
-                                    .addComponent(persetujuan2, javax.swing.GroupLayout.PREFERRED_SIZE, 314, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                    .addComponent(keter, javax.swing.GroupLayout.PREFERRED_SIZE, 314, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addContainerGap())))
         );
         layout.setVerticalGroup(
@@ -320,8 +326,8 @@ public class Lembur extends javax.swing.JPanel {
                     .addComponent(jLabel11))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(persetujuan1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(persetujuan2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(stts, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(keter, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(10, 10, 10)
                 .addComponent(save, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -370,9 +376,29 @@ public class Lembur extends javax.swing.JPanel {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Tidak ke Simpan " + e.getMessage());
         }
-
+        
 
     }//GEN-LAST:event_saveActionPerformed
+        private Integer getIdSpl(String nik){
+            Integer id = null;
+            try{
+                String sql = """
+                             SELECT id_spl FROM tb_lembur l 
+                             INNER JOIN tb_karyawan k on l.id_karyawan = k.id_karyawan
+                             where k.nik = ? and  l.status_lembur = 'Revision'
+                             """;
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, id);
+            
+            }catch(Exception e){
+                
+            }
+            return id;
+        }
+    
+    
+    
+    
     private Integer cariId(String namaKaryawan) {
         Integer id = null;
         try {
@@ -400,6 +426,140 @@ public class Lembur extends javax.swing.JPanel {
         DefaultTableModel model = new DefaultTableModel();
 
         model.addColumn("NO SPL");
+        model.addColumn("NIK");
+        model.addColumn("NAMA KARYAWAN");
+        model.addColumn("TANGGAL");
+        model.addColumn("JAM MULAI");
+        model.addColumn("JAM SELESAI");
+        model.addColumn("STATUS");
+
+        try {
+            String sql = """
+                         SELECT
+                            TL.SPL_NO,
+                            TK.NIK,
+                            TK.NAMA_KARYAWAN,
+                            TL.TANGGAL,
+                            TL.JAM_MULAI,
+                            TL.JAM_SELESAI,
+                            TL.STATUS_LEMBUR
+                         FROM TB_LEMBUR TL 
+                         INNER JOIN TB_KARYAWAN TK ON TL.ID_KARYAWAN = TK.ID_KARYAWAN
+                         WHERE TK.NIK =?
+                         """;
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, no);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                model.addRow(new Object[]{
+                    rs.getString("SPL_NO"),
+                    rs.getString("NIK"),
+                    rs.getString("nama_karyawan"),
+                    rs.getString("tanggal"),
+                    rs.getString("jam_mulai"),
+                    rs.getString("jam_selesai"),
+                    rs.getString("status_lembur")
+                });
+            }
+
+            tbl.setModel(model);
+
+        } catch (Exception e) {
+
+        }
+    }
+    private void loadTbleClick() {
+        try {
+            String sql = """
+                            SELECT
+                                TL.SPL_NO,
+                                TK.NAMA_KARYAWAN,
+                                TL.TANGGAL,
+                                TL.JAM_MULAI,
+                                TL.JAM_SELESAI,
+                                TL.KETERANGAN,
+                                                                
+                                TKA.NAMA_KARYAWAN AS NAMA_ATASAN,
+                                TL.STATUS_LEMBUR,
+                                TL.APPROVAL_SPV_DESC1
+                                FROM TB_LEMBUR TL 
+                                INNER JOIN TB_KARYAWAN TK ON TL.ID_KARYAWAN = TK.ID_KARYAWAN
+                                INNER JOIN TB_DIVISI TD ON TK.ID_DIVISI = TD.ID_DIVISI
+                                INNER JOIN TB_JABATAN TJ ON TK.ID_JABATAN = TJ.ID_JABATAN
+                                                                                                                                       
+                                INNER JOIN TB_KARYAWAN TKA ON TKA.ID_DIVISI = TK.ID_DIVISI AND 
+                                TKA.ID_JABATAN > TK.ID_JABATAN  
+                                INNER JOIN TB_JABATAN TJA ON TKA.ID_JABATAN = TJA.ID_JABATAN 
+                                WHERE TL.SPL_NO = ?
+                                ORDER BY TKA.ID_JABATAN ASC
+                                """;
+
+            int row = tbl.getSelectedRow();
+            String clickTable = (tbl.getModel().getValueAt(row, 0).toString());
+
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, clickTable);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                spl.setText(rs.getString("spl_no"));
+                spl.setEnabled(false);
+
+                namkar.setText(rs.getString("nama_karyawan"));
+                tgl.setDate(rs.getDate("tanggal"));
+                mulai.setText(rs.getString("jam_mulai"));
+                selesai.setText(rs.getString("jam_selesai"));
+                ket.setText(rs.getString("keterangan"));
+                persetujuan.setText(rs.getString("nama_atasan"));
+                stts.setText(rs.getString("status_lembur"));
+                keter.setText(rs.getString("approval_spv_desc1"));
+            }
+            
+        } catch (Exception e) {
+
+        }
+    }
+    
+    private String sqlFunc (String nik){
+        
+        String val = null;
+        try{
+            String sql = """
+                         SELECT
+                            
+                            TL.STATUS_LEMBUR
+                            FROM TB_LEMBUR TL 
+                            INNER JOIN TB_KARYAWAN TK ON TL.ID_KARYAWAN = TK.ID_KARYAWAN
+                            INNER JOIN TB_DIVISI TD ON TK.ID_DIVISI = TD.ID_DIVISI
+                            INNER JOIN TB_JABATAN TJ ON TK.ID_JABATAN = TJ.ID_JABATAN
+                                                                                                                                                                
+                            INNER JOIN TB_KARYAWAN TKA ON TKA.ID_DIVISI = TK.ID_DIVISI AND 
+                            TKA.ID_JABATAN > TK.ID_JABATAN  
+                            INNER JOIN TB_JABATAN TJA ON TKA.ID_JABATAN = TJA.ID_JABATAN 
+                            WHERE TK.NIK = ?
+                            ORDER BY TKA.ID_JABATAN ASC
+                         """;
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, nik);
+            ResultSet rs = ps.executeQuery();
+            
+            if(rs.next()){
+                val = rs.getString("status_lembur");
+                
+            }
+            
+        }catch(Exception e){
+            
+        }
+        return val;
+        
+    }
+
+    private void loadData2() {
+        DefaultTableModel model = new DefaultTableModel();
+
+        model.addColumn("NO SPL");
         model.addColumn("NAMA KARYAWAN");
         model.addColumn("TANGGAL");
         model.addColumn("JAM MULAI");
@@ -417,10 +577,10 @@ public class Lembur extends javax.swing.JPanel {
                             TL.STATUS_LEMBUR
                          FROM TB_LEMBUR TL 
                          INNER JOIN TB_KARYAWAN TK ON TL.ID_KARYAWAN = TK.ID_KARYAWAN
-                         WHERE TK.NIK =?
+                         
                          """;
             PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, no);
+//            ps.setString(1, no);
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
@@ -440,51 +600,6 @@ public class Lembur extends javax.swing.JPanel {
 
         }
     }
-
-//    private void loadData2() {
-//        DefaultTableModel model = new DefaultTableModel();
-//
-//        model.addColumn("NO SPL");
-//        model.addColumn("NAMA KARYAWAN");
-//        model.addColumn("TANGGAL");
-//        model.addColumn("JAM MULAI");
-//        model.addColumn("JAM SELESAI");
-//        model.addColumn("STATUS");
-//
-//        try {
-//            String sql = """
-//                         SELECT
-//                            TL.SPL_NO,
-//                            TK.NAMA_KARYAWAN,
-//                            TL.TANGGAL,
-//                            TL.JAM_MULAI,
-//                            TL.JAM_SELESAI,
-//                            TL.STATUS_LEMBUR
-//                         FROM TB_LEMBUR TL 
-//                         INNER JOIN TB_KARYAWAN TK ON TL.ID_KARYAWAN = TK.ID_KARYAWAN
-//                         
-//                         """;
-//            PreparedStatement ps = conn.prepareStatement(sql);
-////            ps.setString(1, no);
-//            ResultSet rs = ps.executeQuery();
-//
-//            while (rs.next()) {
-//                model.addRow(new Object[]{
-//                    rs.getString("SPL_NO"),
-//                    rs.getString("nama_karyawan"),
-//                    rs.getString("tanggal"),
-//                    rs.getString("jam_mulai"),
-//                    rs.getString("jam_selesai"),
-//                    rs.getString("status_lembur")
-//                });
-//            }
-//
-//            tbl.setModel(model);
-//
-//        } catch (Exception e) {
-//
-//        }
-//    }
     private void mulaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mulaiActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_mulaiActionPerformed
@@ -536,7 +651,46 @@ public class Lembur extends javax.swing.JPanel {
         return val;
     }
     private void editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editActionPerformed
-        // TODO add your handling code here:
+          try{
+              String sql = """
+                            UPDATE TB_LEMBUR TL
+                            JOIN TB_KARYAWAN TK
+                            SET
+                           
+                            TL.TANGGAL = ?,
+                            TL.JAM_MULAI = ?,
+                            TL.JAM_SELESAI = ?,
+                            TL.KETERANGAN = ?,
+                            
+                            TL.UPDATE_BY = ?,
+                            TL.UPDATE_AT = ?,
+                            TL.STATUS_LEMBUR = ?
+                            WHERE TK.NIK =?
+                           """;
+              PreparedStatement ps = conn.prepareStatement(sql);
+             
+              java.util.Date utilDate2 = tgl.getDate();
+              java.sql.Date tanggal = new java.sql.Date(utilDate2.getTime());
+          
+              ps.setDate(1, tanggal);
+              ps.setString(2, mulai.getText());
+              ps.setString(3, selesai.getText());
+              ps.setString(4, ket.getText());
+              ps.setString(5, nik);
+              
+              java.util.Date utilDate = new java.util.Date();
+              java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+              ps.setDate(6, sqlDate);
+              ps.setString(7, Constants.WAITING_FOR_APPROVAL);
+              ps.setString(8, nik);
+              
+              
+              ps.execute();
+              loadData(nik);
+              JOptionPane.showMessageDialog(null, "Data berhasil diubah");
+          }catch(Exception e){
+              JOptionPane.showMessageDialog(null, "Data tidak terhubung ke " + e.getMessage());
+          }
     }//GEN-LAST:event_editActionPerformed
 
     private void namkarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_namkarActionPerformed
@@ -546,6 +700,10 @@ public class Lembur extends javax.swing.JPanel {
     private void splActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_splActionPerformed
 
     }//GEN-LAST:event_splActionPerformed
+
+    private void tblMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblMouseClicked
+    loadTbleClick();    // TODO add your handling code here:
+    }//GEN-LAST:event_tblMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -564,14 +722,14 @@ public class Lembur extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTextArea ket;
+    private javax.swing.JTextField keter;
     private javax.swing.JTextField mulai;
     private javax.swing.JTextField namkar;
     private javax.swing.JTextField persetujuan;
-    private javax.swing.JTextField persetujuan1;
-    private javax.swing.JTextField persetujuan2;
     private javax.swing.JButton save;
     private javax.swing.JTextField selesai;
     private javax.swing.JTextField spl;
+    private javax.swing.JTextField stts;
     private javax.swing.JTable tbl;
     private com.toedter.calendar.JDateChooser tgl;
     // End of variables declaration//GEN-END:variables

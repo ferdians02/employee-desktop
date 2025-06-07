@@ -21,12 +21,14 @@ import javax.swing.table.DefaultTableModel;
 public class Absensi extends javax.swing.JPanel {
 
     private Connection conn = (Connection) new ConnectDB().connect();
-
+    private String no;
     public Absensi(String nomor, String nama) {
+        
         initComponents();
         comboSkBox();
+        this.no = nomor;
 //        this.main = main;
-        loadData();
+        loadData(no);
 
         nik.setText(nomor);
         name.setText(nama);
@@ -225,7 +227,14 @@ public class Absensi extends javax.swing.JPanel {
             java.util.Date date = tgl.getDate();
             java.sql.Date tanggal = new java.sql.Date(date.getTime());
             ps.setDate(2, tanggal);
-            ps.setString(3, sk.getSelectedItem().toString());
+            
+            if("Pilih".equalsIgnoreCase(sk.getSelectedItem().toString())){
+                JOptionPane.showMessageDialog(null, "Silahkan pilih salah satu di bawah selain :  " + sk.getSelectedItem().toString());
+                return;
+            } else {
+                 ps.setString(3, sk.getSelectedItem().toString());
+            }
+           
             ps.setString(4, "Admin");
             java.util.Date utilDate = new java.util.Date();
             java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
@@ -233,7 +242,7 @@ public class Absensi extends javax.swing.JPanel {
             ps.setString(6, Constants.RECORD_FLAG_N);
 
             ps.executeUpdate();
-            loadData();
+            loadData(no);
             clear();
             JOptionPane.showMessageDialog(null, "Data Berhasil Di Simpan");
             kosong();
@@ -242,7 +251,7 @@ public class Absensi extends javax.swing.JPanel {
         }
 
     }//GEN-LAST:event_saveActionPerformed
-    protected void loadData() {
+    protected void loadData(String no) {
         DefaultTableModel model = new DefaultTableModel();
 
         model.addColumn("NIK");
@@ -259,8 +268,10 @@ public class Absensi extends javax.swing.JPanel {
                             TA.STATUS_KEHADIRAN
                          FROM TB_KARYAWAN TK 
                          INNER JOIN TB_ABSEN TA ON TA.ID_KARYAWAN = TK.ID_KARYAWAN
+                         WHERE TK.NIK=?
                          """;
             PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, no);
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
@@ -312,21 +323,15 @@ public class Absensi extends javax.swing.JPanel {
     private void skActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_skActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_skActionPerformed
-    private String comboSkBox() {
+    private void comboSkBox() {
         sk.addItem("Pilih");
         sk.addItem("Masuk");
         sk.addItem("Izin");
-        sk.addItem("Sakit");
-        String val = sk.getSelectedItem().toString();
-       if(val.equals("Pilih")){
-           sk.setEnabled(false);
-           
-       }else{
-           sk.addItem(val);
-       }
-        return val;
-   
+        sk.addItem("Sakit");   
     }
+    
+    
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;

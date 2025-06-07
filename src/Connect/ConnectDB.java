@@ -21,7 +21,7 @@ public class ConnectDB {
         }catch (ClassNotFoundException ex){
         System.out.println("Gagal Koneksi" +ex);
         }
-        String url = "jdbc:mysql://localhost/selfservice2";
+        String url = "jdbc:mysql://localhost/selfservices2";
         try {
         koneksi = DriverManager.getConnection(url,"root","");
         System.out.println("Berhasil Koneksi Database");

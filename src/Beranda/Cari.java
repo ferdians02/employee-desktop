@@ -42,7 +42,7 @@ public class Cari extends javax.swing.JPanel {
 
         jLabel1 = new javax.swing.JLabel();
         niko = new javax.swing.JLabel();
-        nik = new javax.swing.JTextField();
+        nikKar = new javax.swing.JTextField();
         search = new javax.swing.JButton();
         spl = new javax.swing.JTextField();
         nospl = new javax.swing.JLabel();
@@ -70,14 +70,14 @@ public class Cari extends javax.swing.JPanel {
         niko.setForeground(new java.awt.Color(30, 30, 30));
         niko.setText("Nomor Induk Karyawan");
 
-        nik.setBackground(new java.awt.Color(255, 253, 246));
-        nik.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
-        nik.setForeground(new java.awt.Color(30, 30, 30));
-        nik.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        nik.setPreferredSize(new java.awt.Dimension(64, 50));
-        nik.addActionListener(new java.awt.event.ActionListener() {
+        nikKar.setBackground(new java.awt.Color(255, 253, 246));
+        nikKar.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
+        nikKar.setForeground(new java.awt.Color(30, 30, 30));
+        nikKar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        nikKar.setPreferredSize(new java.awt.Dimension(64, 50));
+        nikKar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                nikActionPerformed(evt);
+                nikKarActionPerformed(evt);
             }
         });
 
@@ -174,7 +174,7 @@ public class Cari extends javax.swing.JPanel {
                     .addComponent(cari, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(search, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jScrollPane1)
-                    .addComponent(nik, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(nikKar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(namkar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(spl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
@@ -204,7 +204,7 @@ public class Cari extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(niko)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(nik, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(nikKar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(nm)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -238,7 +238,7 @@ public class Cari extends javax.swing.JPanel {
 
     private void searchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchActionPerformed
         String val = cari.getSelectedItem().toString();
-        String no = nik.getText();
+        String no = nikKar.getText();
         String n = spl.getText();
         String nama = namkar.getText();
         Date from = fr.getDate();
@@ -250,20 +250,24 @@ public class Cari extends javax.swing.JPanel {
             model.setRowCount(0);
 
         } else if (val.equalsIgnoreCase("Absensi")) {
-            loadDataAbsen(no, nama);
+            loadDataAbsen(no, nama, from, to);
+            nospl.setVisible(false);
+            spl.setVisible(false);
+            nikKar.setVisible(true);
+            niko.setVisible(true);
         } else if (val.equalsIgnoreCase("Lembur")) {
             loadDataLembur(nama, n, from, to);
             nospl.setVisible(true);
             spl.setVisible(true);
-            nik.setVisible(false);
+            nikKar.setVisible(false);
             niko.setVisible(false);
         }
 
     }//GEN-LAST:event_searchActionPerformed
 
-    private void nikActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nikActionPerformed
+    private void nikKarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nikKarActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_nikActionPerformed
+    }//GEN-LAST:event_nikKarActionPerformed
 
     private void cariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cariActionPerformed
 
@@ -283,9 +287,9 @@ public class Cari extends javax.swing.JPanel {
         return val;
     }
 
-    private void loadDataAbsen(String nik, String nama) {
+    private void loadDataAbsen(String nik, String nama, Date from, Date to) {
 
-        if (nik.isEmpty() && nama.isEmpty()) {
+        if (nik.isEmpty() && nama.isEmpty()&& from == null && to == null) {
             DefaultTableModel model = new DefaultTableModel();
 
             model.addColumn("NIK");
@@ -302,11 +306,14 @@ public class Cari extends javax.swing.JPanel {
                             TA.STATUS_KEHADIRAN
                          FROM TB_KARYAWAN TK 
                          INNER JOIN TB_ABSEN TA ON TA.ID_KARYAWAN = TK.ID_KARYAWAN
-                        
+                         WHERE TK.RECORD_FLAG <> 'D' 
+                       
+                       
                          """;
-
+                
                 PreparedStatement ps = conn.prepareStatement(sql);
                 ResultSet rs = ps.executeQuery();
+                
                 while (rs.next()) {
                     model.addRow(new Object[]{
                         rs.getString("NIK"),
@@ -339,18 +346,33 @@ public class Cari extends javax.swing.JPanel {
                          FROM TB_KARYAWAN TK 
                          INNER JOIN TB_ABSEN TA ON TA.ID_KARYAWAN = TK.ID_KARYAWAN
                          WHERE 1 = 1 
-                             AND (TK.NIK IS NULL OR TK.NIK = '' OR TK.NIK LIKE ?)
-                             AND (TK.NAMA_KARYAWAN OR TK.NAMA_KARYAWAN = '' OR TK.NAMA_KARYAWAN LIKE ?)
-                            
-                             
+                         AND (TK.NIK IS NULL OR TK.NIK = '' OR TK.NIK LIKE ?)
+                         AND (TK.NAMA_KARYAWAN OR TK.NAMA_KARYAWAN = '' OR TK.NAMA_KARYAWAN LIKE ?)
+                         AND (? IS NULL OR TA.TANGGAL >= DATE(?))
+                         AND (? IS NULL OR TA.TANGGAL <= DATE(?))
                          """;
                 String no = "%" + nik + "%";
                 String name = "%" + nama + "%";
-
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                 PreparedStatement ps = conn.prepareStatement(sql);
+                
                 ps.setString(1, no);
                 ps.setString(2, name);
-
+                
+                if (from == null) {
+                    ps.setNull(3, java.sql.Types.VARCHAR);
+                    ps.setNull(4, java.sql.Types.VARCHAR);
+                } else {
+                    ps.setString(3, sdf.format(from));
+                    ps.setString(4, sdf.format(from));
+                }
+                if (to == null) {
+                    ps.setNull(5, java.sql.Types.VARCHAR);
+                    ps.setNull(6, java.sql.Types.VARCHAR);
+                } else {
+                    ps.setString(5, sdf.format(to));
+                    ps.setString(6, sdf.format(to));
+                }
                 ResultSet rs = ps.executeQuery();
                 while (rs.next()) {
                     model.addRow(new Object[]{
@@ -488,6 +510,7 @@ public class Cari extends javax.swing.JPanel {
         }
 
     }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> cari;
     private com.toedter.calendar.JDateChooser fr;
@@ -498,7 +521,7 @@ public class Cari extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField namkar;
-    private javax.swing.JTextField nik;
+    private javax.swing.JTextField nikKar;
     private javax.swing.JLabel niko;
     private javax.swing.JLabel nm;
     private javax.swing.JLabel nospl;

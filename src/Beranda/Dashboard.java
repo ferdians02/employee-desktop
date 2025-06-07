@@ -258,6 +258,11 @@ public class Dashboard extends javax.swing.JFrame {
         namaTxt.setForeground(new java.awt.Color(30, 30, 30));
         namaTxt.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(144, 209, 202), 2));
         namaTxt.setPreferredSize(new java.awt.Dimension(0, 50));
+        namaTxt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                namaTxtActionPerformed(evt);
+            }
+        });
 
         jLabel5.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(77, 120, 204));
@@ -635,6 +640,10 @@ public class Dashboard extends javax.swing.JFrame {
         bApvLembur.setBackground(new Color(44,44,44));
         setCari();
     }//GEN-LAST:event_bCariAbsenActionPerformed
+
+    private void namaTxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_namaTxtActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_namaTxtActionPerformed
 
     /**
      * @param args the command line arguments
