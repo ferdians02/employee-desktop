@@ -1,34 +1,165 @@
 package Beranda;
         
-import Connect.ConnectDB;
+import Beranda.Dashboard;
 import Connect.ConnectDB;
 import com.mysql.jdbc.Connection;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.Date;
 //import java.sql.Date;
 import javax.swing.JOptionPane;
+import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 /**
  *
  * @author rakha
  */
 public class Atur extends javax.swing.JPanel {
-    private Connection conn = (Connection) new ConnectDB().connect();
-    private final Dashboard main;
+    private final Connection conn = (Connection) new ConnectDB().connect();
 
     public Atur(Dashboard main) {
         initComponents();
-        this.main = main;
+        loadKaryawanByDivisi(); // memuat data karyawan berdasarkan divisi login
+        loadTableGaji();        // memuat data gaji dari database
+
         
         nik.setEnabled(false);
         name.setEnabled(false);
-        tunjangan.setEnabled(false);
+        jabatan.setEnabled(false);
+        divisi.setEnabled(false);
         gaji.setEnabled(false);
+
+        // Table Karyawan diklik
+        tableKaryawan.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                int row = tableKaryawan.getSelectedRow();
+                if (row != -1) {
+                    nik.setText(tableKaryawan.getValueAt(row, 0).toString());
+                    name.setText(tableKaryawan.getValueAt(row, 1).toString());
+                    jabatan.setText(tableKaryawan.getValueAt(row, 2).toString());
+
+                    // Ambil gapok dari TB_JABATAN
+                    try {
+                        String sql = """
+                            SELECT J.GAPOK, D.NAMA_DIVISI
+                            FROM TB_KARYAWAN K
+                            JOIN TB_JABATAN J ON K.ID_JABATAN = J.ID_JABATAN
+                            JOIN TB_DIVISI D ON K.ID_DIVISI = D.ID_DIVISI
+                            WHERE K.NIK = ?
+                        """;
+                        PreparedStatement ps = conn.prepareStatement(sql);
+                        ps.setString(1, nik.getText());
+                        ResultSet rs = ps.executeQuery();
+                        if (rs.next()) {
+                            gaji.setText(rs.getString("GAPOK"));
+                            divisi.setText(rs.getString("NAMA_DIVISI"));
+                        }
+                    } catch (Exception e) {
+                        JOptionPane.showMessageDialog(null, "Gagal ambil gaji: " + e.getMessage());
+                    }
+                }
+            }
+        });
+
+        // Table Gaji diklik
+        tableGaji.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                int row = tableGaji.getSelectedRow();
+                if (row != -1) {
+                    nik.setText(tableGaji.getValueAt(row, 0).toString());
+                    name.setText(tableGaji.getValueAt(row, 1).toString());
+                    divisi.setText(tableGaji.getValueAt(row, 2).toString());
+                    jabatan.setText(tableGaji.getValueAt(row, 3).toString());
+                    tunjangan.setText(tableGaji.getValueAt(row, 4).toString());
+                    gaji.setText(tableGaji.getValueAt(row, 5).toString());
+                }
+            }
+        });
+
     }
-    
+
+     private void kosong() {
+        nik.setText("");
+        name.setText("");
+        jabatan.setText("");
+        divisi.setText("");
+        gaji.setText("");
+        tunjangan.setText("");
+    }
+
+    private void loadKaryawanByDivisi() {
+        DefaultTableModel model = new DefaultTableModel(
+            new String[]{"NIK", "Nama Karyawan", "Jabatan"}, 0
+        );
+
+        try {
+            String sql = """
+                SELECT K.NIK, K.NAMA_KARYAWAN, J.NAMA_JABATAN
+                FROM TB_KARYAWAN K
+                JOIN TB_JABATAN J ON K.ID_JABATAN = J.ID_JABATAN
+                JOIN TB_DIVISI D ON K.ID_DIVISI = D.ID_DIVISI
+                WHERE D.NAMA_DIVISI = ?
+            """;
+
+            PreparedStatement pst = conn.prepareStatement(sql);
+            pst.setString(1, Dashboard.divisiLogin); // pastikan Dashboard.divisiLogin sudah terisi saat login
+            ResultSet rs = pst.executeQuery();
+
+            while (rs.next()) {
+                model.addRow(new Object[]{
+                    rs.getString("NIK"),
+                    rs.getString("NAMA_KARYAWAN"),
+                    rs.getString("NAMA_JABATAN")
+                });
+            }
+
+            tableKaryawan.setModel(model);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Gagal load karyawan: " + e.getMessage());
+        }
+    }
+
+
+
+        private void loadTableGaji() {
+            DefaultTableModel model = new DefaultTableModel(
+                new String[]{"NIK", "Nama", "Divisi", "Jabatan", "Tunjangan", "Gaji"}, 0
+            );
+
+            try {
+                String sql = """
+                    SELECT K.NIK, K.NAMA_KARYAWAN, D.NAMA_DIVISI, J.NAMA_JABATAN, G.TUNJANGAN, J.GAPOK
+                    FROM TB_GAJI G
+                    JOIN TB_KARYAWAN K ON G.ID_KARYAWAN = K.ID_KARYAWAN
+                    JOIN TB_JABATAN J ON K.ID_JABATAN = J.ID_JABATAN
+                    JOIN TB_DIVISI D ON K.ID_DIVISI = D.ID_DIVISI
+                """;
+
+                PreparedStatement pst = conn.prepareStatement(sql);
+                ResultSet rs = pst.executeQuery();
+
+                while (rs.next()) {
+                    model.addRow(new Object[]{
+                        rs.getString("NIK"),
+                        rs.getString("NAMA_KARYAWAN"),
+                        rs.getString("NAMA_DIVISI"),
+                        rs.getString("NAMA_JABATAN"),
+                        rs.getString("TUNJANGAN"),
+                        rs.getString("GAPOK")
+                    });
+                }
+
+                tableGaji.setModel(model);
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Gagal load gaji: " + e.getMessage());
+            }
+        }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -40,23 +171,26 @@ public class Atur extends javax.swing.JPanel {
 
         jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tableGaji = new javax.swing.JTable();
         jLabel3 = new javax.swing.JLabel();
         nik = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        name = new javax.swing.JTextField();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        gaji = new javax.swing.JTextField();
-        jButton7 = new javax.swing.JButton();
-        jLabel8 = new javax.swing.JLabel();
         cari = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
-        tunjangan = new javax.swing.JTextField();
         divisi = new javax.swing.JTextField();
         jabatan = new javax.swing.JTextField();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        tableKaryawan = new javax.swing.JTable();
+        name = new javax.swing.JTextField();
+        gaji = new javax.swing.JTextField();
+        tunjangan = new javax.swing.JTextField();
 
         setBackground(new java.awt.Color(255, 253, 246));
 
@@ -65,10 +199,10 @@ public class Atur extends javax.swing.JPanel {
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("Atur Gaji");
 
-        jTable1.setBackground(new java.awt.Color(255, 253, 246));
-        jTable1.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
-        jTable1.setForeground(new java.awt.Color(30, 30, 30));
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tableGaji.setBackground(new java.awt.Color(255, 253, 246));
+        tableGaji.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
+        tableGaji.setForeground(new java.awt.Color(30, 30, 30));
+        tableGaji.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null},
                 {null, null, null, null, null, null},
@@ -87,7 +221,12 @@ public class Atur extends javax.swing.JPanel {
                 return types [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tableGaji);
+        if (tableGaji.getColumnModel().getColumnCount() > 0) {
+            tableGaji.getColumnModel().getColumn(2).setHeaderValue("Divisi");
+            tableGaji.getColumnModel().getColumn(4).setHeaderValue("tunjangan");
+            tableGaji.getColumnModel().getColumn(5).setHeaderValue("Gaji");
+        }
 
         jLabel3.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(30, 30, 30));
@@ -104,56 +243,10 @@ public class Atur extends javax.swing.JPanel {
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel4.setText("Nama Karyawan :");
 
-        name.setBackground(new java.awt.Color(255, 253, 246));
-        name.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
-        name.setForeground(new java.awt.Color(30, 30, 30));
-        name.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        name.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                nameActionPerformed(evt);
-            }
-        });
-
-        jLabel5.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(30, 30, 30));
-        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel5.setText("Nomor Induk Karyawan :");
-
-        jLabel6.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(30, 30, 30));
-        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel6.setText("Divisi :");
-
         jLabel7.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(30, 30, 30));
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel7.setText("Gaji :");
-
-        gaji.setBackground(new java.awt.Color(255, 253, 246));
-        gaji.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
-        gaji.setForeground(new java.awt.Color(30, 30, 30));
-        gaji.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        gaji.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                gajiActionPerformed(evt);
-            }
-        });
-
-        jButton7.setBackground(new java.awt.Color(0, 0, 102));
-        jButton7.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
-        jButton7.setForeground(new java.awt.Color(255, 255, 255));
-        jButton7.setText("Update");
-        jButton7.setBorderPainted(false);
-        jButton7.setPreferredSize(new java.awt.Dimension(0, 50));
-        jButton7.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton7ActionPerformed(evt);
-            }
-        });
-
-        jLabel8.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
-        jLabel8.setForeground(new java.awt.Color(30, 30, 30));
-        jLabel8.setText("Cari :");
 
         cari.setBackground(new java.awt.Color(255, 253, 246));
         cari.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
@@ -164,7 +257,7 @@ public class Atur extends javax.swing.JPanel {
         jButton1.setBackground(new java.awt.Color(0, 0, 102));
         jButton1.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("Cari");
+        jButton1.setText("Save");
         jButton1.setBorderPainted(false);
         jButton1.setPreferredSize(new java.awt.Dimension(0, 50));
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -178,16 +271,6 @@ public class Atur extends javax.swing.JPanel {
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel9.setText("Tunjangan :");
 
-        tunjangan.setBackground(new java.awt.Color(255, 253, 246));
-        tunjangan.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
-        tunjangan.setForeground(new java.awt.Color(30, 30, 30));
-        tunjangan.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        tunjangan.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tunjanganActionPerformed(evt);
-            }
-        });
-
         divisi.setBackground(new java.awt.Color(255, 253, 246));
         divisi.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
         divisi.setForeground(new java.awt.Color(30, 30, 30));
@@ -198,6 +281,83 @@ public class Atur extends javax.swing.JPanel {
         jabatan.setForeground(new java.awt.Color(30, 30, 30));
         jabatan.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
+        jLabel8.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(30, 30, 30));
+        jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel8.setText("Divisi :");
+
+        jLabel10.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
+        jLabel10.setForeground(new java.awt.Color(30, 30, 30));
+        jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel10.setText("NIK:");
+
+        jButton2.setBackground(new java.awt.Color(0, 0, 102));
+        jButton2.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
+        jButton2.setForeground(new java.awt.Color(255, 255, 255));
+        jButton2.setText("Cari");
+        jButton2.setBorderPainted(false);
+        jButton2.setPreferredSize(new java.awt.Dimension(0, 50));
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        jButton3.setBackground(new java.awt.Color(0, 0, 102));
+        jButton3.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
+        jButton3.setForeground(new java.awt.Color(255, 255, 255));
+        jButton3.setText("Clear");
+        jButton3.setBorderPainted(false);
+        jButton3.setPreferredSize(new java.awt.Dimension(0, 50));
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
+        jButton4.setBackground(new java.awt.Color(0, 0, 102));
+        jButton4.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
+        jButton4.setForeground(new java.awt.Color(255, 255, 255));
+        jButton4.setText("Edit");
+        jButton4.setBorderPainted(false);
+        jButton4.setPreferredSize(new java.awt.Dimension(0, 50));
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+
+        tableKaryawan.setBackground(new java.awt.Color(255, 253, 246));
+        tableKaryawan.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
+        tableKaryawan.setForeground(new java.awt.Color(30, 30, 30));
+        tableKaryawan.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
+            },
+            new String [] {
+                "Nomor Induk Karyawa", "Nama", "Jabatan"
+            }
+        ));
+        jScrollPane3.setViewportView(tableKaryawan);
+
+        name.setBackground(new java.awt.Color(255, 253, 246));
+        name.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
+        name.setForeground(new java.awt.Color(30, 30, 30));
+        name.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        gaji.setBackground(new java.awt.Color(255, 253, 246));
+        gaji.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
+        gaji.setForeground(new java.awt.Color(30, 30, 30));
+        gaji.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        tunjangan.setBackground(new java.awt.Color(255, 253, 246));
+        tunjangan.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
+        tunjangan.setForeground(new java.awt.Color(30, 30, 30));
+        tunjangan.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -206,99 +366,236 @@ public class Atur extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(gaji)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 622, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(name, javax.swing.GroupLayout.DEFAULT_SIZE, 335, Short.MAX_VALUE)
                             .addComponent(nik)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel7))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel4)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(name, javax.swing.GroupLayout.Alignment.TRAILING))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel3)
-                                    .addComponent(jLabel6))
+                                .addComponent(jLabel3)
                                 .addGap(207, 207, 207))
                             .addComponent(divisi)
                             .addComponent(jabatan)))
-                    .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel8)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cari, javax.swing.GroupLayout.PREFERRED_SIZE, 346, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel9)
+                        .addComponent(jLabel10)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel8)
+                        .addGap(226, 226, 226))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel9)
+                            .addComponent(jLabel7)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(tunjangan, javax.swing.GroupLayout.Alignment.TRAILING))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 382, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(12, 12, 12)
+                                .addComponent(cari, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(gaji)
+                    .addComponent(tunjangan))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(22, 22, 22)
                 .addComponent(jLabel2)
-                .addGap(14, 14, 14)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel8)
-                        .addComponent(cari, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel6))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(2, 2, 2)
+                        .addComponent(cari, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(28, 28, 28)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel10)
+                    .addComponent(jLabel8))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(nik, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(divisi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(name, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jabatan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(jabatan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(name, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(gaji, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(gaji, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(3, 3, 3)
                 .addComponent(jLabel9)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(tunjangan, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(5, 5, 5)
-                .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(tunjangan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(3, 3, 3)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(10, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
-
-    private void nameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nameActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_nameActionPerformed
-
-    private void gajiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gajiActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_gajiActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+        String nikValue = nik.getText().trim();
+        String tunjanganValue = tunjangan.getText().trim();
+        String jabatanValue = jabatan.getText().trim();
+
+        if (nikValue.isEmpty() || tunjanganValue.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Lengkapi data NIK dan Tunjangan.");
+            return;
+        }
+
+        try {
+            // Ambil ID_KARYAWAN dari NIK
+            String getIdSql = "SELECT ID_KARYAWAN FROM TB_KARYAWAN WHERE NIK = ?";
+            PreparedStatement getIdPs = conn.prepareStatement(getIdSql);
+            getIdPs.setString(1, nikValue);
+            ResultSet rs = getIdPs.executeQuery();
+
+            if (!rs.next()) {
+                JOptionPane.showMessageDialog(this, "Karyawan tidak ditemukan.");
+                return;
+            }
+
+            int idKaryawan = rs.getInt("ID_KARYAWAN");
+
+            // Siapkan data waktu
+            java.sql.Date createAt = new java.sql.Date(System.currentTimeMillis());
+            LocalDate localDate = createAt.toLocalDate();
+            String bulan = localDate.getMonth().toString(); // misal: JUNE
+            String tahun = String.valueOf(localDate.getYear());
+
+            // Insert ke TB_GAJI
+            String insertSql = """
+                INSERT INTO TB_GAJI (ID_KARYAWAN, TUNJANGAN, BULAN, TAHUN, CREATE_BY, CREATE_AT, RECORD_FLAG)
+                VALUES (?, ?, ?, ?, ?, ?, 'N')
+            """;
+
+            PreparedStatement insertPs = conn.prepareStatement(insertSql);
+            insertPs.setInt(1, idKaryawan);
+            insertPs.setInt(2, Integer.parseInt(tunjanganValue));
+            insertPs.setString(3, bulan);
+            insertPs.setString(4, tahun);
+            insertPs.setString(5, jabatanValue); // create_by
+            insertPs.setDate(6, createAt);
+
+            int result = insertPs.executeUpdate();
+
+            if (result > 0) {
+                JOptionPane.showMessageDialog(this, "Data gaji berhasil disimpan.");
+                loadTableGaji(); // refresh table gaji
+                kosong();        // clear input
+            } else {
+                JOptionPane.showMessageDialog(this, "Gagal menyimpan data gaji.");
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Terjadi kesalahan saat insert gaji: " + e.getMessage());
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void tunjanganActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tunjanganActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tunjanganActionPerformed
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    String keyword = cari.getText().trim();
+
+    if (keyword.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Silakan masukkan nama karyawan untuk dicari.");
+        return;
+    }
+
+    DefaultTableModel model = (DefaultTableModel) tableKaryawan.getModel();
+    TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(model);
+    tableKaryawan.setRowSorter(sorter);
+
+    sorter.setRowFilter(RowFilter.regexFilter("(?i)" + keyword, 1)); // kolom ke-1: nama
+
+    if (sorter.getViewRowCount() == 0) {
+        JOptionPane.showMessageDialog(this, "Maaf, nama yang Anda cari tidak ditemukan.");
+        tableKaryawan.setRowSorter(null); // tampilkan semua kembali
+    }
+
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        kosong();
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        String nikKaryawan = nik.getText();
+        String namaKaryawan = name.getText();
+        String jabatanLogin = Dashboard.jabatanLogin; // disimpan saat login
+        String tunjanganBaru = tunjangan.getText();
+
+        if (nikKaryawan.isEmpty() || tunjanganBaru.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "NIK dan Tunjangan tidak boleh kosong.");
+            return;
+        }
+
+        try {
+            // Ambil ID karyawan berdasarkan NIK
+            String getIdKaryawanSQL = "SELECT ID_KARYAWAN FROM TB_KARYAWAN WHERE NIK = ?";
+            PreparedStatement pst = conn.prepareStatement(getIdKaryawanSQL);
+            pst.setString(1, nikKaryawan);
+            ResultSet rs = pst.executeQuery();
+
+            if (!rs.next()) {
+                JOptionPane.showMessageDialog(this, "Karyawan dengan NIK ini tidak ditemukan.");
+                return;
+            }
+
+            int idKaryawan = rs.getInt("ID_KARYAWAN");
+
+            // Update tunjangan + otomatis update_by dan update_at
+            String updateSQL = """
+                UPDATE TB_GAJI 
+                SET TUNJANGAN = ?, 
+                    UPDATE_BY = ?, 
+                    UPDATE_AT = CURRENT_DATE()
+                WHERE ID_KARYAWAN = ?
+            """;
+
+            PreparedStatement updatePst = conn.prepareStatement(updateSQL);
+            updatePst.setInt(1, Integer.parseInt(tunjanganBaru));
+            updatePst.setString(2, jabatanLogin);
+            updatePst.setInt(3, idKaryawan);
+
+            int affectedRows = updatePst.executeUpdate();
+            if (affectedRows > 0) {
+                JOptionPane.showMessageDialog(this, "Data gaji berhasil diperbarui.");
+                loadTableGaji(); // refresh tabel gaji
+                kosong(); // kosongkan field
+            } else {
+                JOptionPane.showMessageDialog(this, "Data gaji gagal diperbarui.");
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Terjadi kesalahan saat update: " + e.getMessage());
+        }       
+    }//GEN-LAST:event_jButton4ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -306,20 +603,23 @@ public class Atur extends javax.swing.JPanel {
     private javax.swing.JTextField divisi;
     private javax.swing.JTextField gaji;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton7;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTextField jabatan;
     private javax.swing.JTextField name;
     private javax.swing.JTextField nik;
+    private javax.swing.JTable tableGaji;
+    private javax.swing.JTable tableKaryawan;
     private javax.swing.JTextField tunjangan;
     // End of variables declaration//GEN-END:variables
 }

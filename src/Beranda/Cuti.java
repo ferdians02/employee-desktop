@@ -74,37 +74,37 @@
                 }
                 
                 private void tampilData() {
-    DefaultTableModel model = new DefaultTableModel(
-        new String[]{"ID", "Nama Karyawan", "Tgl Awal", "Tgl Akhir", "Alasan", "Lama"}, 0
-    );
+                        DefaultTableModel model = new DefaultTableModel(
+                            new String[]{"ID", "Nama Karyawan", "Tgl Awal", "Tgl Akhir", "Alasan", "Lama"}, 0
+                        );
 
-    try {
-        String sql = """
-            SELECT c.id_cuti, k.nama_karyawan, c.tgl_awal, c.tgl_akhir, c.alasan, c.lama_cuti
-            FROM tb_cuti c
-            JOIN tb_karyawan k ON c.id_karyawan = k.id_karyawan
-            WHERE c.record_flag = 'N' AND c.id_karyawan = ?
-        """;
-        PreparedStatement ps = conn.prepareStatement(sql);
-        ps.setInt(1, loginn.idKaryawanLogin);
-        ResultSet rs = ps.executeQuery();
+                        try {
+                            String sql = """
+                                SELECT c.id_cuti, k.nama_karyawan, c.tgl_awal, c.tgl_akhir, c.alasan, c.lama_cuti
+                                FROM tb_cuti c
+                                JOIN tb_karyawan k ON c.id_karyawan = k.id_karyawan
+                                WHERE c.record_flag = 'N' AND c.id_karyawan = ?
+                            """;
+                            PreparedStatement ps = conn.prepareStatement(sql);
+                            ps.setInt(1, loginn.idKaryawanLogin);
+                            ResultSet rs = ps.executeQuery();
 
-        while (rs.next()) {
-            model.addRow(new Object[]{
-                rs.getInt("id_cuti"),
-                rs.getString("nama_karyawan"),
-                rs.getDate("tgl_awal"),
-                rs.getDate("tgl_akhir"),
-                rs.getString("alasan"),
-                rs.getInt("lama_cuti")
-            });
-        }
+                            while (rs.next()) {
+                                model.addRow(new Object[]{
+                                    rs.getInt("id_cuti"),
+                                    rs.getString("nama_karyawan"),
+                                    rs.getDate("tgl_awal"),
+                                    rs.getDate("tgl_akhir"),
+                                    rs.getString("alasan"),
+                                    rs.getInt("lama_cuti")
+                                });
+                            }
 
-        table_cuti.setModel(model);
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, "Gagal tampil data: " + e.getMessage());
-    }
-}
+                            table_cuti.setModel(model);
+                        } catch (Exception e) {
+                            JOptionPane.showMessageDialog(this, "Gagal tampil data: " + e.getMessage());
+                        }
+                    }
 
 
 
