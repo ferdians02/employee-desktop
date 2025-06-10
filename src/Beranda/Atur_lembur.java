@@ -451,7 +451,7 @@ public class Atur_lembur extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(null, "Erro : " + e.getMessage());
         }
     }//GEN-LAST:event_SubmitActionPerformed
-
+    
     private void loadData(String no) {
         DefaultTableModel model = new DefaultTableModel();
 

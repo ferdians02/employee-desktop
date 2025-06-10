@@ -371,6 +371,7 @@ public class Lembur extends javax.swing.JPanel {
 
             ps.executeUpdate();
             loadData(nik);
+            clear();
             JOptionPane.showMessageDialog(null, "Data Berhasil Di Simpan");
 
         } catch (Exception e) {
@@ -379,7 +380,14 @@ public class Lembur extends javax.swing.JPanel {
         
 
     }//GEN-LAST:event_saveActionPerformed
-        private Integer getIdSpl(String nik){
+    private void clear(){
+        namkar.setText("");
+        mulai.setText("");
+        selesai.setText("");
+        ket.setText("");
+    }    
+    
+    private Integer getIdSpl(String nik){
             Integer id = null;
             try{
                 String sql = """
@@ -687,6 +695,7 @@ public class Lembur extends javax.swing.JPanel {
               
               ps.execute();
               loadData(nik);
+              clear();
               JOptionPane.showMessageDialog(null, "Data berhasil diubah");
           }catch(Exception e){
               JOptionPane.showMessageDialog(null, "Data tidak terhubung ke " + e.getMessage());
