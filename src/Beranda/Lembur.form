@@ -30,21 +30,14 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <Component id="jLabel10" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="584" max="32767" attributes="0"/>
+                      <EmptySpace min="584" pref="717" max="32767" attributes="0"/>
+                  </Group>
+                  <Group type="102" attributes="0">
+                      <Component id="jLabel11" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   </Group>
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="0" attributes="0">
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jLabel2" min="-2" pref="384" max="-2" attributes="0"/>
-                                  <Component id="jLabel5" alignment="0" min="-2" pref="384" max="-2" attributes="0"/>
-                                  <Component id="jLabel4" alignment="0" min="-2" pref="384" max="-2" attributes="0"/>
-                                  <Component id="jLabel6" alignment="0" min="-2" pref="384" max="-2" attributes="0"/>
-                                  <Component id="jLabel8" alignment="0" min="-2" pref="384" max="-2" attributes="0"/>
-                                  <Component id="jLabel7" alignment="0" min="-2" pref="384" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                          </Group>
                           <Component id="jScrollPane2" alignment="1" max="32767" attributes="0"/>
                           <Component id="jLabel1" alignment="1" max="32767" attributes="0"/>
                           <Component id="jScrollPane1" alignment="0" max="32767" attributes="0"/>
@@ -52,21 +45,24 @@
                           <Component id="namkar" alignment="0" max="32767" attributes="0"/>
                           <Component id="mulai" alignment="0" max="32767" attributes="0"/>
                           <Component id="selesai" alignment="0" max="32767" attributes="0"/>
-                          <Component id="save" alignment="0" max="32767" attributes="0"/>
-                          <Component id="edit" alignment="0" max="32767" attributes="0"/>
                           <Component id="tgl" alignment="0" max="32767" attributes="0"/>
                           <Component id="persetujuan" alignment="0" max="32767" attributes="0"/>
-                          <Group type="102" alignment="1" attributes="0">
+                          <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="stts" alignment="0" min="-2" pref="306" max="-2" attributes="0"/>
-                                  <Component id="jLabel9" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabel2" min="-2" pref="384" max="-2" attributes="0"/>
+                                  <Component id="jLabel5" alignment="0" min="-2" pref="384" max="-2" attributes="0"/>
+                                  <Component id="jLabel4" alignment="0" min="-2" pref="384" max="-2" attributes="0"/>
+                                  <Component id="jLabel6" alignment="0" min="-2" pref="384" max="-2" attributes="0"/>
+                                  <Component id="jLabel8" alignment="0" min="-2" pref="384" max="-2" attributes="0"/>
+                                  <Component id="jLabel7" alignment="0" min="-2" pref="384" max="-2" attributes="0"/>
+                                  <Component id="jLabel9" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace max="32767" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jLabel11" min="-2" max="-2" attributes="0"/>
-                                  <Component id="keter" min="-2" pref="314" max="-2" attributes="0"/>
-                              </Group>
+                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                           </Group>
+                          <Component id="stts" alignment="0" max="32767" attributes="0"/>
+                          <Component id="keter" max="32767" attributes="0"/>
+                          <Component id="edit" max="32767" attributes="0"/>
+                          <Component id="save" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
@@ -79,9 +75,9 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
               <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="32767" attributes="0"/>
-              <Component id="jScrollPane2" min="-2" pref="115" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
+              <Component id="jScrollPane2" min="-2" pref="80" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
               <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="spl" min="-2" pref="30" max="-2" attributes="0"/>
@@ -89,7 +85,7 @@
               <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="namkar" min="-2" pref="30" max="-2" attributes="0"/>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
               <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="tgl" min="-2" pref="30" max="-2" attributes="0"/>
@@ -103,27 +99,25 @@
               <Component id="selesai" min="-2" pref="34" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jLabel7" min="-2" max="-2" attributes="0"/>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
               <Component id="jScrollPane1" min="-2" pref="65" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jLabel10" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="persetujuan" min="-2" pref="30" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="jLabel9" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jLabel11" alignment="3" min="-2" max="-2" attributes="0"/>
-              </Group>
+              <Component id="jLabel9" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="stts" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
-                  <Component id="keter" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
-              <Component id="save" min="-2" pref="32" max="-2" attributes="0"/>
+              <Component id="stts" min="-2" pref="30" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="edit" min="-2" pref="32" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
+              <Component id="jLabel11" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="keter" min="-2" pref="30" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="save" min="-2" pref="26" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="edit" min="-2" pref="26" max="-2" attributes="0"/>
+              <EmptySpace pref="30" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
