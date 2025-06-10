@@ -8,6 +8,9 @@ import constant.Constants;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import javax.swing.JOptionPane;
+import java.text.NumberFormat;
+import java.util.Locale;
+
 
 /**
  *
@@ -22,7 +25,7 @@ public class Gaji extends javax.swing.JPanel {
 
             nik.setEnabled(false);
             name.setEnabled(false);
-            pokok.setEnabled(false);
+            gaji.setEnabled(false);
             tunjangan.setEnabled(false);
             total.setEnabled(false);
     }
@@ -37,20 +40,21 @@ public class Gaji extends javax.swing.JPanel {
 
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        nik = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         name = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        pokok = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         tunjangan = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
-        jButton3 = new javax.swing.JButton();
+        gaji = new javax.swing.JTextField();
         total = new javax.swing.JTextField();
-        bulan = new com.toedter.calendar.JMonthChooser();
-        thn = new com.toedter.calendar.JYearChooser();
+        jButton2 = new javax.swing.JButton();
+        nik = new javax.swing.JTextField();
+        tahun = new javax.swing.JComboBox<>();
+        bulan = new javax.swing.JComboBox<>();
+        jButton9 = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(255, 253, 246));
 
@@ -62,12 +66,6 @@ public class Gaji extends javax.swing.JPanel {
         jLabel2.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(30, 30, 30));
         jLabel2.setText("Nomor Induk Karyawan");
-
-        nik.setBackground(new java.awt.Color(255, 253, 246));
-        nik.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
-        nik.setForeground(new java.awt.Color(30, 30, 30));
-        nik.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        nik.setPreferredSize(new java.awt.Dimension(64, 50));
 
         jLabel4.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(30, 30, 30));
@@ -92,12 +90,6 @@ public class Gaji extends javax.swing.JPanel {
         jLabel7.setForeground(new java.awt.Color(30, 30, 30));
         jLabel7.setText("Total");
 
-        pokok.setBackground(new java.awt.Color(255, 253, 246));
-        pokok.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
-        pokok.setForeground(new java.awt.Color(30, 30, 30));
-        pokok.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        pokok.setPreferredSize(new java.awt.Dimension(64, 50));
-
         jLabel8.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(30, 30, 30));
         jLabel8.setText("Tunjangan");
@@ -112,56 +104,95 @@ public class Gaji extends javax.swing.JPanel {
         jLabel9.setForeground(new java.awt.Color(30, 30, 30));
         jLabel9.setText("Tahun");
 
-        jButton3.setBackground(new java.awt.Color(0, 0, 102));
-        jButton3.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
-        jButton3.setForeground(new java.awt.Color(255, 255, 255));
-        jButton3.setText("Lihat Gaji");
-        jButton3.setBorderPainted(false);
-        jButton3.setPreferredSize(new java.awt.Dimension(0, 50));
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
-        });
+        gaji.setBackground(new java.awt.Color(255, 253, 246));
+        gaji.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
+        gaji.setForeground(new java.awt.Color(30, 30, 30));
+        gaji.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        gaji.setPreferredSize(new java.awt.Dimension(64, 50));
 
         total.setBackground(new java.awt.Color(255, 253, 246));
         total.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
         total.setForeground(new java.awt.Color(30, 30, 30));
         total.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         total.setPreferredSize(new java.awt.Dimension(64, 50));
-        
 
-        bulan.setForeground(new java.awt.Color(30, 30, 30));
+        jButton2.setBackground(new java.awt.Color(0, 0, 102));
+        jButton2.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
+        jButton2.setForeground(new java.awt.Color(255, 255, 255));
+        jButton2.setText("Cari");
+        jButton2.setBorderPainted(false);
+        jButton2.setPreferredSize(new java.awt.Dimension(0, 50));
 
-        thn.setBackground(new java.awt.Color(255, 253, 246));
+        nik.setBackground(new java.awt.Color(255, 253, 246));
+        nik.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
+        nik.setForeground(new java.awt.Color(30, 30, 30));
+        nik.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        nik.setPreferredSize(new java.awt.Dimension(64, 50));
+
+        tahun.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "2025", "2026", "2027", "2028" }));
+        tahun.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tahunActionPerformed(evt);
+            }
+        });
+
+        bulan.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "januari", "februari", "maret ", "april", "mei", "june", "july", "agustus", "sebtember", "oktober", "november", "desember" }));
+        bulan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bulanActionPerformed(evt);
+            }
+        });
+
+        jButton9.setBackground(new java.awt.Color(0, 0, 102));
+        jButton9.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
+        jButton9.setForeground(new java.awt.Color(255, 255, 255));
+        jButton9.setText("Cari");
+        jButton9.setBorderPainted(false);
+        jButton9.setPreferredSize(new java.awt.Dimension(0, 50));
+        jButton9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton9ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(total, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(name, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(tunjangan, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(pokok, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(gaji, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(nik, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(bulan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(thn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 384, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 384, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 384, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 384, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 384, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 384, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 384, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 297, Short.MAX_VALUE)))
-                .addContainerGap())
-            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jButton9, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(tahun, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 384, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 384, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 384, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 384, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 384, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 384, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 384, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(0, 232, Short.MAX_VALUE))
+                            .addComponent(tunjangan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(total, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(name, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap())))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(bulan, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addContainerGap()))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -172,25 +203,23 @@ public class Gaji extends javax.swing.JPanel {
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(nik, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(12, 12, 12)
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(name, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(bulan, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(40, 40, 40)
                 .addComponent(jLabel9)
+                .addGap(2, 2, 2)
+                .addComponent(tahun, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(thn, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pokok, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(gaji, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(12, 12, 12)
                 .addComponent(jLabel8)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(tunjangan, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -199,48 +228,77 @@ public class Gaji extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(total, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(51, Short.MAX_VALUE))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(244, 244, 244)
+                    .addComponent(bulan, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(381, Short.MAX_VALUE)))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-    try {
-        int bulanDipilih = bulan.getMonth() + 1; // getMonth() dimulai dari 0
-        int tahunDipilih = thn.getYear();
-        String bulanStr = String.format("%02d", bulanDipilih);
-        String tahunStr = String.valueOf(tahunDipilih);
+       
+    }//GEN-LAST:event_jButton3ActionPerformed
 
-        String sql = """
-            SELECT gaji_pokok, tunjangan, total 
-            FROM tb_gaji 
-            WHERE id_karyawan = ? AND bulan = ? AND tahun = ? AND record_flag = 'N'
-        """;
-        PreparedStatement ps = conn.prepareStatement(sql);
-        ps.setInt(1, loginn.idKaryawanLogin);
-        ps.setString(2, bulanStr);
-        ps.setString(3, tahunStr);
+    private void tahunActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tahunActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tahunActionPerformed
 
-        ResultSet rs = ps.executeQuery();
+    private void bulanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bulanActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_bulanActionPerformed
 
-        if (rs.next()) {
-            pokok.setText(String.valueOf(rs.getInt("gaji_pokok")));
-            tunjangan.setText(String.valueOf(rs.getInt("tunjangan")));
-            total.setText(String.valueOf(rs.getInt("total")));
-        } else {
-            JOptionPane.showMessageDialog(this, "Data gaji tidak ditemukan.");
-            pokok.setText("");
-            tunjangan.setText("");
-            total.setText("");
+    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+        int idKaryawan = loginn.idKaryawanLogin;
+        String selectedBulan = bulan.getSelectedItem().toString().toLowerCase().trim();
+        String selectedTahun = tahun.getSelectedItem().toString();
+
+        try {
+            String sql = """
+                SELECT G.tunjangan, J.gapok
+                FROM tb_gaji G
+                JOIN tb_karyawan K ON G.id_karyawan = K.id_karyawan
+                JOIN tb_jabatan J ON K.id_jabatan = J.id_jabatan
+                WHERE K.id_karyawan = ? AND LOWER(G.bulan) = ? AND G.tahun = ?
+            """;
+
+            PreparedStatement pst = conn.prepareStatement(sql);
+            pst.setInt(1, idKaryawan);
+            pst.setString(2, selectedBulan);
+            pst.setString(3, selectedTahun);
+
+            ResultSet rs = pst.executeQuery();
+            if (rs.next()) {
+            int tunjanganVal = rs.getInt("tunjangan");
+            int gapokVal = rs.getInt("gapok");
+
+            NumberFormat rupiah = NumberFormat.getCurrencyInstance(new Locale("id", "ID"));
+
+            gaji.setText(rupiah.format(gapokVal));
+            tunjangan.setText(rupiah.format(tunjanganVal));
+            total.setText(rupiah.format(gapokVal + tunjanganVal));
+            } else {
+                JOptionPane.showMessageDialog(this, "Data gaji tidak ditemukan.");
+                gaji.setText("");
+                tunjangan.setText("");
+                total.setText("");
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
         }
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, "Terjadi kesalahan: " + e.getMessage());
-    }//GEN-LAST:event_jButton3ActionPerformed
-
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_jButton9ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private com.toedter.calendar.JMonthChooser bulan;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JComboBox<String> bulan;
+    private javax.swing.JTextField gaji;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton9;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
@@ -251,8 +309,7 @@ public class Gaji extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JTextField name;
     private javax.swing.JTextField nik;
-    private javax.swing.JTextField pokok;
-    private com.toedter.calendar.JYearChooser thn;
+    private javax.swing.JComboBox<String> tahun;
     private javax.swing.JTextField total;
     private javax.swing.JTextField tunjangan;
     // End of variables declaration//GEN-END:variables

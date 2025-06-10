@@ -232,7 +232,7 @@ public class loginn extends javax.swing.JFrame {
                 if (role.equalsIgnoreCase("admin")) {
                     d.aksesAdmin();
                 } else if (role.equalsIgnoreCase("user")) {
-                    if (jabatan.equalsIgnoreCase("staff it")) {
+                    if (jabatan.equalsIgnoreCase("staff")) {
                         d.aksesStaff();
                     } else if (jabatan.equalsIgnoreCase("manager")) {
                         d.aksesManager();
@@ -243,17 +243,6 @@ public class loginn extends javax.swing.JFrame {
                 this.dispose();
 
             }
-
-//            if(rs.next()){
-         ////                role = rs.getString("role_cd");
-////                System.out.println("INI ROLE : " + role);
-////                Dashboard d = new Dashboard(nomor, nama, role);
-////                d.setVisible(true);
-//               
-//            }
-//            else{
-//                JOptionPane.showMessageDialog(null, "Tidak Berhasil Login");
-//            }   
         }catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Tidak dapat terhubunr pada login : " + e.getMessage());
         }
