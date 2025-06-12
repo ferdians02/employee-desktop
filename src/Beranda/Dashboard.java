@@ -21,6 +21,7 @@ public class Dashboard extends javax.swing.JFrame {
    private Atur_cuti atcut;
    private Atur_resign ares;
    private Atur_lembur alem;
+   private Laporan lapor;
    private String nik;
    private String name;
    
@@ -128,6 +129,15 @@ public class Dashboard extends javax.swing.JFrame {
         }
         jPanel2.removeAll();
         jPanel2.add(alem);
+        SwingUtilities.updateComponentTreeUI(jPanel2);
+    }
+   
+   public void setLaporan(){
+        if(lapor == null){
+            lapor = new Laporan(this);
+        }
+        jPanel2.removeAll();
+        jPanel2.add(lapor);
         SwingUtilities.updateComponentTreeUI(jPanel2);
     }
    
@@ -444,9 +454,9 @@ public class Dashboard extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 57, Short.MAX_VALUE)
-                    .addComponent(babs1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(10, 10, 10)
+                    .addComponent(babs1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(namaTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -707,6 +717,7 @@ public class Dashboard extends javax.swing.JFrame {
         bApvCuti.setBackground(new Color(44,44,44));
         bApvLembur.setBackground(new Color(44,44,44));
         bCariAbsen.setBackground(new Color(44,44,44));
+        setLaporan();
     }//GEN-LAST:event_blapActionPerformed
 
     private void babs1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_babs1ActionPerformed
