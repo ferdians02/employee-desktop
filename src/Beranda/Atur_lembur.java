@@ -288,7 +288,7 @@ public class Atur_lembur extends javax.swing.JPanel {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 45, Short.MAX_VALUE))
+                                .addGap(0, 70, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(selesai, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addContainerGap())))
@@ -310,7 +310,7 @@ public class Atur_lembur extends javax.swing.JPanel {
                                         .addGap(18, 18, 18)
                                         .addComponent(r))
                                     .addComponent(jLabel6))
-                                .addGap(0, 387, Short.MAX_VALUE))
+                                .addGap(0, 413, Short.MAX_VALUE))
                             .addComponent(tgl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -338,7 +338,7 @@ public class Atur_lembur extends javax.swing.JPanel {
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                     .addComponent(nikTxt1, javax.swing.GroupLayout.PREFERRED_SIZE, 346, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 372, Short.MAX_VALUE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 397, Short.MAX_VALUE)
                     .addContainerGap()))
         );
         layout.setVerticalGroup(
@@ -448,7 +448,7 @@ public class Atur_lembur extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(null, "Data berhasil SUBMIT");
 
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Erro : " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Error : " + e.getMessage());
         }
     }//GEN-LAST:event_SubmitActionPerformed
     

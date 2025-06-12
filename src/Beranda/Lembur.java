@@ -42,7 +42,7 @@ public class Lembur extends javax.swing.JPanel {
 
         namkar.setText(name);
         namkar.setEnabled(false);
-        spl.setEnabled(false);
+        
     }
 
     /**
@@ -55,8 +55,6 @@ public class Lembur extends javax.swing.JPanel {
 
         jSeparator1 = new javax.swing.JSeparator();
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        spl = new javax.swing.JTextField();
         save = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         namkar = new javax.swing.JTextField();
@@ -86,22 +84,6 @@ public class Lembur extends javax.swing.JPanel {
         jLabel1.setForeground(new java.awt.Color(30, 30, 30));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Pengisian Lembur");
-
-        jLabel2.setBackground(new java.awt.Color(30, 30, 30));
-        jLabel2.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(30, 30, 30));
-        jLabel2.setText("No Spl");
-
-        spl.setBackground(new java.awt.Color(255, 253, 246));
-        spl.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
-        spl.setForeground(new java.awt.Color(30, 30, 30));
-        spl.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        spl.setPreferredSize(new java.awt.Dimension(64, 50));
-        spl.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                splActionPerformed(evt);
-            }
-        });
 
         save.setBackground(new java.awt.Color(0, 0, 102));
         save.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
@@ -261,7 +243,6 @@ public class Lembur extends javax.swing.JPanel {
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jScrollPane1)
-                            .addComponent(spl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(namkar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(mulai, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(selesai, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -269,7 +250,6 @@ public class Lembur extends javax.swing.JPanel {
                             .addComponent(persetujuan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 384, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 384, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 384, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 384, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -290,11 +270,7 @@ public class Lembur extends javax.swing.JPanel {
                 .addComponent(jLabel1)
                 .addGap(15, 15, 15)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(spl, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(10, 10, 10)
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(namkar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -330,7 +306,7 @@ public class Lembur extends javax.swing.JPanel {
                 .addComponent(save, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(edit, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(30, Short.MAX_VALUE))
+                .addContainerGap(93, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -509,8 +485,7 @@ public class Lembur extends javax.swing.JPanel {
             ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
-                spl.setText(rs.getString("spl_no"));
-                spl.setEnabled(false);
+                
 
                 namkar.setText(rs.getString("nama_karyawan"));
                 tgl.setDate(rs.getDate("tanggal"));
@@ -708,17 +683,12 @@ public class Lembur extends javax.swing.JPanel {
     loadTbleClick();    // TODO add your handling code here:
     }//GEN-LAST:event_tblMouseClicked
 
-    private void splActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_splActionPerformed
-
-    }//GEN-LAST:event_splActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton edit;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -735,7 +705,6 @@ public class Lembur extends javax.swing.JPanel {
     private javax.swing.JTextField persetujuan;
     private javax.swing.JButton save;
     private javax.swing.JTextField selesai;
-    private javax.swing.JTextField spl;
     private javax.swing.JTextField stts;
     private javax.swing.JTable tbl;
     private com.toedter.calendar.JDateChooser tgl;

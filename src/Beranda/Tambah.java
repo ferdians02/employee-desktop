@@ -147,7 +147,6 @@ public class Tambah extends javax.swing.JPanel {
         divsi.setBackground(new java.awt.Color(0, 0, 102));
         divsi.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
         divsi.setForeground(new java.awt.Color(255, 255, 255));
-        divsi.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pilih" }));
         divsi.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 divsiActionPerformed(evt);
@@ -162,7 +161,6 @@ public class Tambah extends javax.swing.JPanel {
         jbtn.setBackground(new java.awt.Color(0, 0, 102));
         jbtn.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
         jbtn.setForeground(new java.awt.Color(255, 255, 255));
-        jbtn.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jbtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jbtnActionPerformed(evt);
@@ -192,7 +190,6 @@ public class Tambah extends javax.swing.JPanel {
         jenis.setBackground(new java.awt.Color(0, 0, 102));
         jenis.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
         jenis.setForeground(new java.awt.Color(255, 255, 255));
-        jenis.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jLabel9.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(30, 30, 30));
@@ -485,7 +482,7 @@ public class Tambah extends javax.swing.JPanel {
             
             String empNik = getEmployeeNumber(nik);
             System.out.println("INI EMPLOYEE NUMBER : " + empNik);
-
+            
             Integer jabatanId = findJabatanName(namaJabatan);
             Integer divisiId = getDivisiId(divisi);
             if (empNik == null) {
@@ -499,9 +496,13 @@ public class Tambah extends javax.swing.JPanel {
 
                 if (divisiId != null) {
                     ps.setInt(2, divisiId);
+                    
+                    
                 }else{
                     return;
                 }
+                
+                
 
                 ps.setString(3, namaKaryawan);
                 ps.setString(4, jk);
@@ -529,11 +530,13 @@ public class Tambah extends javax.swing.JPanel {
             } else {
                 JOptionPane.showMessageDialog(null, "NIK sudah ada");
             }
+            
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Tidak terhubung " + e.getMessage());
         }
 
+         
     }//GEN-LAST:event_addKaryawanActionPerformed
 
     private void loadTbleClick() {
@@ -684,11 +687,14 @@ public class Tambah extends javax.swing.JPanel {
 
 //    COMBO BOX
     private String comboDivBox() {
+        divsi.addItem("Pilih");
         divsi.addItem("IT");
         divsi.addItem("QA");
         divsi.addItem("ADMINISTRASI");
         divsi.addItem("KEUANGAN");
         divsi.addItem("GUDANG");
+        
+        
 
         String val = divsi.getSelectedItem().toString();
 
