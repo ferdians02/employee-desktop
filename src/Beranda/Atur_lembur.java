@@ -1,9 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
 package Beranda;
-
 import Connect.ConnectDB;
 import Loginreg.*;
 import com.mysql.jdbc.Connection;
@@ -12,22 +7,18 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.text.SimpleDateFormat;
+import java.text.SimpleDateFormat;  
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-
 /**
  *
  * @author Dell
  */
 public class Atur_lembur extends javax.swing.JPanel {
-
     private Connection conn = (Connection) new ConnectDB().connect();
     private final Dashboard main;
-
     private String nama;
     private String nik;
-
     public Atur_lembur(Dashboard main, String nik, String name) {
         initComponents();
         this.main = main;
@@ -35,8 +26,6 @@ public class Atur_lembur extends javax.swing.JPanel {
         this.nik = nik;
         loadData(nik);
         buttonGroup();
-//        namaKar.setText(nama);
-//        namaKar.setEnabled(false);
         spl.setEnabled(false);
         persetujuan.setText(name);
     }

@@ -69,7 +69,7 @@ public class Dashboard extends javax.swing.JFrame {
     
    public void setCuti(){
        this.nik = noTxt.getText();
-       this.name = noTxt.getText();
+       this.name = namaTxt.getText();
         if(cuti == null){
             cuti = new Cuti(nik, name);
         }
@@ -107,7 +107,7 @@ public class Dashboard extends javax.swing.JFrame {
    
    public void setAtur_cuti(){
         if(atcut == null){
-            atcut = new Atur_cuti(this);
+            atcut = new Atur_cuti(this, nik, name);
         }
         jPanel2.removeAll();
         jPanel2.add(atcut);
@@ -116,7 +116,7 @@ public class Dashboard extends javax.swing.JFrame {
    
    public void setAtur_resign(){
         if(ares == null){
-            ares = new Atur_resign(this);
+            ares = new Atur_resign(this, nik, name);
         }
         jPanel2.removeAll();
         jPanel2.add(ares);
@@ -196,6 +196,9 @@ public class Dashboard extends javax.swing.JFrame {
         bTambah.setVisible(true); // tambahan
     }
 
+    public void logout(){
+        bApvResign.setVisible(false);
+    }
 
     
     /**
@@ -721,7 +724,7 @@ public class Dashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_blapActionPerformed
 
     private void babs1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_babs1ActionPerformed
-        // TODO add your handling code here:
+       
     }//GEN-LAST:event_babs1ActionPerformed
 
     /**

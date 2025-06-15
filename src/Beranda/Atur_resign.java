@@ -1,28 +1,141 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
-package Beranda;
-
-import Connect.ConnectDB;
-import Loginreg.*;
-import com.mysql.jdbc.Connection;
-import com.mysql.jdbc.Statement;
-import constant.Constants;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import javax.swing.JOptionPane;
+    package Beranda;
+    import Connect.ConnectDB;
+    import Loginreg.*;
+    import com.mysql.jdbc.Connection;
+    import constant.Constants;
+    import java.sql.Date;
+    import java.sql.PreparedStatement;
+    import java.sql.ResultSet;
+    import java.sql.Statement;
+    import java.text.SimpleDateFormat;
+    import javax.swing.JOptionPane;
+    import javax.swing.RowFilter;
+    import javax.swing.table.DefaultTableModel;
+    import javax.swing.table.TableRowSorter;
 
 /**
  *
  * @author Dell
  */
 public class Atur_resign extends javax.swing.JPanel {
-    
-    private Dashboard main;
-    public Atur_resign(Dashboard main) {
+        private Connection conn = (Connection) new ConnectDB().connect();
+        private final Dashboard main;
+        private String nama;
+        private String nik;
+        private String selectedIdResign;
+        public Atur_resign(Dashboard main, String nik, String name) {
         initComponents();
         this.main = main;
+        this.nama = name;
+        this.nik = nik;
+        loadData(nik);
+        
+        nik1.setEnabled(false);
+        name1.setEnabled(false);
+        tgl.setEnabled(false);
+        alasan.setEnabled(false);
+        persetujuan.setText(name);
+}
+
+    private void loadData(String nikAtasan) {
+    DefaultTableModel model = new DefaultTableModel();
+
+    model.addColumn("ID RESIGN");
+    model.addColumn("NIK");
+    model.addColumn("NAMA KARYAWAN");
+    model.addColumn("TANGGAL");
+    model.addColumn("ALASAN");
+
+    try {
+        String sql = """
+            SELECT
+                TR.id_resign,
+                TK.nik,
+                TK.nama_karyawan,
+                TR.tanggal,
+                TR.ket_resign
+            FROM tb_resign TR
+            INNER JOIN tb_karyawan TK ON TR.id_karyawan = TK.id_karyawan
+            INNER JOIN tb_karyawan TKA ON TKA.id_divisi = TK.id_divisi AND TKA.id_jabatan > TK.id_jabatan
+            WHERE TR.record_flag = 'N'
+              AND TR.approval_spv_by1 IS NULL
+              AND TKA.nik = ?
+            ORDER BY TR.id_resign DESC
+        """;
+
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setString(1, nikAtasan); // NIK atasan yang login
+        ResultSet rs = ps.executeQuery();
+
+        while (rs.next()) {
+            model.addRow(new Object[]{
+                rs.getString("id_resign"),
+                rs.getString("nik"),
+                rs.getString("nama_karyawan"),
+                rs.getDate("tanggal"),
+                rs.getString("ket_resign")
+            });
+        }
+
+        tbl.setModel(model);
+
+    } catch (Exception e) {
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(null, "Gagal load data resign: " + e.getMessage());
+    }
+}
+
+
+    private void loadTableClickResign() {
+    try {
+        int row = tbl.getSelectedRow();
+        if (row == -1) return;
+
+        String idResign = tbl.getModel().getValueAt(row, 0).toString(); // ambil dari kolom ID
+        this.selectedIdResign = idResign;
+
+        String sql = """
+            SELECT
+                TR.id_resign,
+                TK.nik,
+                TK.nama_karyawan,
+                TR.tanggal,
+                TR.ket_resign
+            FROM tb_resign TR
+            INNER JOIN tb_karyawan TK ON TR.id_karyawan = TK.id_karyawan
+            WHERE TR.id_resign = ?
+        """;
+
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setString(1, idResign);
+        ResultSet rs = ps.executeQuery();
+
+        if (rs.next()) {
+            nik1.setText(rs.getString("nik"));
+            name1.setText(rs.getString("nama_karyawan"));
+            tgl.setDate(rs.getDate("tanggal"));
+            alasan.setText(rs.getString("ket_resign"));
+        }
+
+    } catch (Exception e) {
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(null, "Gagal load data resign ke field: " + e.getMessage());
+    }
+}
+
+
+
+    private void kosong() {
+        selectedIdResign = null;
+        nik1.setText("");
+        name1.setText("");
+        tgl.setDate(null);
+        alasan.setText("");
+        desc.setText("");
+        s.setSelected(false);
+        td.setSelected(false);
+        r.setSelected(false);
+        persetujuan.setText(nama); // nama atasan login
     }
 
     /**
@@ -35,48 +148,40 @@ public class Atur_resign extends javax.swing.JPanel {
 
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        nik = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
-        name = new javax.swing.JTextField();
+        name1 = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        ket = new javax.swing.JTextArea();
+        alasan = new javax.swing.JTextArea();
         clear = new javax.swing.JButton();
         tgl = new com.toedter.calendar.JDateChooser();
         jLabel9 = new javax.swing.JLabel();
-        surat = new javax.swing.JTextField();
+        persetujuan = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
-        jCheckBox1 = new javax.swing.JCheckBox();
-        jCheckBox2 = new javax.swing.JCheckBox();
-        jCheckBox3 = new javax.swing.JCheckBox();
+        s = new javax.swing.JCheckBox();
+        td = new javax.swing.JCheckBox();
+        r = new javax.swing.JCheckBox();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tbl = new javax.swing.JTable();
         jLabel3 = new javax.swing.JLabel();
-        nikTxt1 = new javax.swing.JTextField();
+        cari = new javax.swing.JTextField();
         jButton3 = new javax.swing.JButton();
         jLabel11 = new javax.swing.JLabel();
         desc = new javax.swing.JTextField();
+        nik1 = new javax.swing.JTextField();
 
         setBackground(new java.awt.Color(255, 253, 246));
 
-        jLabel1.setBackground(new java.awt.Color(30, 30, 30));
         jLabel1.setFont(new java.awt.Font("Segoe UI Semibold", 0, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(30, 30, 30));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Approval Resign");
 
-        jLabel2.setBackground(new java.awt.Color(30, 30, 30));
         jLabel2.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(30, 30, 30));
         jLabel2.setText("Nomor Induk Karyawan");
-
-        nik.setBackground(new java.awt.Color(255, 253, 246));
-        nik.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
-        nik.setForeground(new java.awt.Color(30, 30, 30));
-        nik.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        nik.setPreferredSize(new java.awt.Dimension(64, 50));
 
         jButton1.setBackground(new java.awt.Color(0, 0, 102));
         jButton1.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
@@ -90,39 +195,36 @@ public class Atur_resign extends javax.swing.JPanel {
             }
         });
 
-        jLabel4.setBackground(new java.awt.Color(30, 30, 30));
         jLabel4.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(30, 30, 30));
         jLabel4.setText("Tanggal Resign");
 
-        name.setBackground(new java.awt.Color(255, 253, 246));
-        name.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
-        name.setForeground(new java.awt.Color(30, 30, 30));
-        name.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        name.setPreferredSize(new java.awt.Dimension(64, 50));
-        name.addActionListener(new java.awt.event.ActionListener() {
+        name1.setBackground(new java.awt.Color(255, 253, 246));
+        name1.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
+        name1.setForeground(new java.awt.Color(30, 30, 30));
+        name1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        name1.setPreferredSize(new java.awt.Dimension(64, 50));
+        name1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                nameActionPerformed(evt);
+                name1ActionPerformed(evt);
             }
         });
 
-        jLabel5.setBackground(new java.awt.Color(30, 30, 30));
         jLabel5.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(30, 30, 30));
         jLabel5.setText("Nama Karyawan");
 
-        jLabel7.setBackground(new java.awt.Color(30, 30, 30));
         jLabel7.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(30, 30, 30));
-        jLabel7.setText("Keterangan Resign");
+        jLabel7.setText("Alasan Resign");
 
-        ket.setBackground(new java.awt.Color(255, 253, 246));
-        ket.setColumns(20);
-        ket.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
-        ket.setForeground(new java.awt.Color(30, 30, 30));
-        ket.setRows(5);
-        ket.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jScrollPane1.setViewportView(ket);
+        alasan.setBackground(new java.awt.Color(255, 253, 246));
+        alasan.setColumns(20);
+        alasan.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
+        alasan.setForeground(new java.awt.Color(30, 30, 30));
+        alasan.setRows(5);
+        alasan.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jScrollPane1.setViewportView(alasan);
 
         clear.setBackground(new java.awt.Color(0, 0, 102));
         clear.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
@@ -139,39 +241,37 @@ public class Atur_resign extends javax.swing.JPanel {
         tgl.setBackground(new java.awt.Color(255, 253, 246));
         tgl.setForeground(new java.awt.Color(255, 255, 255));
 
-        jLabel9.setBackground(new java.awt.Color(30, 30, 30));
         jLabel9.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(30, 30, 30));
         jLabel9.setText("Keterangan");
 
-        surat.setBackground(new java.awt.Color(255, 253, 246));
-        surat.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
-        surat.setForeground(new java.awt.Color(30, 30, 30));
-        surat.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        surat.setPreferredSize(new java.awt.Dimension(64, 50));
+        persetujuan.setBackground(new java.awt.Color(255, 253, 246));
+        persetujuan.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
+        persetujuan.setForeground(new java.awt.Color(30, 30, 30));
+        persetujuan.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        persetujuan.setPreferredSize(new java.awt.Dimension(64, 50));
 
-        jLabel10.setBackground(new java.awt.Color(30, 30, 30));
         jLabel10.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(30, 30, 30));
         jLabel10.setText("Persetujuan");
 
-        jCheckBox1.setBackground(new java.awt.Color(255, 253, 246));
-        jCheckBox1.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
-        jCheckBox1.setForeground(new java.awt.Color(30, 30, 30));
-        jCheckBox1.setText("Disetujui");
+        s.setBackground(new java.awt.Color(255, 253, 246));
+        s.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
+        s.setForeground(new java.awt.Color(30, 30, 30));
+        s.setText("Disetujui");
 
-        jCheckBox2.setBackground(new java.awt.Color(255, 253, 246));
-        jCheckBox2.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
-        jCheckBox2.setForeground(new java.awt.Color(30, 30, 30));
-        jCheckBox2.setText("Tidak Disetujui");
+        td.setBackground(new java.awt.Color(255, 253, 246));
+        td.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
+        td.setForeground(new java.awt.Color(30, 30, 30));
+        td.setText("Tidak Disetujui");
 
-        jCheckBox3.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
-        jCheckBox3.setForeground(new java.awt.Color(30, 30, 30));
-        jCheckBox3.setText("Revisi");
+        r.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
+        r.setForeground(new java.awt.Color(30, 30, 30));
+        r.setText("Revisi");
 
-        jTable1.setBackground(new java.awt.Color(255, 253, 246));
-        jTable1.setForeground(new java.awt.Color(30, 30, 30));
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tbl.setBackground(new java.awt.Color(255, 253, 246));
+        tbl.setForeground(new java.awt.Color(30, 30, 30));
+        tbl.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -182,18 +282,22 @@ public class Atur_resign extends javax.swing.JPanel {
                 "Nomor Induk Karyawan", "Nama Karyawan", "Tanggal resign", "Persetujuan"
             }
         ));
-        jScrollPane2.setViewportView(jTable1);
+        tbl.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblMouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(tbl);
 
-        jLabel3.setBackground(new java.awt.Color(30, 30, 30));
         jLabel3.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(30, 30, 30));
         jLabel3.setText("Cari :");
 
-        nikTxt1.setBackground(new java.awt.Color(255, 253, 246));
-        nikTxt1.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
-        nikTxt1.setForeground(new java.awt.Color(30, 30, 30));
-        nikTxt1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        nikTxt1.setPreferredSize(new java.awt.Dimension(64, 50));
+        cari.setBackground(new java.awt.Color(255, 253, 246));
+        cari.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
+        cari.setForeground(new java.awt.Color(30, 30, 30));
+        cari.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        cari.setPreferredSize(new java.awt.Dimension(64, 50));
 
         jButton3.setBackground(new java.awt.Color(0, 0, 102));
         jButton3.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
@@ -207,7 +311,6 @@ public class Atur_resign extends javax.swing.JPanel {
             }
         });
 
-        jLabel11.setBackground(new java.awt.Color(30, 30, 30));
         jLabel11.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
         jLabel11.setForeground(new java.awt.Color(30, 30, 30));
         jLabel11.setText("Keterangan");
@@ -217,6 +320,17 @@ public class Atur_resign extends javax.swing.JPanel {
         desc.setForeground(new java.awt.Color(30, 30, 30));
         desc.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         desc.setPreferredSize(new java.awt.Dimension(64, 50));
+
+        nik1.setBackground(new java.awt.Color(255, 253, 246));
+        nik1.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
+        nik1.setForeground(new java.awt.Color(30, 30, 30));
+        nik1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        nik1.setPreferredSize(new java.awt.Dimension(64, 50));
+        nik1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nik1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -228,39 +342,39 @@ public class Atur_resign extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jCheckBox1)
+                                .addComponent(s)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jCheckBox2)
+                                .addComponent(td)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jCheckBox3))
+                                .addComponent(r))
                             .addComponent(jLabel9)
                             .addComponent(jLabel10))
                         .addGap(414, 498, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(nik1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                 .addComponent(jLabel3)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(nikTxt1, javax.swing.GroupLayout.PREFERRED_SIZE, 346, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(cari, javax.swing.GroupLayout.PREFERRED_SIZE, 346, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addComponent(clear, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jScrollPane1)
-                            .addComponent(tgl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jScrollPane2)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(nik, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(name, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(layout.createSequentialGroup()
+                            .addComponent(clear, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(tgl, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(name1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 384, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(surat, javax.swing.GroupLayout.PREFERRED_SIZE, 377, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addComponent(persetujuan, javax.swing.GroupLayout.PREFERRED_SIZE, 377, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -276,18 +390,18 @@ public class Atur_resign extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel3)
-                        .addComponent(nikTxt1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(cari, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(15, 15, 15)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(nik, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(nik1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(name, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(name1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(15, 15, 15)
                 .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -301,7 +415,7 @@ public class Atur_resign extends javax.swing.JPanel {
                         .addGap(10, 10, 10)
                         .addComponent(jLabel10)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(surat, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(persetujuan, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel11)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -310,9 +424,9 @@ public class Atur_resign extends javax.swing.JPanel {
                 .addComponent(jLabel9)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jCheckBox1)
-                    .addComponent(jCheckBox2)
-                    .addComponent(jCheckBox3))
+                    .addComponent(s)
+                    .addComponent(td)
+                    .addComponent(r))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -322,31 +436,92 @@ public class Atur_resign extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-     
+        try {
+        String sql = """
+            UPDATE tb_resign
+            SET 
+                approval_spv_desc1 = ?,
+                update_by = ?,
+                update_at = ?,
+                approval_spv_by1 = ?,
+                approval_spv_on1 = ?,
+                record_flag = ?
+            WHERE id_resign = ?
+        """;
+
+        PreparedStatement ps = conn.prepareStatement(sql);
+
+        String status = null;
+        java.util.Date utilDate = new java.util.Date();
+        java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+
+        if (s.isSelected()) {
+            status = Constants.SPL_APPROVE; // misal: "Disetujui"
+        } else if (td.isSelected()) {
+            status = Constants.SPL_REJECT; // misal: "Ditolak"
+        } else if (r.isSelected()) {
+            status = Constants.SPL_REVISION; // misal: "Revisi"
+        }
+
+        // Parameter ke prepared statement
+        ps.setString(1, status);             // approval_spv_desc1
+        ps.setString(2, nik);                // update_by
+        ps.setDate(3, sqlDate);              // update_at
+        ps.setString(4, nik);                // approval_spv_by1
+        ps.setDate(5, sqlDate);              // approval_spv_on1
+        ps.setString(6, "U");                // record_flag (U = updated/approved)
+        ps.setString(7, selectedIdResign);   // ID resign (dari tabel klik)
+
+        ps.executeUpdate();
+        loadData(nik); // refresh tabel
+        JOptionPane.showMessageDialog(null, "Approval resign berhasil disubmit");
+        kosong();
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
+    }
     }//GEN-LAST:event_jButton1ActionPerformed
 
-
     private void clearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearActionPerformed
-        // TODO add your handling code here:
+        kosong();
     }//GEN-LAST:event_clearActionPerformed
 
-    private void nameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nameActionPerformed
+    private void name1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_name1ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_nameActionPerformed
+    }//GEN-LAST:event_name1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
+       String keyword = cari.getText().trim(); // txtCari = field input cari nama
+
+    DefaultTableModel model = (DefaultTableModel) tbl.getModel(); // tbl = JTable kamu
+    TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(model);
+    tbl.setRowSorter(sorter);
+
+    if (keyword.isEmpty()) {
+        sorter.setRowFilter(null); // tampilkan semua jika kosong
+    } else {
+        sorter.setRowFilter(RowFilter.regexFilter("(?i)" + keyword, 2)); // 2 = kolom "Nama Karyawan"
+    }
+
+    cari.setText("");
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void nik1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nik1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_nik1ActionPerformed
+
+    private void tblMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblMouseClicked
+       loadTableClickResign();
+    }//GEN-LAST:event_tblMouseClicked
                        
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextArea alasan;
+    private javax.swing.JTextField cari;
     private javax.swing.JButton clear;
     private javax.swing.JTextField desc;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton3;
-    private javax.swing.JCheckBox jCheckBox1;
-    private javax.swing.JCheckBox jCheckBox2;
-    private javax.swing.JCheckBox jCheckBox3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -358,12 +533,13 @@ public class Atur_resign extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextArea ket;
-    private javax.swing.JTextField name;
-    private javax.swing.JTextField nik;
-    private javax.swing.JTextField nikTxt1;
-    private javax.swing.JTextField surat;
+    private javax.swing.JTextField name1;
+    private javax.swing.JTextField nik1;
+    private javax.swing.JTextField persetujuan;
+    private javax.swing.JCheckBox r;
+    private javax.swing.JCheckBox s;
+    private javax.swing.JTable tbl;
+    private javax.swing.JCheckBox td;
     private com.toedter.calendar.JDateChooser tgl;
     // End of variables declaration//GEN-END:variables
 }
