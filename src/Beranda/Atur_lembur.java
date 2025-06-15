@@ -70,13 +70,11 @@ public class Atur_lembur extends javax.swing.JPanel {
 
         setBackground(new java.awt.Color(255, 253, 246));
 
-        jLabel1.setBackground(new java.awt.Color(30, 30, 30));
         jLabel1.setFont(new java.awt.Font("Segoe UI Semibold", 0, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(30, 30, 30));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Approval Lembur");
 
-        jLabel2.setBackground(new java.awt.Color(30, 30, 30));
         jLabel2.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(30, 30, 30));
         jLabel2.setText("No Spl");
@@ -104,7 +102,6 @@ public class Atur_lembur extends javax.swing.JPanel {
             }
         });
 
-        jLabel4.setBackground(new java.awt.Color(30, 30, 30));
         jLabel4.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(30, 30, 30));
         jLabel4.setText("Tanggal");
@@ -121,17 +118,14 @@ public class Atur_lembur extends javax.swing.JPanel {
             }
         });
 
-        jLabel5.setBackground(new java.awt.Color(30, 30, 30));
         jLabel5.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(30, 30, 30));
         jLabel5.setText("Nama Karyawan");
 
-        jLabel6.setBackground(new java.awt.Color(30, 30, 30));
         jLabel6.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(30, 30, 30));
         jLabel6.setText("Jam Mulai");
 
-        jLabel7.setBackground(new java.awt.Color(30, 30, 30));
         jLabel7.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(30, 30, 30));
         jLabel7.setText("Keterangan");
@@ -155,7 +149,6 @@ public class Atur_lembur extends javax.swing.JPanel {
             }
         });
 
-        jLabel8.setBackground(new java.awt.Color(30, 30, 30));
         jLabel8.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(30, 30, 30));
         jLabel8.setText("Jam Selesai");
@@ -190,7 +183,6 @@ public class Atur_lembur extends javax.swing.JPanel {
         });
         jScrollPane2.setViewportView(tbl);
 
-        jLabel3.setBackground(new java.awt.Color(30, 30, 30));
         jLabel3.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(30, 30, 30));
         jLabel3.setText("Cari :");
@@ -213,7 +205,6 @@ public class Atur_lembur extends javax.swing.JPanel {
             }
         });
 
-        jLabel9.setBackground(new java.awt.Color(30, 30, 30));
         jLabel9.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(30, 30, 30));
         jLabel9.setText("Persetujuan");
@@ -223,8 +214,12 @@ public class Atur_lembur extends javax.swing.JPanel {
         persetujuan.setForeground(new java.awt.Color(30, 30, 30));
         persetujuan.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         persetujuan.setPreferredSize(new java.awt.Dimension(64, 50));
+        persetujuan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                persetujuanActionPerformed(evt);
+            }
+        });
 
-        jLabel10.setBackground(new java.awt.Color(30, 30, 30));
         jLabel10.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(30, 30, 30));
         jLabel10.setText("Status");
@@ -253,7 +248,6 @@ public class Atur_lembur extends javax.swing.JPanel {
         r.setForeground(new java.awt.Color(30, 30, 30));
         r.setText("Revisi");
 
-        jLabel11.setBackground(new java.awt.Color(30, 30, 30));
         jLabel11.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
         jLabel11.setForeground(new java.awt.Color(30, 30, 30));
         jLabel11.setText("Keterangan");
@@ -469,7 +463,7 @@ public class Atur_lembur extends javax.swing.JPanel {
                                 INNER JOIN TB_JABATAN TJ ON TK.ID_JABATAN = TJ.ID_JABATAN
                                                   
                                 INNER JOIN TB_KARYAWAN TKA ON TKA.ID_DIVISI = TK.ID_DIVISI AND 
-                                TKA.ID_JABATAN > TK.ID_JABATAN  
+                                TKA.ID_JABATAN = TK.ID_JABATAN + 1
                                 INNER JOIN TB_JABATAN TJA ON TKA.ID_JABATAN = TJA.ID_JABATAN 
                                 WHERE TL.status_lembur = 'Waiting for approve'
                                 AND TKA.NIK = ?
@@ -528,7 +522,7 @@ public class Atur_lembur extends javax.swing.JPanel {
                                 INNER JOIN TB_JABATAN TJ ON TK.ID_JABATAN = TJ.ID_JABATAN
                                                   
                                 INNER JOIN TB_KARYAWAN TKA ON TKA.ID_DIVISI = TK.ID_DIVISI AND 
-                                TKA.ID_JABATAN > TK.ID_JABATAN  
+                                TKA.ID_JABATAN = TK.ID_JABATAN + 1 
                                 INNER JOIN TB_JABATAN TJA ON TKA.ID_JABATAN = TJA.ID_JABATAN 
                                 WHERE TL.status_lembur = 'Waiting for approve'
                                 
@@ -577,7 +571,7 @@ public class Atur_lembur extends javax.swing.JPanel {
                                 INNER JOIN TB_JABATAN TJ ON TK.ID_JABATAN = TJ.ID_JABATAN
                                                                                                        
                                 INNER JOIN TB_KARYAWAN TKA ON TKA.ID_DIVISI = TK.ID_DIVISI AND 
-                                TKA.ID_JABATAN > TK.ID_JABATAN  
+                                TKA.ID_JABATAN = TK.ID_JABATAN + 1  
                                 INNER JOIN TB_JABATAN TJA ON TKA.ID_JABATAN = TJA.ID_JABATAN 
                                 WHERE TK.NIK = ?
                                 """;
@@ -655,6 +649,10 @@ public class Atur_lembur extends javax.swing.JPanel {
         // TODO add your handling code here:
         loadTbleClick();
     }//GEN-LAST:event_tblMouseClicked
+
+    private void persetujuanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_persetujuanActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_persetujuanActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

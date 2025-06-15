@@ -204,6 +204,11 @@ public class Lembur extends javax.swing.JPanel {
         persetujuan.setForeground(new java.awt.Color(30, 30, 30));
         persetujuan.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         persetujuan.setPreferredSize(new java.awt.Dimension(64, 50));
+        persetujuan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                persetujuanActionPerformed(evt);
+            }
+        });
 
         jLabel9.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(30, 30, 30));
@@ -682,6 +687,10 @@ public class Lembur extends javax.swing.JPanel {
     private void tblMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblMouseClicked
     loadTbleClick();    // TODO add your handling code here:
     }//GEN-LAST:event_tblMouseClicked
+
+    private void persetujuanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_persetujuanActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_persetujuanActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
