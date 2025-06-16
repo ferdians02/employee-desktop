@@ -40,6 +40,9 @@ public class Lembur extends javax.swing.JPanel {
         loadData(nik);
 //        loadData2();
 
+        persetujuan.setEnabled(true);
+        stts.setEnabled(true);
+        keter.setEnabled(true);
         namkar.setText(name);
         namkar.setEnabled(false);
         

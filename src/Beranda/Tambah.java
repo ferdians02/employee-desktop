@@ -677,6 +677,7 @@ public class Tambah extends javax.swing.JPanel {
 
     private void clear() {
         nikKar.setText("");
+        nikKar.setEnabled(true);
         namaKar.setText("");
         no.setText("");
         almt.setText("");

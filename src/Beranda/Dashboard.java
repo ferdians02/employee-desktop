@@ -1,7 +1,9 @@
 package Beranda;
 
+import Loginreg.loginn;
 import com.formdev.flatlaf.FlatDarkLaf;
 import java.awt.Color;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 
@@ -196,9 +198,20 @@ public class Dashboard extends javax.swing.JFrame {
         bTambah.setVisible(true); // tambahan
     }
 
-    public void logout(){
-        bApvResign.setVisible(false);
+    public void logout() {
+        int confirm = JOptionPane.showConfirmDialog(
+            this,
+            "Apakah Anda yakin ingin logout?",
+            "Konfirmasi Logout",
+            JOptionPane.YES_NO_OPTION
+        );
+
+        if (confirm == JOptionPane.YES_OPTION) {
+            new loginn().setVisible(true); // ⬅️ Tampilkan form login lagi
+            this.dispose();                // ⬅️ Tutup Dashboard
+        }
     }
+
 
     
     /**
@@ -724,7 +737,7 @@ public class Dashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_blapActionPerformed
 
     private void babs1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_babs1ActionPerformed
-       
+       logout();
     }//GEN-LAST:event_babs1ActionPerformed
 
     /**

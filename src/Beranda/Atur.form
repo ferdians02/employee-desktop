@@ -155,7 +155,7 @@
               <Color blue="1e" green="1e" red="1e" type="rgb"/>
             </Property>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-              <Table columnCount="6" rowCount="4">
+              <Table columnCount="6" rowCount="30">
                 <Column editable="true" title="Nomor Induk Karyawa" type="java.lang.Object"/>
                 <Column editable="true" title="Nama" type="java.lang.Object"/>
                 <Column editable="true" title="Divisi" type="java.lang.Object"/>
@@ -177,7 +177,7 @@
                   <Renderer/>
                 </Column>
                 <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                  <Title value="Divisi"/>
+                  <Title/>
                   <Editor/>
                   <Renderer/>
                 </Column>
@@ -187,12 +187,12 @@
                   <Renderer/>
                 </Column>
                 <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                  <Title value="tunjangan"/>
+                  <Title/>
                   <Editor/>
                   <Renderer/>
                 </Column>
                 <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                  <Title value="Gaji"/>
+                  <Title/>
                   <Editor/>
                   <Renderer/>
                 </Column>
@@ -455,7 +455,7 @@
               <Color blue="1e" green="1e" red="1e" type="rgb"/>
             </Property>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-              <Table columnCount="3" rowCount="4">
+              <Table columnCount="3" rowCount="30">
                 <Column editable="true" title="Nomor Induk Karyawa" type="java.lang.Object"/>
                 <Column editable="true" title="Nama" type="java.lang.Object"/>
                 <Column editable="true" title="Jabatan" type="java.lang.Object"/>
