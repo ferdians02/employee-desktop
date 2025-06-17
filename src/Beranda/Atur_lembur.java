@@ -436,63 +436,91 @@ public class Atur_lembur extends javax.swing.JPanel {
     }//GEN-LAST:event_SubmitActionPerformed
     
     private void loadData(String no) {
-        DefaultTableModel model = new DefaultTableModel();
+    DefaultTableModel model = new DefaultTableModel();
 
-        model.addColumn("NO SPL");
-        model.addColumn("NIK");
-        model.addColumn("NAMA KARYAWAN");
-        model.addColumn("TANGGAL");
-        model.addColumn("JAM MULAI");
-        model.addColumn("JAM SELESAI");
-        model.addColumn("STATUS");
-        model.addColumn("ATASAN");
+    model.addColumn("NO SPL");
+    model.addColumn("NIK");
+    model.addColumn("NAMA KARYAWAN");
+    model.addColumn("TANGGAL");
+    model.addColumn("JAM MULAI");
+    model.addColumn("JAM SELESAI");
+    model.addColumn("STATUS");
+    model.addColumn("ATASAN");
 
-        try {
-            String sql = """
-                         SELECT
-                                TL.SPL_NO,
-                                TK.NIK,
-                                TK.NAMA_KARYAWAN,
-                                TL.TANGGAL,
-                                TL.JAM_MULAI,
-                                TL.JAM_SELESAI,
-                                TL.STATUS_LEMBUR,
-                                TKA.NAMA_KARYAWAN AS NAMA_ATASAN FROM TB_LEMBUR TL 
-                                INNER JOIN TB_KARYAWAN TK ON TL.ID_KARYAWAN = TK.ID_KARYAWAN
-                                INNER JOIN TB_DIVISI TD ON TK.ID_DIVISI = TD.ID_DIVISI
-                                INNER JOIN TB_JABATAN TJ ON TK.ID_JABATAN = TJ.ID_JABATAN
-                                                  
-                                INNER JOIN TB_KARYAWAN TKA ON TKA.ID_DIVISI = TK.ID_DIVISI AND 
-                                TKA.ID_JABATAN = TK.ID_JABATAN + 1
-                                INNER JOIN TB_JABATAN TJA ON TKA.ID_JABATAN = TJA.ID_JABATAN 
-                                WHERE TL.status_lembur = 'Waiting for approve'
-                                AND TKA.NIK = ?
-                         ORDER BY TL.ID_SPL
-                         
-                         """;
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, no);
-            ResultSet rs = ps.executeQuery();
+    try {
+        // Cek jabatan user login (berdasarkan NIK)
+        String sqlJabatan = """
+            SELECT J.id_jabatan, J.nama_jabatan
+            FROM tb_karyawan K
+            INNER JOIN tb_jabatan J ON K.id_jabatan = J.id_jabatan
+            WHERE K.nik = ?
+        """;
+        PreparedStatement psJabatan = conn.prepareStatement(sqlJabatan);
+        psJabatan.setString(1, no);
+        ResultSet rsJabatan = psJabatan.executeQuery();
 
-            while (rs.next()) {
-                model.addRow(new Object[]{
-                    rs.getString("SPL_NO"),
-                    rs.getString("NIK"),
-                    rs.getString("nama_karyawan"),
-                    rs.getDate("tanggal"),
-                    rs.getString("jam_mulai"),
-                    rs.getString("jam_selesai"),
-                    rs.getString("status_lembur"),
-                    rs.getString("nama_atasan")
-                });
-            }
-
-            tbl.setModel(model);
-
-        } catch (Exception e) {
-
+        int idJabatan = 0;
+        String namaJabatan = "";
+        if (rsJabatan.next()) {
+            idJabatan = rsJabatan.getInt("id_jabatan");
+            namaJabatan = rsJabatan.getString("nama_jabatan");
         }
+
+        String sql;
+        if (namaJabatan.equalsIgnoreCase("DIREKTUR UTAMA")) {
+            // Direktur bisa melihat semua data lembur
+            sql = """
+                SELECT TL.SPL_NO, TK.NIK, TK.NAMA_KARYAWAN, TL.TANGGAL,
+                       TL.JAM_MULAI, TL.JAM_SELESAI, TL.STATUS_LEMBUR,
+                       '' AS NAMA_ATASAN
+                FROM TB_LEMBUR TL
+                INNER JOIN TB_KARYAWAN TK ON TL.ID_KARYAWAN = TK.ID_KARYAWAN
+                WHERE TL.STATUS_LEMBUR = 'Waiting for approve'
+                ORDER BY TL.ID_SPL
+            """;
+        } else {
+            // Atasan biasa hanya bisa melihat bawahan satu divisi dan jabatan lebih rendah
+            sql = """
+                SELECT TL.SPL_NO, TK.NIK, TK.NAMA_KARYAWAN, TL.TANGGAL,
+                       TL.JAM_MULAI, TL.JAM_SELESAI, TL.STATUS_LEMBUR,
+                       TKA.NAMA_KARYAWAN AS NAMA_ATASAN
+                FROM TB_LEMBUR TL
+                INNER JOIN TB_KARYAWAN TK ON TL.ID_KARYAWAN = TK.ID_KARYAWAN
+                INNER JOIN TB_KARYAWAN TKA ON TKA.ID_DIVISI = TK.ID_DIVISI
+                                            AND TK.ID_JABATAN < TKA.ID_JABATAN
+                WHERE TL.STATUS_LEMBUR = 'Waiting for approve'
+                  AND TKA.NIK = ?
+                ORDER BY TL.ID_SPL
+            """;
+        }
+
+        PreparedStatement ps = conn.prepareStatement(sql);
+        if (!namaJabatan.equalsIgnoreCase("DIREKTUR UTAMA")) {
+            ps.setString(1, no);
+        }
+        ResultSet rs = ps.executeQuery();
+
+        while (rs.next()) {
+            model.addRow(new Object[]{
+                rs.getString("SPL_NO"),
+                rs.getString("NIK"),
+                rs.getString("NAMA_KARYAWAN"),
+                rs.getDate("TANGGAL"),
+                rs.getString("JAM_MULAI"),
+                rs.getString("JAM_SELESAI"),
+                rs.getString("STATUS_LEMBUR"),
+                rs.getString("NAMA_ATASAN")
+            });
+        }
+
+        tbl.setModel(model);
+
+    } catch (Exception e) {
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(null, "Gagal memuat data lembur: " + e.getMessage());
     }
+}
+
     
     private void loadData() {
         DefaultTableModel model = new DefaultTableModel();

@@ -51,29 +51,72 @@ import javax.swing.table.TableRowSorter;
     model.addColumn("ATASAN");
 
     try {
-        String sql = """
-            SELECT
-                C.id_cuti,
-                K.nik,
-                K.nama_karyawan,
-                C.tgl_awal,
-                C.tgl_akhir,
-                C.alasan,
-                C.lama_cuti,
-                KA.nama_karyawan AS nama_atasan
-            FROM tb_cuti C
-            INNER JOIN tb_karyawan K ON C.id_karyawan = K.id_karyawan
-            INNER JOIN tb_karyawan KA ON KA.id_divisi = K.id_divisi AND KA.id_jabatan > K.id_jabatan
-            WHERE C.record_flag = 'N'
-              AND C.approval_spv_by1 IS NULL
-              AND KA.nik = ?
-            ORDER BY C.id_cuti DESC
+        // Cek jabatan user yang login
+        String sqlJabatan = """
+            SELECT J.id_jabatan, J.nama_jabatan
+            FROM tb_karyawan K
+            INNER JOIN tb_jabatan J ON K.id_jabatan = J.id_jabatan
+            WHERE K.nik = ?
         """;
+        PreparedStatement psJabatan = conn.prepareStatement(sqlJabatan);
+        psJabatan.setString(1, nikAtasan);
+        ResultSet rsJabatan = psJabatan.executeQuery();
+
+        int idJabatan = 0;
+        String namaJabatan = "";
+        if (rsJabatan.next()) {
+            idJabatan = rsJabatan.getInt("id_jabatan");
+            namaJabatan = rsJabatan.getString("nama_jabatan");
+        }
+
+        String sql;
+        if (namaJabatan.equalsIgnoreCase("DIREKTUR UTAMA")) {
+            // Direktur bisa lihat semua data cuti
+            sql = """
+                SELECT
+                    C.id_cuti,
+                    K.nik,
+                    K.nama_karyawan,
+                    C.tgl_awal,
+                    C.tgl_akhir,
+                    C.alasan,
+                    C.lama_cuti,
+                    '' AS nama_atasan
+                FROM tb_cuti C
+                INNER JOIN tb_karyawan K ON C.id_karyawan = K.id_karyawan
+                WHERE C.record_flag = 'N'
+                  AND C.approval_spv_by1 IS NULL
+                ORDER BY C.id_cuti DESC
+            """;
+        } else {
+            // Atasan hanya bisa lihat bawahan yang satu divisi dan jabatan lebih rendah
+            sql = """
+                SELECT
+                    C.id_cuti,
+                    K.nik,
+                    K.nama_karyawan,
+                    C.tgl_awal,
+                    C.tgl_akhir,
+                    C.alasan,
+                    C.lama_cuti,
+                    KA.nama_karyawan AS nama_atasan
+                FROM tb_cuti C
+                INNER JOIN tb_karyawan K ON C.id_karyawan = K.id_karyawan
+                INNER JOIN tb_karyawan KA ON KA.id_divisi = K.id_divisi
+                                          AND K.id_jabatan < KA.id_jabatan
+                WHERE C.record_flag = 'N'
+                  AND C.approval_spv_by1 IS NULL
+                  AND KA.nik = ?
+                ORDER BY C.id_cuti DESC
+            """;
+        }
 
         PreparedStatement ps = conn.prepareStatement(sql);
-        ps.setString(1, nikAtasan);
-        ResultSet rs = ps.executeQuery();
+        if (!namaJabatan.equalsIgnoreCase("DIREKTUR UTAMA")) {
+            ps.setString(1, nikAtasan);
+        }
 
+        ResultSet rs = ps.executeQuery();
         while (rs.next()) {
             model.addRow(new Object[]{
                 rs.getString("id_cuti"),
@@ -87,17 +130,19 @@ import javax.swing.table.TableRowSorter;
             });
         }
 
-        tbl.setModel(model); // tbl adalah JTable kamu
+        tbl.setModel(model);
 
-        // Sembunyikan kolom ID CUTI (kolom ke-0)
+        // Sembunyikan kolom ID CUTI
         tbl.getColumnModel().getColumn(0).setMinWidth(0);
         tbl.getColumnModel().getColumn(0).setMaxWidth(0);
         tbl.getColumnModel().getColumn(0).setWidth(0);
+
     } catch (Exception e) {
         e.printStackTrace();
         JOptionPane.showMessageDialog(null, "Gagal memuat data cuti: " + e.getMessage());
     }
 }
+
 
     private void loadTableClickCuti() {
     try {

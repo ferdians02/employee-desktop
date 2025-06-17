@@ -169,6 +169,7 @@ public class Dashboard extends javax.swing.JFrame {
         bApvCuti.setVisible(true);
         bApvLembur.setVisible(true);
         bApvResign.setVisible(true);
+//        lapor.setVisible(true);
 }
 
     public void aksesStaff() {
@@ -183,6 +184,7 @@ public class Dashboard extends javax.swing.JFrame {
         bApvCuti.setVisible(false);
         bApvLembur.setVisible(false);
         bApvResign.setVisible(false);
+//        lapor.setVisible(false);
     }
 
     public void aksesManager() {

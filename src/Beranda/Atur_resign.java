@@ -39,7 +39,6 @@ public class Atur_resign extends javax.swing.JPanel {
 
     private void loadData(String nikAtasan) {
     DefaultTableModel model = new DefaultTableModel();
-
     model.addColumn("ID RESIGN");
     model.addColumn("NIK");
     model.addColumn("NAMA KARYAWAN");
@@ -47,24 +46,55 @@ public class Atur_resign extends javax.swing.JPanel {
     model.addColumn("ALASAN");
 
     try {
-        String sql = """
-            SELECT
-                TR.id_resign,
-                TK.nik,
-                TK.nama_karyawan,
-                TR.tanggal,
-                TR.ket_resign
-            FROM tb_resign TR
-            INNER JOIN tb_karyawan TK ON TR.id_karyawan = TK.id_karyawan
-            INNER JOIN tb_karyawan TKA ON TKA.id_divisi = TK.id_divisi AND TKA.id_jabatan > TK.id_jabatan
-            WHERE TR.record_flag = 'N'
-              AND TR.approval_spv_by1 IS NULL
-              AND TKA.nik = ?
-            ORDER BY TR.id_resign DESC
+        // Cek jabatan user login
+        String sqlJabatan = """
+            SELECT J.id_jabatan, J.nama_jabatan
+            FROM tb_karyawan K
+            INNER JOIN tb_jabatan J ON K.id_jabatan = J.id_jabatan
+            WHERE K.nik = ?
         """;
+        PreparedStatement psJabatan = conn.prepareStatement(sqlJabatan);
+        psJabatan.setString(1, nikAtasan);
+        ResultSet rsJabatan = psJabatan.executeQuery();
+
+        int idJabatan = 0;
+        String namaJabatan = "";
+        if (rsJabatan.next()) {
+            idJabatan = rsJabatan.getInt("id_jabatan");
+            namaJabatan = rsJabatan.getString("nama_jabatan");
+        }
+
+        // Buat query utama
+        String sql;
+        if (namaJabatan.equalsIgnoreCase("DIREKTUR UTAMA")) {
+            // Direktur bisa lihat semua data resign
+            sql = """
+                SELECT TR.id_resign, TK.nik, TK.nama_karyawan, TR.tanggal, TR.ket_resign
+                FROM tb_resign TR
+                INNER JOIN tb_karyawan TK ON TR.id_karyawan = TK.id_karyawan
+                WHERE TR.record_flag = 'N'
+                  AND TR.approval_spv_by1 IS NULL
+                ORDER BY TR.id_resign DESC
+            """;
+        } else {
+            // Atasan hanya bisa lihat bawahan satu divisi dan jabatan di bawahnya
+            sql = """
+                SELECT TR.id_resign, TK.nik, TK.nama_karyawan, TR.tanggal, TR.ket_resign
+                FROM tb_resign TR
+                INNER JOIN tb_karyawan TK ON TR.id_karyawan = TK.id_karyawan
+                INNER JOIN tb_karyawan TKA ON TKA.id_divisi = TK.id_divisi
+                                           AND TK.id_jabatan < TKA.id_jabatan
+                WHERE TR.record_flag = 'N'
+                  AND TR.approval_spv_by1 IS NULL
+                  AND TKA.nik = ?
+                ORDER BY TR.id_resign DESC
+            """;
+        }
 
         PreparedStatement ps = conn.prepareStatement(sql);
-        ps.setString(1, nikAtasan); // NIK atasan yang login
+        if (!namaJabatan.equalsIgnoreCase("DIREKTUR UTAMA")) {
+            ps.setString(1, nikAtasan);
+        }
         ResultSet rs = ps.executeQuery();
 
         while (rs.next()) {
@@ -84,6 +114,7 @@ public class Atur_resign extends javax.swing.JPanel {
         JOptionPane.showMessageDialog(null, "Gagal load data resign: " + e.getMessage());
     }
 }
+
 
 
     private void loadTableClickResign() {
