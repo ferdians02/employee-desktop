@@ -459,6 +459,7 @@ public class Lembur extends javax.swing.JPanel {
 
         }
     }
+    
     private void loadTbleClick() {
         try {
             String sql = """

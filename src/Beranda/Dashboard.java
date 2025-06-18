@@ -14,7 +14,7 @@ public class Dashboard extends javax.swing.JFrame {
    public static String jabatanLogin;
    private Absensi absen;
    private Lembur lembur;
-   private Cuti cuti;
+   private cuti cuti;
    private Gaji gaji;
    private Resign resign;
    private Tambah tambah;
@@ -73,7 +73,7 @@ public class Dashboard extends javax.swing.JFrame {
        this.nik = noTxt.getText();
        this.name = namaTxt.getText();
         if(cuti == null){
-            cuti = new Cuti(nik, name);
+            cuti = new cuti(nik, name);
         }
         jPanel2.removeAll();
         jPanel2.add(cuti);
