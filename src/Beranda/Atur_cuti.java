@@ -191,7 +191,7 @@ import javax.swing.table.TableRowSorter;
         akhir.setDate(null);
         alasan.setText("");
         lama.setText("");
-        desc.setText("");
+        ket.setText("");
         s.setSelected(false);
         td.setSelected(false);
         r.setSelected(false);
@@ -233,7 +233,7 @@ import javax.swing.table.TableRowSorter;
         jLabel8 = new javax.swing.JLabel();
         akhir = new com.toedter.calendar.JDateChooser();
         jLabel11 = new javax.swing.JLabel();
-        desc = new javax.swing.JTextField();
+        ket = new javax.swing.JTextField();
 
         setBackground(new java.awt.Color(255, 253, 246));
 
@@ -326,7 +326,7 @@ import javax.swing.table.TableRowSorter;
 
         jLabel10.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(30, 30, 30));
-        jLabel10.setText("Keterangan");
+        jLabel10.setText("Status");
 
         s.setBackground(new java.awt.Color(255, 253, 246));
         s.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
@@ -405,11 +405,11 @@ import javax.swing.table.TableRowSorter;
         jLabel11.setForeground(new java.awt.Color(30, 30, 30));
         jLabel11.setText("Keterangan");
 
-        desc.setBackground(new java.awt.Color(255, 253, 246));
-        desc.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
-        desc.setForeground(new java.awt.Color(30, 30, 30));
-        desc.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        desc.setPreferredSize(new java.awt.Dimension(64, 50));
+        ket.setBackground(new java.awt.Color(255, 253, 246));
+        ket.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
+        ket.setForeground(new java.awt.Color(30, 30, 30));
+        ket.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        ket.setPreferredSize(new java.awt.Dimension(64, 50));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -467,7 +467,7 @@ import javax.swing.table.TableRowSorter;
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(desc, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                    .addComponent(ket, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                         .addContainerGap())))
         );
         layout.setVerticalGroup(
@@ -528,7 +528,7 @@ import javax.swing.table.TableRowSorter;
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel11)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(desc, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(ket, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(25, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -562,48 +562,54 @@ import javax.swing.table.TableRowSorter;
         }//GEN-LAST:event_tdActionPerformed
 
     private void simpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_simpanActionPerformed
-            try {
-            String sql = """
-                UPDATE tb_cuti
-                SET 
-                    approval_spv_desc1 = ?,
-                    update_by = ?,
-                    update_at = ?,
-                    approval_spv_by1 = ?,
-                    approval_spv_on1 = ? 
-                WHERE id_cuti = ?
-            """;
+        try {
+        String sql = """
+            UPDATE tb_cuti
+            SET 
+                status_cuti = ?,              -- ubah jadi status_cuti
+                approval_spv_desc1 = ?,       -- isian dari textfield
+                update_by = ?,
+                update_at = ?,
+                approval_spv_by1 = ?,
+                approval_spv_on1 = ?
+            WHERE id_cuti = ?
+        """;
 
-            PreparedStatement ps = conn.prepareStatement(sql);
+        PreparedStatement ps = conn.prepareStatement(sql);
 
-            String status = null;
-            java.util.Date utilDate = new java.util.Date();
-            java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+        String status = null;
+        java.util.Date utilDate = new java.util.Date();
+        java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
 
-            if (s.isSelected()) {
-                status = Constants.SPL_APPROVE; // contoh: "Approve"
-            } else if (td.isSelected()) {
-                status = Constants.SPL_REJECT; // contoh: "Reject"
-            } else if (r.isSelected()) {
-                status = Constants.SPL_REVISION; // contoh: "Revision"
-            }
-
-            // isi parameter
-            ps.setString(1, status);         // approval_spv_desc1
-            ps.setString(2, nik);            // update_by
-            ps.setDate(3, sqlDate);          // update_at
-            ps.setString(4, nik);            // approval_spv_by1
-            ps.setDate(5, sqlDate);          // approval_spv_on1
-            ps.setString(6, selectedIdCuti); // ID cuti (dari klik tabel)
-
-            ps.executeUpdate();
-            loadData(nik); // refresh data
-            JOptionPane.showMessageDialog(null, "Data cuti berhasil disubmit");
-            kosong();
-
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
+        // Menentukan status dari radio button
+        if (s.isSelected()) {
+            status = Constants.SPL_APPROVE;    // "Approve"
+        } else if (td.isSelected()) {
+            status = Constants.SPL_REJECT;     // "Reject"
+        } else if (r.isSelected()) {
+            status = Constants.SPL_REVISION;   // "Revision"
         }
+
+        String keterangan = ket.getText(); // Ambil keterangan dari TextField
+
+        // Isi parameter
+        ps.setString(1, status);           // status_cuti
+        ps.setString(2, keterangan);       // approval_spv_desc1
+        ps.setString(3, loginn.jabatanLogin);              // update_by
+        ps.setDate(4, sqlDate);            // update_at
+        ps.setString(5, nama);              // approval_spv_by1
+        ps.setDate(6, sqlDate);            // approval_spv_on1
+        ps.setString(7, selectedIdCuti);   // ID cuti yang dipilih
+
+        ps.executeUpdate();
+
+        loadData(nik); // refresh data tabel
+        JOptionPane.showMessageDialog(null, "Data cuti berhasil disubmit");
+        kosong(); // clear inputan
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
+    }
     }//GEN-LAST:event_simpanActionPerformed
 
     private void tblMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblMouseClicked
@@ -617,7 +623,6 @@ import javax.swing.table.TableRowSorter;
     private com.toedter.calendar.JDateChooser awal;
     private javax.swing.JTextField cari;
     private javax.swing.JButton clear;
-    private javax.swing.JTextField desc;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -632,6 +637,7 @@ import javax.swing.table.TableRowSorter;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTextField ket;
     private javax.swing.JTextField lama;
     private javax.swing.JTextField name1;
     private javax.swing.JTextField nik1;

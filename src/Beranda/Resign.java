@@ -4,14 +4,15 @@
  */
 package Beranda;
 
-    import Connect.ConnectDB;
-    import Loginreg.*;
-    import com.mysql.jdbc.Connection;
-    import com.mysql.jdbc.Statement;
-    import constant.Constants;
-    import java.sql.PreparedStatement;
-    import java.sql.ResultSet;
-    import javax.swing.JOptionPane;
+        import Connect.ConnectDB;
+        import Loginreg.*;
+        import com.mysql.jdbc.Connection;
+        import com.mysql.jdbc.Statement;
+        import constant.Constants;
+        import java.sql.PreparedStatement;
+        import java.sql.ResultSet;
+        import javax.swing.JOptionPane;
+        import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -19,37 +20,81 @@ package Beranda;
  */
 public class Resign extends javax.swing.JPanel {
     private Connection conn = (Connection) new ConnectDB().connect();
+    public static int idKaryawanLogin;
+    public static String jabatanLogin;   
     public Resign(String nomor, String nama) {
         initComponents();
         nik.setText(nomor);
         name.setText(nama);
         
+        loadData();
         nik.setEnabled(false);
         name.setEnabled(false);
         persetujuan.setEnabled(false);
-        tgl.setDate(new java.util.Date());
+        tgl_resign.setDate(new java.util.Date());
     }
     
     private void kosong() {
-        tgl.setDate(new java.util.Date());
-        ket.setText("");
+         tgl_resign.setDate(new java.util.Date());
+         ket_resign.setText("");
+         persetujuan.setText("");
+         ket.setText("");
     }
 
-    private Integer cariId(String namaKaryawan) {
-    Integer id = null;
+    private void loadData() {
+    DefaultTableModel model = new DefaultTableModel();
+
+    model.addColumn("ID");
+    model.addColumn("NIK");
+    model.addColumn("Nama Karyawan");
+    model.addColumn("Tanggal");
+    model.addColumn("Keterangan");
+    model.addColumn("Status");
+    model.addColumn("Keterangan SPV");
+
     try {
-        String sql = "SELECT ID_KARYAWAN FROM TB_KARYAWAN WHERE NAMA_KARYAWAN = ?";
+        String sql = """
+            SELECT
+                r.id_resign,
+                k.nik,
+                k.nama_karyawan,
+                r.tanggal,
+                r.ket_resign,
+                r.status_resign,
+                r.approval_spv_desc1
+            FROM tb_resign r
+            JOIN tb_karyawan k ON r.id_karyawan = k.id_karyawan
+            WHERE r.id_karyawan = ?
+            ORDER BY r.id_resign DESC
+        """;
+
         PreparedStatement ps = conn.prepareStatement(sql);
-        ps.setString(1, namaKaryawan);
+        ps.setInt(1, loginn.idKaryawanLogin); // 💡 ambil ID user yang login
         ResultSet rs = ps.executeQuery();
-        if (rs.next()) {
-            id = rs.getInt("ID_KARYAWAN");
+
+        while (rs.next()) {
+            model.addRow(new Object[]{
+                rs.getInt("id_resign"),
+                rs.getString("nik"),
+                rs.getString("nama_karyawan"),
+                rs.getDate("tanggal"),
+                rs.getString("ket_resign"),
+                rs.getString("status_resign"),
+                rs.getString("approval_spv_desc1") != null ? rs.getString("approval_spv_desc1") : "-"
+            });
         }
+
+        tbl.setModel(model);
+
     } catch (Exception e) {
-        JOptionPane.showMessageDialog(null, "Gagal mendapatkan ID Karyawan: " + e.getMessage());
+        JOptionPane.showMessageDialog(this, "Gagal load data resign: " + e.getMessage());
     }
-    return id;
-    }
+}
+
+
+
+
+
 
 
     /**
@@ -69,13 +114,15 @@ public class Resign extends javax.swing.JPanel {
         jLabel5 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        ket = new javax.swing.JTextArea();
+        ket_resign = new javax.swing.JTextArea();
         clear = new javax.swing.JButton();
-        tgl = new com.toedter.calendar.JDateChooser();
+        tgl_resign = new com.toedter.calendar.JDateChooser();
         jLabel9 = new javax.swing.JLabel();
         persetujuan = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
-        persetujuan1 = new javax.swing.JTextField();
+        ket = new javax.swing.JTextField();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tbl = new javax.swing.JTable();
 
         setBackground(new java.awt.Color(255, 253, 246));
 
@@ -127,15 +174,15 @@ public class Resign extends javax.swing.JPanel {
 
         jLabel7.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(30, 30, 30));
-        jLabel7.setText("Keterangan Resign");
+        jLabel7.setText("Alasan Resign");
 
-        ket.setBackground(new java.awt.Color(255, 253, 246));
-        ket.setColumns(20);
-        ket.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
-        ket.setForeground(new java.awt.Color(30, 30, 30));
-        ket.setRows(5);
-        ket.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jScrollPane1.setViewportView(ket);
+        ket_resign.setBackground(new java.awt.Color(255, 253, 246));
+        ket_resign.setColumns(20);
+        ket_resign.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
+        ket_resign.setForeground(new java.awt.Color(30, 30, 30));
+        ket_resign.setRows(5);
+        ket_resign.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jScrollPane1.setViewportView(ket_resign);
 
         clear.setBackground(new java.awt.Color(0, 0, 102));
         clear.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
@@ -149,8 +196,8 @@ public class Resign extends javax.swing.JPanel {
             }
         });
 
-        tgl.setBackground(new java.awt.Color(255, 253, 246));
-        tgl.setForeground(new java.awt.Color(30, 30, 30));
+        tgl_resign.setBackground(new java.awt.Color(255, 253, 246));
+        tgl_resign.setForeground(new java.awt.Color(30, 30, 30));
 
         jLabel9.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(30, 30, 30));
@@ -166,20 +213,40 @@ public class Resign extends javax.swing.JPanel {
         jLabel10.setForeground(new java.awt.Color(30, 30, 30));
         jLabel10.setText("Persetujuan");
 
-        persetujuan1.setBackground(new java.awt.Color(255, 253, 246));
-        persetujuan1.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
-        persetujuan1.setForeground(new java.awt.Color(30, 30, 30));
-        persetujuan1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        persetujuan1.setPreferredSize(new java.awt.Dimension(64, 50));
+        ket.setBackground(new java.awt.Color(255, 253, 246));
+        ket.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
+        ket.setForeground(new java.awt.Color(30, 30, 30));
+        ket.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        ket.setPreferredSize(new java.awt.Dimension(64, 50));
+
+        tbl.setBackground(new java.awt.Color(255, 255, 255));
+        tbl.setForeground(new java.awt.Color(0, 0, 0));
+        tbl.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {},
+                {},
+                {},
+                {}
+            },
+            new String [] {
+
+            }
+        ));
+        tbl.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblMouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(tbl);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(0, 157, Short.MAX_VALUE)
+                .addGap(0, 153, Short.MAX_VALUE)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 384, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 157, Short.MAX_VALUE))
+                .addGap(0, 153, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -197,22 +264,25 @@ public class Resign extends javax.swing.JPanel {
                             .addComponent(jScrollPane1)
                             .addComponent(nik, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(name, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(tgl, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(tgl_resign, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel9)
                                     .addComponent(jLabel10))
                                 .addGap(530, 530, 530))
                             .addComponent(persetujuan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(persetujuan1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addContainerGap())))
+                            .addComponent(ket, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap())
+                    .addComponent(jScrollPane2)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(29, 29, 29)
+                .addContainerGap()
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(nik, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -223,56 +293,75 @@ public class Resign extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(tgl, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(tgl_resign, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel10)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(persetujuan, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel9)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(persetujuan1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(ket, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(10, 10, 10)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(clear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(29, 29, 29))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
                                 
-        private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        System.out.println("Tombol Ajukan Resign ditekan"); // Debug log
-    try {
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        try {
         String sql = """
-            INSERT INTO TB_RESIGN 
-            (ID_KARYAWAN, TANGGAL, KET_RESIGN, CREATE_BY, CREATE_AT, RECORD_FLAG)
-            VALUES (?, ?, ?, ?, ?, ?)
+            INSERT INTO tb_resign (
+                id_karyawan,
+                ket_resign,
+                tanggal,
+                status_resign,
+                create_by,
+                create_at,
+                record_flag
+            ) VALUES (?, ?, ?, ?, ?, ?, ?)
         """;
 
-        PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+        PreparedStatement ps = conn.prepareStatement(sql);
 
-        int idKaryawan = cariId(name.getText());
-        java.sql.Date tanggal = new java.sql.Date(tgl.getDate().getTime());
-        String keterangan = ket.getText();
-        String suratPath = persetujuan.getText();
+        // Ambil data dari form
+        java.util.Date tgl = tgl_resign.getDate();
+        if (tgl == null) {
+            JOptionPane.showMessageDialog(this, "Tanggal resign harus diisi!");
+            return;
+        }
 
-        ps.setInt(1, idKaryawan);
-        ps.setDate(2, tanggal);
-        ps.setString(3, keterangan);
-        ps.setString(4, "Admin");
-        ps.setDate(5, new java.sql.Date(new java.util.Date().getTime()));
-        ps.setString(6, Constants.RECORD_FLAG_N);
+        String alasan = ket_resign.getText().trim();
+        if (alasan.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Keterangan resign harus diisi!");
+            return;
+        }
+
+        java.sql.Date sqlDate = new java.sql.Date(tgl.getTime());
+
+        // ⬇ Ini bagian penting yang kamu ubah
+        ps.setInt(1, loginn.idKaryawanLogin);   // id_karyawan
+        ps.setString(2, alasan);                // ket_resign
+        ps.setDate(3, sqlDate);                 // tanggal resign
+        ps.setString(4, "Waiting for approve"); // status_resign
+        ps.setString(5, loginn.jabatanLogin);   // ✅ create_by = jabatan
+        ps.setDate(6, new java.sql.Date(System.currentTimeMillis())); // create_at
+        ps.setString(7, "N");                   // record_flag
 
         ps.executeUpdate();
-        JOptionPane.showMessageDialog(null, "Pengajuan resign berhasil disimpan.");
+
+        JOptionPane.showMessageDialog(this, "Pengajuan resign berhasil dikirim!");
         kosong();
+        loadData();
 
     } catch (Exception e) {
-        JOptionPane.showMessageDialog(null, "Gagal menyimpan pengajuan resign: " + e.getMessage());
+        JOptionPane.showMessageDialog(this, "Gagal mengirim pengajuan: " + e.getMessage());
     }
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -284,6 +373,30 @@ public class Resign extends javax.swing.JPanel {
     private void nameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nameActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_nameActionPerformed
+
+    private void tblMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblMouseClicked
+        int row = tbl.getSelectedRow(); // Ganti jadi 'tbl'
+        if (row >= 0) {
+            try {
+                String tanggal = tbl.getValueAt(row, 3).toString();         // kolom Tanggal
+                String keterangan = tbl.getValueAt(row, 4).toString();      // kolom Keterangan Resign
+                String status = tbl.getValueAt(row, 5).toString();          // kolom Status Resign
+                String approval = tbl.getValueAt(row, 6).toString();        // kolom Keterangan SPV
+
+                // Konversi tanggal string ke java.util.Date
+                java.util.Date date = new java.text.SimpleDateFormat("yyyy-MM-dd").parse(tanggal);
+
+                // Isi ke form
+                tgl_resign.setDate(date);           // JDateChooser
+                ket_resign.setText(keterangan);     // JTextArea atau JTextField
+                persetujuan.setText(status);      // JLabel / JTextField
+                ket.setText(approval);     // JTextArea / JTextField
+
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Gagal ambil data resign: " + e.getMessage());
+            }
+        }
+  }//GEN-LAST:event_tblMouseClicked
                        
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -297,11 +410,13 @@ public class Resign extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea ket;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTextField ket;
+    private javax.swing.JTextArea ket_resign;
     private javax.swing.JTextField name;
     private javax.swing.JTextField nik;
     private javax.swing.JTextField persetujuan;
-    private javax.swing.JTextField persetujuan1;
-    private com.toedter.calendar.JDateChooser tgl;
+    private javax.swing.JTable tbl;
+    private com.toedter.calendar.JDateChooser tgl_resign;
     // End of variables declaration//GEN-END:variables
 }

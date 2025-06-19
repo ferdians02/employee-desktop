@@ -83,7 +83,7 @@
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="jLabel11" alignment="0" min="-2" pref="308" max="-2" attributes="0"/>
-                                  <Component id="desc" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="ket" alignment="0" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
@@ -160,7 +160,7 @@
                   <Group type="102" attributes="0">
                       <Component id="jLabel11" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="desc" min="-2" pref="30" max="-2" attributes="0"/>
+                      <Component id="ket" min="-2" pref="30" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace pref="25" max="32767" attributes="0"/>
@@ -417,7 +417,7 @@
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="1e" green="1e" red="1e" type="rgb"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Keterangan"/>
+        <Property name="text" type="java.lang.String" value="Status"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JCheckBox" name="s">
@@ -579,7 +579,7 @@
         <Property name="text" type="java.lang.String" value="Keterangan"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="desc">
+    <Component class="javax.swing.JTextField" name="ket">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="f6" green="fd" red="ff" type="rgb"/>

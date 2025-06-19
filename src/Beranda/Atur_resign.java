@@ -20,6 +20,7 @@
 public class Atur_resign extends javax.swing.JPanel {
         private Connection conn = (Connection) new ConnectDB().connect();
         private final Dashboard main;
+        public static String jabatanLogin;   
         private String nama;
         private String nik;
         private String selectedIdResign;
@@ -162,7 +163,7 @@ public class Atur_resign extends javax.swing.JPanel {
         name1.setText("");
         tgl.setDate(null);
         alasan.setText("");
-        desc.setText("");
+        ket.setText("");
         s.setSelected(false);
         td.setSelected(false);
         r.setSelected(false);
@@ -200,7 +201,7 @@ public class Atur_resign extends javax.swing.JPanel {
         cari = new javax.swing.JTextField();
         jButton3 = new javax.swing.JButton();
         jLabel11 = new javax.swing.JLabel();
-        desc = new javax.swing.JTextField();
+        ket = new javax.swing.JTextField();
         nik1 = new javax.swing.JTextField();
 
         setBackground(new java.awt.Color(255, 253, 246));
@@ -274,7 +275,7 @@ public class Atur_resign extends javax.swing.JPanel {
 
         jLabel9.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(30, 30, 30));
-        jLabel9.setText("Keterangan");
+        jLabel9.setText("Status");
 
         persetujuan.setBackground(new java.awt.Color(255, 253, 246));
         persetujuan.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
@@ -346,11 +347,11 @@ public class Atur_resign extends javax.swing.JPanel {
         jLabel11.setForeground(new java.awt.Color(30, 30, 30));
         jLabel11.setText("Keterangan");
 
-        desc.setBackground(new java.awt.Color(255, 253, 246));
-        desc.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
-        desc.setForeground(new java.awt.Color(30, 30, 30));
-        desc.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        desc.setPreferredSize(new java.awt.Dimension(64, 50));
+        ket.setBackground(new java.awt.Color(255, 253, 246));
+        ket.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
+        ket.setForeground(new java.awt.Color(30, 30, 30));
+        ket.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        ket.setPreferredSize(new java.awt.Dimension(64, 50));
 
         nik1.setBackground(new java.awt.Color(255, 253, 246));
         nik1.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
@@ -409,7 +410,7 @@ public class Atur_resign extends javax.swing.JPanel {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(desc, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                    .addComponent(ket, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                         .addContainerGap())))
         );
         layout.setVerticalGroup(
@@ -450,7 +451,7 @@ public class Atur_resign extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel11)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(desc, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(ket, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel9)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -471,10 +472,11 @@ public class Atur_resign extends javax.swing.JPanel {
         String sql = """
             UPDATE tb_resign
             SET 
-                approval_spv_desc1 = ?,
-                update_by = ?,
-                update_at = ?,
-                approval_spv_by1 = ?,
+                status_resign = ?, 
+                approval_spv_desc1 = ?, 
+                update_by = ?, 
+                update_at = ?, 
+                approval_spv_by1 = ?, 
                 approval_spv_on1 = ?,
                 record_flag = ?
             WHERE id_resign = ?
@@ -482,34 +484,40 @@ public class Atur_resign extends javax.swing.JPanel {
 
         PreparedStatement ps = conn.prepareStatement(sql);
 
-        String status = null;
-        java.util.Date utilDate = new java.util.Date();
-        java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+        // Tanggal saat ini
+        java.sql.Date sqlDate = new java.sql.Date(System.currentTimeMillis());
 
+        // Status dari radio button
+        String status = null;
         if (s.isSelected()) {
-            status = Constants.SPL_APPROVE; // misal: "Disetujui"
+            status = Constants.SPL_APPROVE;
         } else if (td.isSelected()) {
-            status = Constants.SPL_REJECT; // misal: "Ditolak"
+            status = Constants.SPL_REJECT;
         } else if (r.isSelected()) {
-            status = Constants.SPL_REVISION; // misal: "Revisi"
+            status = Constants.SPL_REVISION;
         }
 
-        // Parameter ke prepared statement
-        ps.setString(1, status);             // approval_spv_desc1
-        ps.setString(2, nik);                // update_by
-        ps.setDate(3, sqlDate);              // update_at
-        ps.setString(4, nik);                // approval_spv_by1
-        ps.setDate(5, sqlDate);              // approval_spv_on1
-        ps.setString(6, "U");                // record_flag (U = updated/approved)
-        ps.setString(7, selectedIdResign);   // ID resign (dari tabel klik)
+        String keterangan = ket.getText();
+        String idResign = selectedIdResign;
+
+        // Set parameter ke query
+        ps.setString(1, status);         // status_resign
+        ps.setString(2, keterangan);     // approval_spv_desc1
+        ps.setString(3, loginn.jabatanLogin);            // update_by
+        ps.setDate(4, sqlDate);          // update_at
+        ps.setString(5, this.nama);            // approval_spv_by1
+        ps.setDate(6, sqlDate);          // approval_spv_on1
+        ps.setString(7, "U");            // record_flag = 'U'
+        ps.setString(8, idResign);       // WHERE id_resign = ?
 
         ps.executeUpdate();
-        loadData(nik); // refresh tabel
-        JOptionPane.showMessageDialog(null, "Approval resign berhasil disubmit");
+
+        JOptionPane.showMessageDialog(this, "Data resign berhasil diperbarui!");
         kosong();
+        loadData(nik);
 
     } catch (Exception e) {
-        JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
+        JOptionPane.showMessageDialog(this, "Gagal update resign: " + e.getMessage());
     }
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -550,7 +558,6 @@ public class Atur_resign extends javax.swing.JPanel {
     private javax.swing.JTextArea alasan;
     private javax.swing.JTextField cari;
     private javax.swing.JButton clear;
-    private javax.swing.JTextField desc;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
@@ -564,6 +571,7 @@ public class Atur_resign extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTextField ket;
     private javax.swing.JTextField name1;
     private javax.swing.JTextField nik1;
     private javax.swing.JTextField persetujuan;

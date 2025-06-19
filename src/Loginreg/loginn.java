@@ -21,8 +21,14 @@ import java.awt.event.KeyEvent;
  */
 public class loginn extends javax.swing.JFrame {
 
+    public static String jabatanLogin;
+    public static String divisiLogin;
+    public static String namaLogin;
+
+
     private Connection conn = (Connection) new ConnectDB().connect();
     public static int idKaryawanLogin;
+
     public loginn() {
         initComponents();
     }
@@ -183,14 +189,20 @@ public class loginn extends javax.swing.JFrame {
         String pw = pass.getText();
 
         if (email.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Email Tidak Boleh Kosong");
+            JOptionPane.showMessageDialog(null, "Email tidak boleh kosong!");
+            return;
         }
 
         if (pw.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Password Tidak Boleh Kosong");
-        } else if (pw.length() > 8) {
-            JOptionPane.showMessageDialog(null, "Panjang Tidak Boleh lebih dari 8");
+            JOptionPane.showMessageDialog(null, "Password tidak boleh kosong!");
+            return;
         }
+
+        if (pw.length() > 8) {
+            JOptionPane.showMessageDialog(null, "Password maksimal 8 karakter!");
+            return;
+        }
+
 
 //      String sql ="SELECT * FROM  tb_user WHERE username = '"+ email +"'AND password='"+ pw +"'";
             String sql = """
@@ -224,8 +236,13 @@ public class loginn extends javax.swing.JFrame {
                 jabatan = rs.getString("NAMA_JABATAN");
                 divisi = rs.getString("NAMA_DIVISI");
 
+                loginn.divisiLogin = divisi;
+                loginn.jabatanLogin = jabatan;
+
                 Dashboard d = new Dashboard(nomor, nama);
                 Dashboard.divisiLogin = divisi;
+                Dashboard.jabatanLogin = jabatan; // kalau pakai static di Dashboard
+
 
                 d.setVisible(true);
 

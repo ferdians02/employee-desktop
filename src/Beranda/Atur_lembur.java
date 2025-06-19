@@ -17,6 +17,7 @@ import javax.swing.table.DefaultTableModel;
 public class Atur_lembur extends javax.swing.JPanel {
     private Connection conn = (Connection) new ConnectDB().connect();
     private final Dashboard main;
+    
     private String nama;
     private String nik;
     public Atur_lembur(Dashboard main, String nik, String name) {
@@ -418,9 +419,9 @@ public class Atur_lembur extends javax.swing.JPanel {
             }
 
             ps.setString(1, select);
-            ps.setString(2, nik);
+            ps.setString(2, loginn.jabatanLogin);
             ps.setDate(3, sqlDate);
-            ps.setString(4, nik);
+            ps.setString(4, nama);
             ps.setDate(5, sqlDate);
             ps.setString(6, desc.getText());
             ps.setString(7, spl.getText());

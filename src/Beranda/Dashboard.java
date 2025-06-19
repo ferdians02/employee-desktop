@@ -25,7 +25,7 @@ public class Dashboard extends javax.swing.JFrame {
    private Atur_lembur alem;
    private Laporan lapor;
    private String nik;
-   private String name;
+   private String name;  
    
    public void setAbsensi(){
        this.nik = noTxt.getText();
