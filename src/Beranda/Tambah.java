@@ -190,6 +190,11 @@ public class Tambah extends javax.swing.JPanel {
         jenis.setBackground(new java.awt.Color(0, 0, 102));
         jenis.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
         jenis.setForeground(new java.awt.Color(255, 255, 255));
+        jenis.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jenisActionPerformed(evt);
+            }
+        });
 
         jLabel9.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(30, 30, 30));
@@ -469,8 +474,12 @@ public class Tambah extends javax.swing.JPanel {
         namaJabatan = jbtn.getSelectedItem().toString();
         jk = jenis.getSelectedItem().toString();
 
-        ValidateUtil.validationKaryawan(nik, namaKaryawan, nohp, alamat, divisi, namaJabatan, jk);
-
+        boolean isValid = ValidateUtil.validationKaryawan(nik, namaKaryawan, nohp, alamat, divisi, namaJabatan, jk);
+        
+        if(!isValid){
+            return;
+        }
+        
         String sql = """
                      INSERT INTO TB_KARYAWAN(ID_JABATAN, ID_DIVISI,
                      NAMA_KARYAWAN, 
@@ -485,6 +494,7 @@ public class Tambah extends javax.swing.JPanel {
             
             Integer jabatanId = findJabatanName(namaJabatan);
             Integer divisiId = getDivisiId(divisi);
+            
             if (empNik == null) {
 
                 if (jabatanId != null) {
@@ -495,18 +505,20 @@ public class Tambah extends javax.swing.JPanel {
                 }
 
                 if (divisiId != null) {
-                    ps.setInt(2, divisiId);
-                    
-                    
+                    ps.setInt(2, divisiId);   
+                }
+                else{
+                    return;
+                }
+                
+                ps.setString(3, namaKaryawan);
+                if(jk != null){
+                    ps.setString(4, jk);
                 }else{
                     return;
                 }
                 
-                
-
-                ps.setString(3, namaKaryawan);
-                ps.setString(4, jk);
-
+                   
                 ps.setString(5, nik);
                 ps.setString(6, nohp);
                 ps.setString(7, alamat);
@@ -516,6 +528,7 @@ public class Tambah extends javax.swing.JPanel {
                 java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
                 ps.setDate(9, sqlDate);
                 ps.setString(10, Constants.RECORD_FLAG_N);
+                
                 ps.executeUpdate();
 
                 int empId = getEmployeeId(nik);
@@ -553,7 +566,7 @@ public class Tambah extends javax.swing.JPanel {
                             from tb_karyawan k 
                             inner join tb_jabatan j on k.id_jabatan = j.id_jabatan
                             inner join tb_divisi d on k.id_divisi = d.id_divisi
-                            where k.nik = ?
+                            where k.nik = ? and k.record_flag <> 'D'
                      """;
 
             int row = tblKar.getSelectedRow();
@@ -668,8 +681,14 @@ public class Tambah extends javax.swing.JPanel {
 
         String nama = namaKar.getText();
         Random random = new Random();
-        int intRandom = random.nextInt(12);
-        nama = nama.substring(0,5);
+        int intRandom = random.nextInt(1000);
+        
+        if(nama.length() > 5){
+            nama = nama.substring(0,5);
+        } else {
+            nama = nama;
+        }
+        
         String value = nama.toLowerCase() + intRandom;
         
         return value;
@@ -690,13 +709,9 @@ public class Tambah extends javax.swing.JPanel {
     private String comboDivBox() {
         divsi.addItem("Pilih");
         divsi.addItem("IT");
-        divsi.addItem("QA");
-        divsi.addItem("ADMINISTRASI");
         divsi.addItem("KEUANGAN");
-        divsi.addItem("GUDANG");
+        divsi.addItem("ADMINISTRASI");
         
-        
-
         String val = divsi.getSelectedItem().toString();
 
         return val;
@@ -707,15 +722,19 @@ public class Tambah extends javax.swing.JPanel {
         jenis.addItem("Pilih");
         jenis.addItem("Laki - laki");
         jenis.addItem("Perempuan");
+        
 
         String val = jenis.getSelectedItem().toString();
-
+        
         return val;
     }
-
+    
     private void comboJabatanBox() {
         try {
-            String sql = "SELECT NAMA_JABATAN FROM TB_JABATAN";
+            String sql = """
+                         SELECT NAMA_JABATAN FROM TB_JABATAN 
+                         WHERE UPPER(NAMA_JABATAN) NOT IN ('WAKIL DIREKTUR', 'DIREKTUR UTAMA')
+                         """;
             PreparedStatement ps = (PreparedStatement) conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
 
@@ -825,7 +844,7 @@ public class Tambah extends javax.swing.JPanel {
     }
 
     private String getEmployeeNumber(String number) {
-        String sql = "SELECT NIK FROM TB_KARYAWAN WHERE NIK = ?";
+        String sql = "SELECT NIK FROM TB_KARYAWAN WHERE NIK = ? AND RECORD_FLAG <> 'D' ";
         String val = null;
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
@@ -850,7 +869,10 @@ public class Tambah extends javax.swing.JPanel {
         namaJabatan = jbtn.getSelectedItem().toString();
         jk = jenis.getSelectedItem().toString();
         nik = nikKar.getText();
-
+        boolean isValid = ValidateUtil.validationKaryawan(nik, namaKaryawan, nohp, alamat, divisi, namaJabatan, jk);
+        if(!isValid){
+            return;
+        }
         try {
 
             String sql = """
@@ -883,7 +905,7 @@ public class Tambah extends javax.swing.JPanel {
             ps.setDate(9, sqlDate);
             ps.setString(10, Constants.RECORD_FLAG_U);
             ps.setString(11, nik);
-
+            
             ps.execute();
             clear();
             loadData();
@@ -914,6 +936,10 @@ public class Tambah extends javax.swing.JPanel {
     private void cariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cariActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cariActionPerformed
+
+    private void jenisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jenisActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jenisActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
