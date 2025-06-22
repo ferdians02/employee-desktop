@@ -8,6 +8,7 @@ import Connect.ConnectDB;
 import Loginreg.*;
 import com.mysql.jdbc.Connection;
 import constant.Constants;
+import java.io.File;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,6 +19,15 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import util.ValidateUtil;
 import util.ValidationOption;
+import java.util.HashMap;
+import javax.swing.JOptionPane;
+import javax.swing.RowFilter;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.view.JasperViewer;
+import net.sf.jasperreports.engine.JasperFillManager;
+
 
 /**
  *
@@ -70,7 +80,7 @@ public class Lembur extends javax.swing.JPanel {
         mulai = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         selesai = new javax.swing.JTextField();
-        tgl = new com.toedter.calendar.JDateChooser();
+        tgl_lembur = new com.toedter.calendar.JDateChooser();
         jScrollPane2 = new javax.swing.JScrollPane();
         tbl = new javax.swing.JTable();
         jLabel10 = new javax.swing.JLabel();
@@ -79,10 +89,10 @@ public class Lembur extends javax.swing.JPanel {
         stts = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
         keter = new javax.swing.JTextField();
+        Cetak = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(255, 253, 246));
 
-        jLabel1.setBackground(new java.awt.Color(30, 30, 30));
         jLabel1.setFont(new java.awt.Font("Segoe UI Semibold", 0, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(30, 30, 30));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -100,7 +110,6 @@ public class Lembur extends javax.swing.JPanel {
             }
         });
 
-        jLabel4.setBackground(new java.awt.Color(30, 30, 30));
         jLabel4.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(30, 30, 30));
         jLabel4.setText("Tanggal");
@@ -117,17 +126,14 @@ public class Lembur extends javax.swing.JPanel {
             }
         });
 
-        jLabel5.setBackground(new java.awt.Color(30, 30, 30));
         jLabel5.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(30, 30, 30));
         jLabel5.setText("Nama Karyawan");
 
-        jLabel6.setBackground(new java.awt.Color(30, 30, 30));
         jLabel6.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(30, 30, 30));
         jLabel6.setText("Jam Mulai");
 
-        jLabel7.setBackground(new java.awt.Color(30, 30, 30));
         jLabel7.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(30, 30, 30));
         jLabel7.setText("Keterangan lembur");
@@ -163,7 +169,6 @@ public class Lembur extends javax.swing.JPanel {
             }
         });
 
-        jLabel8.setBackground(new java.awt.Color(30, 30, 30));
         jLabel8.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(30, 30, 30));
         jLabel8.setText("Jam Selesai");
@@ -174,8 +179,8 @@ public class Lembur extends javax.swing.JPanel {
         selesai.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         selesai.setPreferredSize(new java.awt.Dimension(64, 50));
 
-        tgl.setBackground(new java.awt.Color(255, 253, 246));
-        tgl.setForeground(new java.awt.Color(30, 30, 30));
+        tgl_lembur.setBackground(new java.awt.Color(255, 253, 246));
+        tgl_lembur.setForeground(new java.awt.Color(30, 30, 30));
 
         tbl.setBackground(new java.awt.Color(255, 253, 246));
         tbl.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
@@ -233,6 +238,18 @@ public class Lembur extends javax.swing.JPanel {
         keter.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         keter.setPreferredSize(new java.awt.Dimension(64, 50));
 
+        Cetak.setBackground(new java.awt.Color(0, 0, 102));
+        Cetak.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
+        Cetak.setForeground(new java.awt.Color(255, 255, 255));
+        Cetak.setText("Cetak");
+        Cetak.setBorderPainted(false);
+        Cetak.setPreferredSize(new java.awt.Dimension(0, 50));
+        Cetak.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CetakActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -254,8 +271,10 @@ public class Lembur extends javax.swing.JPanel {
                             .addComponent(namkar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(mulai, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(selesai, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(tgl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(tgl_lembur, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(persetujuan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(stts, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(keter, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 384, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -265,10 +284,12 @@ public class Lembur extends javax.swing.JPanel {
                                     .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 384, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel9))
                                 .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(stts, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(keter, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(edit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(save, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(save, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(edit, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(38, 38, 38)
+                                .addComponent(Cetak, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addContainerGap())))
         );
         layout.setVerticalGroup(
@@ -285,7 +306,7 @@ public class Lembur extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(tgl, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(tgl_lembur, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -311,16 +332,17 @@ public class Lembur extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(keter, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(save, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(edit, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(20, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(save, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(edit, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Cetak, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(10, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveActionPerformed
 
-        java.util.Date date = tgl.getDate();
+        java.util.Date date = tgl_lembur.getDate();
 
         ValidationOption result = ValidateUtil.validationLembur(date, mulai.getText(), selesai.getText(), ket.getText());
 
@@ -497,7 +519,7 @@ public class Lembur extends javax.swing.JPanel {
                 
 
                 namkar.setText(rs.getString("nama_karyawan"));
-                tgl.setDate(rs.getDate("tanggal"));
+                tgl_lembur.setDate(rs.getDate("tanggal"));
                 mulai.setText(rs.getString("jam_mulai"));
                 selesai.setText(rs.getString("jam_selesai"));
                 ket.setText(rs.getString("keterangan"));
@@ -659,7 +681,7 @@ public class Lembur extends javax.swing.JPanel {
                            """;
               PreparedStatement ps = conn.prepareStatement(sql);
              
-              java.util.Date utilDate2 = tgl.getDate();
+              java.util.Date utilDate2 = tgl_lembur.getDate();
               java.sql.Date tanggal = new java.sql.Date(utilDate2.getTime());
           
               ps.setDate(1, tanggal);
@@ -696,8 +718,31 @@ public class Lembur extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_persetujuanActionPerformed
 
+    private void CetakActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CetakActionPerformed
+        try{
+            java.util.Date tanggalUtil = tgl_lembur.getDate();
+
+            java.sql.Date tanggal = new java.sql.Date(tanggalUtil.getTime());
+
+            String reportPath = System.getProperty("user.dir") + File.separator + "src" + File.separator + "laporan" + File.separator + "PengajuanLembur.jasper";
+
+            String nama_karyawan = namkar.getText();
+
+            HashMap<String, Object> parameters = new HashMap<>();
+            parameters.put("nama_karyawan", nama_karyawan); // sesuai di jrxml
+            parameters.put("tanggal", tanggal);            // sesuai di jrxml
+
+            JasperPrint print = JasperFillManager.fillReport(reportPath, parameters, conn);
+            JasperViewer viewer = new JasperViewer(print, false);
+            viewer.setVisible(true);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_CetakActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton Cetak;
     private javax.swing.JButton edit;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -720,6 +765,6 @@ public class Lembur extends javax.swing.JPanel {
     private javax.swing.JTextField selesai;
     private javax.swing.JTextField stts;
     private javax.swing.JTable tbl;
-    private com.toedter.calendar.JDateChooser tgl;
+    private com.toedter.calendar.JDateChooser tgl_lembur;
     // End of variables declaration//GEN-END:variables
 }

@@ -74,7 +74,7 @@
                       <Component id="bApvResign" alignment="0" max="32767" attributes="0"/>
                       <Component id="bApvCuti" alignment="0" max="32767" attributes="0"/>
                       <Component id="bCariAbsen" alignment="0" max="32767" attributes="0"/>
-                      <Component id="blap" alignment="0" max="32767" attributes="0"/>
+                      <Component id="balap" alignment="0" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -118,7 +118,7 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="bApvResign" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="blap" min="-2" max="-2" attributes="0"/>
+                  <Component id="balap" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -464,7 +464,7 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bCariAbsenActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="blap">
+        <Component class="javax.swing.JButton" name="balap">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="2c" green="2c" red="2c" type="rgb"/>
@@ -482,7 +482,7 @@
             </Property>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="blapActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="balapActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>

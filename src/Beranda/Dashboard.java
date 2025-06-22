@@ -169,7 +169,7 @@ public class Dashboard extends javax.swing.JFrame {
         bApvCuti.setVisible(true);
         bApvLembur.setVisible(true);
         bApvResign.setVisible(true);
-//        lapor.setVisible(true);
+        balap.setVisible(true);
 }
 
     public void aksesStaff() {
@@ -184,7 +184,7 @@ public class Dashboard extends javax.swing.JFrame {
         bApvCuti.setVisible(false);
         bApvLembur.setVisible(false);
         bApvResign.setVisible(false);
-//        lapor.setVisible(false);
+        balap.setVisible(false);
     }
 
     public void aksesManager() {
@@ -243,7 +243,7 @@ public class Dashboard extends javax.swing.JFrame {
         bApvResign = new javax.swing.JButton();
         bApvCuti = new javax.swing.JButton();
         bCariAbsen = new javax.swing.JButton();
-        blap = new javax.swing.JButton();
+        balap = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -427,15 +427,15 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
 
-        blap.setBackground(new java.awt.Color(44, 44, 44));
-        blap.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
-        blap.setForeground(new java.awt.Color(255, 255, 255));
-        blap.setText("Laporan");
-        blap.setBorderPainted(false);
-        blap.setPreferredSize(new java.awt.Dimension(0, 50));
-        blap.addActionListener(new java.awt.event.ActionListener() {
+        balap.setBackground(new java.awt.Color(44, 44, 44));
+        balap.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
+        balap.setForeground(new java.awt.Color(255, 255, 255));
+        balap.setText("Laporan");
+        balap.setBorderPainted(false);
+        balap.setPreferredSize(new java.awt.Dimension(0, 50));
+        balap.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                blapActionPerformed(evt);
+                balapActionPerformed(evt);
             }
         });
 
@@ -465,7 +465,7 @@ public class Dashboard extends javax.swing.JFrame {
                     .addComponent(bApvResign, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(bApvCuti, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(bCariAbsen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(blap, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(balap, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -505,7 +505,7 @@ public class Dashboard extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(bApvResign, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(blap, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(balap, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(10, 10, 10))
         );
 
@@ -543,7 +543,7 @@ public class Dashboard extends javax.swing.JFrame {
         bApvResign.setBackground(new Color(44,44,44));
         bApvCuti.setBackground(new Color(44,44,44));
         bApvLembur.setBackground(new Color(44,44,44));
-        blap.setBackground(new Color(44,44,44));
+        balap.setBackground(new Color(44,44,44));
         setAbsensi();
     }//GEN-LAST:event_babsActionPerformed
 
@@ -560,7 +560,7 @@ public class Dashboard extends javax.swing.JFrame {
         bApvResign.setBackground(new Color(44,44,44));
         bApvCuti.setBackground(new Color(44,44,44));
         bApvLembur.setBackground(new Color(44,44,44));
-        blap.setBackground(new Color(44,44,44));
+        balap.setBackground(new Color(44,44,44));
         setLembur();
     }//GEN-LAST:event_blemActionPerformed
 
@@ -577,7 +577,7 @@ public class Dashboard extends javax.swing.JFrame {
         bApvResign.setBackground(new Color(44,44,44));
         bApvCuti.setBackground(new Color(44,44,44));
         bApvLembur.setBackground(new Color(44,44,44));
-        blap.setBackground(new Color(44,44,44));
+        balap.setBackground(new Color(44,44,44));
         setResign();
     }//GEN-LAST:event_bresActionPerformed
 
@@ -594,7 +594,7 @@ public class Dashboard extends javax.swing.JFrame {
         bApvResign.setBackground(new Color(44,44,44));
         bApvCuti.setBackground(new Color(44,44,44));
         bApvLembur.setBackground(new Color(44,44,44));
-        blap.setBackground(new Color(44,44,44));
+        balap.setBackground(new Color(44,44,44));
         setCuti();
     }//GEN-LAST:event_bcutActionPerformed
 
@@ -611,7 +611,7 @@ public class Dashboard extends javax.swing.JFrame {
         bApvResign.setBackground(new Color(44,44,44));
         bApvCuti.setBackground(new Color(44,44,44));
         bApvLembur.setBackground(new Color(44,44,44));
-        blap.setBackground(new Color(44,44,44));
+        balap.setBackground(new Color(44,44,44));
         setGaji();
     }//GEN-LAST:event_bgajActionPerformed
 
@@ -628,7 +628,7 @@ public class Dashboard extends javax.swing.JFrame {
         bApvResign.setBackground(new Color(44,44,44));
         bApvCuti.setBackground(new Color(44,44,44));
         bApvLembur.setBackground(new Color(44,44,44));
-        blap.setBackground(new Color(44,44,44));
+        balap.setBackground(new Color(44,44,44));
         setTambah();
     }//GEN-LAST:event_bTambahActionPerformed
 
@@ -645,7 +645,7 @@ public class Dashboard extends javax.swing.JFrame {
         bApvResign.setBackground(new Color(44,44,44));
         bApvCuti.setBackground(new Color(44,44,44));
         bApvLembur.setBackground(new Color(44,44,44));
-        blap.setBackground(new Color(44,44,44));
+        balap.setBackground(new Color(44,44,44));
         setAtur();
     }//GEN-LAST:event_bAturGajiActionPerformed
 
@@ -662,7 +662,7 @@ public class Dashboard extends javax.swing.JFrame {
         bApvCuti.setBackground(new Color(44,44,44));
         bCariAbsen.setBackground(new Color(44,44,44));
         bApvResign.setBackground(new Color(44,44,44));
-        blap.setBackground(new Color(44,44,44));
+        balap.setBackground(new Color(44,44,44));
         setAtur_lembur();
     }//GEN-LAST:event_bApvLemburActionPerformed
 
@@ -679,7 +679,7 @@ public class Dashboard extends javax.swing.JFrame {
         bApvCuti.setBackground(new Color(44,44,44));
         bCariAbsen.setBackground(new Color(44,44,44));
         bApvLembur.setBackground(new Color(44,44,44));
-        blap.setBackground(new Color(44,44,44));
+        balap.setBackground(new Color(44,44,44));
         setAtur_resign();
     }//GEN-LAST:event_bApvResignActionPerformed
 
@@ -696,7 +696,7 @@ public class Dashboard extends javax.swing.JFrame {
         bApvResign.setBackground(new Color(44,44,44));
         bCariAbsen.setBackground(new Color(44,44,44));
         bApvLembur.setBackground(new Color(44,44,44));
-        blap.setBackground(new Color(44,44,44));
+        balap.setBackground(new Color(44,44,44));
         setAtur_cuti();
     }//GEN-LAST:event_bApvCutiActionPerformed
 
@@ -713,7 +713,7 @@ public class Dashboard extends javax.swing.JFrame {
         bApvResign.setBackground(new Color(44,44,44));
         bApvCuti.setBackground(new Color(44,44,44));
         bApvLembur.setBackground(new Color(44,44,44));
-        blap.setBackground(new Color(44,44,44));
+        balap.setBackground(new Color(44,44,44));
         setCari();
     }//GEN-LAST:event_bCariAbsenActionPerformed
 
@@ -721,9 +721,9 @@ public class Dashboard extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_namaTxtActionPerformed
 
-    private void blapActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_blapActionPerformed
+    private void balapActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_balapActionPerformed
         // TODO add your handling code here:
-        blap.setBackground(new Color(77,120,204));
+        balap.setBackground(new Color(77,120,204));
         babs.setBackground(new Color(44,44,44));
         blem.setBackground(new Color(44,44,44));
         bres.setBackground(new Color(44,44,44));
@@ -736,7 +736,7 @@ public class Dashboard extends javax.swing.JFrame {
         bApvLembur.setBackground(new Color(44,44,44));
         bCariAbsen.setBackground(new Color(44,44,44));
         setLaporan();
-    }//GEN-LAST:event_blapActionPerformed
+    }//GEN-LAST:event_balapActionPerformed
 
     private void babs1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_babs1ActionPerformed
        logout();
@@ -758,9 +758,9 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JButton bTambah;
     private javax.swing.JButton babs;
     private javax.swing.JButton babs1;
+    private javax.swing.JButton balap;
     private javax.swing.JButton bcut;
     private javax.swing.JButton bgaj;
-    private javax.swing.JButton blap;
     private javax.swing.JButton blem;
     private javax.swing.JButton bres;
     private javax.swing.JLabel jLabel1;

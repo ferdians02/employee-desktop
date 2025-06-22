@@ -256,6 +256,12 @@ public class Cari extends javax.swing.JPanel {
             spl.setVisible(true);
             nikKar.setVisible(false);
             niko.setVisible(false);
+        }else if (val.equalsIgnoreCase("Cuti")) {
+            loadDataCuti(no, nama, from, to);
+            nospl.setVisible(false);
+            spl.setVisible(false);
+            nikKar.setVisible(true);
+            niko.setVisible(true);
         }
 
     }//GEN-LAST:event_searchActionPerformed
@@ -281,6 +287,104 @@ public class Cari extends javax.swing.JPanel {
 
         return val;
     }
+
+    private void loadDataCuti(String nik, String nama, Date from, Date to) {
+    DefaultTableModel model = new DefaultTableModel();
+
+    model.addColumn("NIK");
+    model.addColumn("NAMA KARYAWAN");
+    model.addColumn("TGL CUTI");
+    model.addColumn("STATUS");
+
+    try {
+        String sql;
+
+        if (nik.isEmpty() && nama.isEmpty() && from == null && to == null) {
+            sql = """
+                SELECT
+                    TK.nik,
+                    TK.nama_karyawan,
+                    C.tgl_awal,
+                    C.status_cuti
+                FROM tb_cuti C
+                INNER JOIN tb_karyawan TK ON C.id_karyawan = TK.id_karyawan
+                WHERE TK.record_flag <> 'D'
+            """;
+
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                model.addRow(new Object[]{
+                    rs.getString("nik"),
+                    rs.getString("nama_karyawan"),
+                    rs.getDate("tgl_awal"),
+                    rs.getString("status_cuti")
+                });
+            }
+        } else {
+            sql = """
+                SELECT
+                    TK.nik,
+                    TK.nama_karyawan,
+                    C.tgl_awal,
+                    C.status_cuti
+                FROM tb_cuti C
+                INNER JOIN tb_karyawan TK ON C.id_karyawan = TK.id_karyawan
+                WHERE 1 = 1
+                AND (TK.nik IS NULL OR TK.nik = '' OR TK.nik LIKE ?)
+                AND (TK.nama_karyawan IS NULL OR TK.nama_karyawan = '' OR TK.nama_karyawan LIKE ?)
+                AND (? IS NULL OR C.tgl_awal >= DATE(?))
+                AND (? IS NULL OR C.tgl_awal <= DATE(?))
+            """;
+
+            PreparedStatement ps = conn.prepareStatement(sql);
+            String nikLike = "%" + nik + "%";
+            String namaLike = "%" + nama + "%";
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+            ps.setString(1, nikLike);
+            ps.setString(2, namaLike);
+
+            if (from == null) {
+                ps.setNull(3, java.sql.Types.VARCHAR);
+                ps.setNull(4, java.sql.Types.VARCHAR);
+            } else {
+                ps.setString(3, sdf.format(from));
+                ps.setString(4, sdf.format(from));
+            }
+
+            if (to == null) {
+                ps.setNull(5, java.sql.Types.VARCHAR);
+                ps.setNull(6, java.sql.Types.VARCHAR);
+            } else {
+                ps.setString(5, sdf.format(to));
+                ps.setString(6, sdf.format(to));
+            }
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                model.addRow(new Object[]{
+                    rs.getString("nik"),
+                    rs.getString("nama_karyawan"),
+                    rs.getDate("tgl_awal"),
+                    rs.getString("status_cuti")
+                });
+            }
+        }
+
+        tbl.setModel(model);
+
+        // Tambahan ALERT kalau data kosong
+        if (model.getRowCount() == 0) {
+            JOptionPane.showMessageDialog(this, "Data tidak ditemukan untuk filter yang dipilih.");
+        }
+
+    } catch (Exception e) {
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(this, "Terjadi kesalahan saat mengambil data cuti.");
+    }
+}
+
 
     private void loadDataAbsen(String nik, String nama, Date from, Date to) {
 

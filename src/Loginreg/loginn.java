@@ -203,9 +203,7 @@ public class loginn extends javax.swing.JFrame {
             return;
         }
 
-
-//      String sql ="SELECT * FROM  tb_user WHERE username = '"+ email +"'AND password='"+ pw +"'";
-            String sql = """
+        String sql = """
             SELECT U.*, K.id_karyawan, K.nama_karyawan, K.nik,
             J.nama_jabatan, D.nama_divisi, R.role_desc
             FROM tb_user U
@@ -214,13 +212,11 @@ public class loginn extends javax.swing.JFrame {
             JOIN tb_divisi D ON K.id_divisi = D.id_divisi
             JOIN tb_role R ON U.role_id = R.role_id
             WHERE U.username = ? AND U.password = ?
-
         """;
-
 
         System.out.println("ini sql : " + sql);
 
-        String role = "", nomor = "", nama = "", jabatan = "", divisi ="";
+        String role = "", nomor = "", nama = "", jabatan = "", divisi = "";
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, email);
@@ -241,8 +237,7 @@ public class loginn extends javax.swing.JFrame {
 
                 Dashboard d = new Dashboard(nomor, nama);
                 Dashboard.divisiLogin = divisi;
-                Dashboard.jabatanLogin = jabatan; // kalau pakai static di Dashboard
-
+                Dashboard.jabatanLogin = jabatan;
 
                 d.setVisible(true);
 
@@ -259,10 +254,13 @@ public class loginn extends javax.swing.JFrame {
                 }
                 this.dispose();
 
-            }
-        }catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Tidak dapat terhubunr pada login : " + e.getMessage());
-        }
+            } else {
+                JOptionPane.showMessageDialog(null, "Email atau Password salah!");
+    }
+} catch (Exception e) {
+    e.printStackTrace();
+    JOptionPane.showMessageDialog(null, "Tidak dapat terhubung pada login: " + e.getMessage());
+}
     }                                     
 
     private void loginKeyPressed(java.awt.event.KeyEvent evt) {                                 
