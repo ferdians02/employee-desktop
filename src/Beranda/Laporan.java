@@ -37,11 +37,12 @@ public class Laporan extends javax.swing.JPanel {
 
         isiComboBoxLayanan();
         isiComboBoxDivisi();
+        isiBulan();
         handleComboChange(); // langsung atur tampilan awal
 
         cbLayanan.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                handleComboChange();
+           public void actionPerformed(java.awt.event.ActionEvent evt) {
+               handleComboChange();
             }
         });
     }
@@ -64,27 +65,71 @@ public class Laporan extends javax.swing.JPanel {
         cbDivisi.addItem("GUDANG");
     }
 
+    private void isiBulan() {
+        cbBulan.addItem("Pilih");
+        cbBulan.addItem("Januari");
+        cbBulan.addItem("Februari");
+        cbBulan.addItem("Maret");
+        cbBulan.addItem("April");
+        cbBulan.addItem("Mei");
+        cbBulan.addItem("June");
+        cbBulan.addItem("July");
+        cbBulan.addItem("Agustus");
+        cbBulan.addItem("September");
+        cbBulan.addItem("Oktober");
+        cbBulan.addItem("November");
+        cbBulan.addItem("Desember");
+    }
+
+
     private void handleComboChange() {
         String selected = cbLayanan.getSelectedItem().toString();
 
-        boolean showNamaNik = selected.equalsIgnoreCase("Slip Gaji");
-        boolean showDivisi = selected.equalsIgnoreCase("Absen") || selected.equalsIgnoreCase("Gaji");
-        boolean showTanggal = !selected.equalsIgnoreCase("Pilih");
+        // Tampilkan nama hanya untuk Slip Gaji
+        boolean showNama = selected.equalsIgnoreCase("Slip Gaji");
 
-        // Field Nama & NIK
-        jLabel8.setVisible(showNamaNik);        // Label Nama
-        name.setVisible(showNamaNik);    // Field Nama
+        // Tampilkan tanggal untuk semua kecuali Gaji & Slip Gaji
+        boolean showTanggal = selected.equalsIgnoreCase("Absen")
+                           || selected.equalsIgnoreCase("Cuti")
+                           || selected.equalsIgnoreCase("Lembur");
+
+        // Tampilkan bulan untuk Gaji & Slip Gaji
+        boolean showBulan = selected.equalsIgnoreCase("Gaji")
+                         || selected.equalsIgnoreCase("Slip Gaji");
+
+        // Tampilkan divisi untuk semua kecuali Slip Gaji
+        boolean showDivisi = !selected.equalsIgnoreCase("Slip Gaji")
+                          && !selected.equalsIgnoreCase("Pilih");
+
+        // Nama
+        jLabel8.setVisible(showNama); 
+        name.setVisible(showNama);    
 
         // Divisi
-        labelDivisi.setVisible(showDivisi);        // Label Divisi
-        cbDivisi.setVisible(showDivisi);        // ComboBox Divisi
+        labelDivisi.setVisible(showDivisi);
+        cbDivisi.setVisible(showDivisi);
 
-        // Tanggal Awal & Akhir
-        jLabel6.setVisible(showTanggal);        // Label Tgl Awal
-        fr.setVisible(showTanggal);             // DateChooser Awal
-        jLabel7.setVisible(showTanggal);        // Label Tgl Akhir
-        fr2.setVisible(showTanggal);            // DateChooser Akhir
+        // Tanggal
+        jLabel6.setVisible(showTanggal);
+        awal.setVisible(showTanggal);
+        jLabel7.setVisible(showTanggal);
+        akhir.setVisible(showTanggal);
+
+        // Bulan
+        labelBulan.setVisible(showBulan);
+        cbBulan.setVisible(showBulan);
+
+        // Reset field tiap kali combo layanan berubah
+        awal.setDate(null);
+        akhir.setDate(null);
+        cbBulan.setSelectedIndex(0);
+        cbDivisi.setSelectedIndex(0);
+        name.setText("");
+
     }
+
+
+
 
 
     /**
@@ -99,14 +144,16 @@ public class Laporan extends javax.swing.JPanel {
         jButton1 = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        fr = new com.toedter.calendar.JDateChooser();
+        awal = new com.toedter.calendar.JDateChooser();
         jLabel7 = new javax.swing.JLabel();
-        fr2 = new com.toedter.calendar.JDateChooser();
+        akhir = new com.toedter.calendar.JDateChooser();
         cbLayanan = new javax.swing.JComboBox<>();
         jLabel8 = new javax.swing.JLabel();
         name = new javax.swing.JTextField();
         cbDivisi = new javax.swing.JComboBox<>();
         labelDivisi = new javax.swing.JLabel();
+        cbBulan = new javax.swing.JComboBox<>();
+        labelBulan = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 253, 246));
 
@@ -149,6 +196,7 @@ public class Laporan extends javax.swing.JPanel {
         jLabel8.setText("Nama Karyawan");
 
         name.setBackground(new java.awt.Color(255, 253, 246));
+        name.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         name.setForeground(new java.awt.Color(30, 30, 30));
         name.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
@@ -166,6 +214,20 @@ public class Laporan extends javax.swing.JPanel {
         labelDivisi.setForeground(new java.awt.Color(30, 30, 30));
         labelDivisi.setText("Divisi");
 
+        cbBulan.setBackground(new java.awt.Color(255, 253, 246));
+        cbBulan.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
+        cbBulan.setForeground(new java.awt.Color(30, 30, 30));
+        cbBulan.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        cbBulan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbBulanActionPerformed(evt);
+            }
+        });
+
+        labelBulan.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
+        labelBulan.setForeground(new java.awt.Color(30, 30, 30));
+        labelBulan.setText("Bulan");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -180,14 +242,16 @@ public class Laporan extends javax.swing.JPanel {
                     .addComponent(cbLayanan, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(name)
                     .addComponent(cbDivisi, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(cbBulan, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(fr2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(fr, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(akhir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(awal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 384, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(labelDivisi, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(labelBulan, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE)))
@@ -196,7 +260,7 @@ public class Laporan extends javax.swing.JPanel {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(29, 29, 29)
+                .addContainerGap()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel9)
@@ -211,13 +275,17 @@ public class Laporan extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(cbDivisi, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(labelBulan)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(cbBulan, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(fr, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(awal, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel7)
                 .addGap(5, 5, 5)
-                .addComponent(fr2, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(akhir, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(15, Short.MAX_VALUE))
@@ -233,58 +301,61 @@ public class Laporan extends javax.swing.JPanel {
             return;
         }
 
-        // Konversi tanggal
-        java.util.Date tglAwalUtil = fr.getDate();
-        java.util.Date tglAkhirUtil = fr2.getDate();
-
-        if (tglAwalUtil == null || tglAkhirUtil == null) {
-            JOptionPane.showMessageDialog(this, "Tanggal awal dan akhir tidak boleh kosong.");
-            return;
-        }
-
-        java.sql.Date tanggalAwal = new java.sql.Date(tglAwalUtil.getTime());
-        java.sql.Date tanggalAkhir = new java.sql.Date(tglAkhirUtil.getTime());
-
-        // Tentukan path file Jasper
-        String basePath = "src/laporan/";
+        HashMap<String, Object> parameters = new HashMap<>();
         String fileJasper = "";
+        String divisi = cbDivisi.getSelectedItem().toString();
+        String bulan = cbBulan.getSelectedItem().toString();
+        String nama_karyawan = name.getText();
+
         switch (layanan.toLowerCase()) {
             case "absen":
-                fileJasper = basePath + "LaporanAbsen.jasper";
-                break;
-            case "lembur":
-                fileJasper = basePath + "LaporanLembur.jasper";
-                break;
             case "cuti":
-                fileJasper = basePath + "LaporanCuti.jasper";
+            case "lembur":
+                if (awal.getDate() == null || akhir.getDate() == null) {
+                    JOptionPane.showMessageDialog(this, "Tanggal awal dan akhir tidak boleh kosong.");
+                    return;
+                }
+                java.sql.Date tanggal_awal = new java.sql.Date(awal.getDate().getTime());
+                java.sql.Date tanggal_akhir = new java.sql.Date(akhir.getDate().getTime());
+
+                if (layanan.equalsIgnoreCase("absen")) {
+                    fileJasper = "src/laporan/LaporanAbsen.jasper";
+                } else if (layanan.equalsIgnoreCase("cuti")) {
+                    fileJasper = "src/laporan/LaporanCuti.jasper";
+                } else {
+                    fileJasper = "src/laporan/LaporanLembur.jasper";
+                }
+
+                parameters.put("tanggal_mulai", tanggal_awal);
+                parameters.put("tanggal_selesai", tanggal_akhir);
+                parameters.put("nama_divisi", divisi);
                 break;
+
             case "gaji":
-                fileJasper = basePath + "LaporanGaji.jasper";
+                if (cbBulan.getSelectedIndex() == 0) {
+                    JOptionPane.showMessageDialog(this, "Silakan pilih bulan terlebih dahulu.");
+                    return;
+                }
+                fileJasper = "src/laporan/LaporanGaji.jasper";
+                parameters.put("bulan", bulan);
+                parameters.put("nama_divisi", divisi);
                 break;
+
             case "slip gaji":
-                fileJasper = basePath + "SlipGaji.jasper";
+                if (cbBulan.getSelectedIndex() == 0 || nama_karyawan.isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "Nama dan bulan harus diisi untuk slip gaji.");
+                    return;
+                }
+                fileJasper = "src/laporan/SlipGaji.jasper";
+                parameters.put("bulan", bulan);
+                parameters.put("nama_karyawan", nama_karyawan);
                 break;
+
             default:
                 JOptionPane.showMessageDialog(this, "Jenis laporan tidak dikenali.");
                 return;
         }
 
-        // Buat parameter
-        HashMap<String, Object> parameters = new HashMap<>();
-        parameters.put("tanggalAwal", tanggalAwal);
-        parameters.put("tanggalAkhir", tanggalAkhir);
-
-        // Parameter khusus Slip Gaji
-        if (layanan.equalsIgnoreCase("Slip Gaji")) {
-            parameters.put("nama_karyawan", name.getText());
-        }
-
-        // Parameter khusus Absen atau Gaji
-        if (layanan.equalsIgnoreCase("Absen") || layanan.equalsIgnoreCase("Gaji")) {
-            parameters.put("divisi", cbDivisi.getSelectedItem().toString());
-        }
-
-        // Jalankan laporan
         JasperPrint print = JasperFillManager.fillReport(fileJasper, parameters, conn);
         JasperViewer viewer = new JasperViewer(print, false);
         viewer.setVisible(true);
@@ -299,18 +370,24 @@ public class Laporan extends javax.swing.JPanel {
         
     }//GEN-LAST:event_cbDivisiActionPerformed
 
+    private void cbBulanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbBulanActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbBulanActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private com.toedter.calendar.JDateChooser akhir;
+    private com.toedter.calendar.JDateChooser awal;
+    private javax.swing.JComboBox<String> cbBulan;
     private javax.swing.JComboBox<String> cbDivisi;
     private javax.swing.JComboBox<String> cbLayanan;
-    private com.toedter.calendar.JDateChooser fr;
-    private com.toedter.calendar.JDateChooser fr2;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JLabel labelBulan;
     private javax.swing.JLabel labelDivisi;
     private javax.swing.JTextField name;
     // End of variables declaration//GEN-END:variables
