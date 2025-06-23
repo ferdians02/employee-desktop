@@ -193,6 +193,9 @@ public class Dashboard extends javax.swing.JFrame {
         bApvCuti.setVisible(true);
         bApvLembur.setVisible(true);
         bApvResign.setVisible(true);
+        bAturGaji.setVisible(true);
+        bTambah.setVisible(true);
+        balap.setVisible(true);
     }
 
     public void aksesHRD() {
