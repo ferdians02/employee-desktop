@@ -152,6 +152,10 @@ public class cuti extends javax.swing.JPanel {
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Pengajuan Cuti");
 
+        tbl.setBackground(new java.awt.Color(255, 253, 246));
+        tbl.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(30, 30, 30), 3));
+        tbl.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
+        tbl.setForeground(new java.awt.Color(30, 30, 30));
         tbl.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {},
@@ -249,8 +253,11 @@ public class cuti extends javax.swing.JPanel {
         ket.setForeground(new java.awt.Color(30, 30, 30));
         ket.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
+        alasan.setBackground(new java.awt.Color(255, 253, 246));
         alasan.setColumns(20);
+        alasan.setForeground(new java.awt.Color(30, 30, 30));
         alasan.setRows(5);
+        alasan.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jScrollPane2.setViewportView(alasan);
 
         Cetak.setBackground(new java.awt.Color(0, 0, 102));

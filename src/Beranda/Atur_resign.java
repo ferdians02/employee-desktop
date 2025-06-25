@@ -70,39 +70,42 @@ public class Atur_resign extends javax.swing.JPanel {
             namaJabatan = rsJabatan.getString("nama_jabatan");
         }
 
-        // Buat query utama
         String sql;
+        PreparedStatement ps;
+
         if (namaJabatan.equalsIgnoreCase("DIREKTUR UTAMA")) {
-            // Direktur bisa lihat semua data resign
+            // Direktur: lihat semua pengajuan resign
             sql = """
                 SELECT TR.id_resign, TK.nik, TK.nama_karyawan, TR.tanggal, TR.ket_resign
                 FROM tb_resign TR
                 INNER JOIN tb_karyawan TK ON TR.id_karyawan = TK.id_karyawan
                 WHERE TR.record_flag = 'N'
-                  AND TR.approval_spv_by1 IS NULL
                 ORDER BY TR.id_resign DESC
             """;
+            ps = conn.prepareStatement(sql);
+
         } else {
-            // Atasan hanya bisa lihat bawahan satu divisi dan jabatan di bawahnya
+            // Atasan biasa: hanya 1 divisi & jabatan di bawah
             sql = """
                 SELECT TR.id_resign, TK.nik, TK.nama_karyawan, TR.tanggal, TR.ket_resign
                 FROM tb_resign TR
                 INNER JOIN tb_karyawan TK ON TR.id_karyawan = TK.id_karyawan
-                INNER JOIN tb_karyawan TKA ON TKA.id_divisi = TK.id_divisi
-                                           AND TK.id_jabatan < TKA.id_jabatan
                 WHERE TR.record_flag = 'N'
                   AND TR.approval_spv_by1 IS NULL
-                  AND TKA.nik = ?
+                  AND TK.id_divisi = (
+                      SELECT id_divisi FROM tb_karyawan WHERE nik = ?
+                  )
+                  AND TK.id_jabatan < (
+                      SELECT id_jabatan FROM tb_karyawan WHERE nik = ?
+                  )
                 ORDER BY TR.id_resign DESC
             """;
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, nikAtasan); // untuk divisi
+            ps.setString(2, nikAtasan); // untuk jabatan
         }
 
-        PreparedStatement ps = conn.prepareStatement(sql);
-        if (!namaJabatan.equalsIgnoreCase("DIREKTUR UTAMA")) {
-            ps.setString(1, nikAtasan);
-        }
         ResultSet rs = ps.executeQuery();
-
         while (rs.next()) {
             model.addRow(new Object[]{
                 rs.getString("id_resign"),
@@ -120,6 +123,7 @@ public class Atur_resign extends javax.swing.JPanel {
         JOptionPane.showMessageDialog(null, "Gagal load data resign: " + e.getMessage());
     }
 }
+
 
 
 

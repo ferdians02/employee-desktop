@@ -449,7 +449,7 @@ public class Atur_lembur extends javax.swing.JPanel {
     model.addColumn("ATASAN");
 
     try {
-        // Cek jabatan user login (berdasarkan NIK)
+        // Ambil jabatan user login
         String sqlJabatan = """
             SELECT J.id_jabatan, J.nama_jabatan
             FROM tb_karyawan K
@@ -468,39 +468,42 @@ public class Atur_lembur extends javax.swing.JPanel {
         }
 
         String sql;
+        PreparedStatement ps;
+
         if (namaJabatan.equalsIgnoreCase("DIREKTUR UTAMA")) {
-            // Direktur bisa melihat semua data lembur
             sql = """
                 SELECT TL.SPL_NO, TK.NIK, TK.NAMA_KARYAWAN, TL.TANGGAL,
                        TL.JAM_MULAI, TL.JAM_SELESAI, TL.STATUS_LEMBUR,
                        '' AS NAMA_ATASAN
                 FROM TB_LEMBUR TL
                 INNER JOIN TB_KARYAWAN TK ON TL.ID_KARYAWAN = TK.ID_KARYAWAN
-                WHERE TL.STATUS_LEMBUR = 'Waiting for approve'
                 ORDER BY TL.ID_SPL
             """;
+            ps = conn.prepareStatement(sql);
+
         } else {
-            // Atasan biasa hanya bisa melihat bawahan satu divisi dan jabatan lebih rendah
             sql = """
                 SELECT TL.SPL_NO, TK.NIK, TK.NAMA_KARYAWAN, TL.TANGGAL,
                        TL.JAM_MULAI, TL.JAM_SELESAI, TL.STATUS_LEMBUR,
-                       TKA.NAMA_KARYAWAN AS NAMA_ATASAN
+                       ? AS NAMA_ATASAN
                 FROM TB_LEMBUR TL
                 INNER JOIN TB_KARYAWAN TK ON TL.ID_KARYAWAN = TK.ID_KARYAWAN
-                INNER JOIN TB_KARYAWAN TKA ON TKA.ID_DIVISI = TK.ID_DIVISI
-                                            AND TK.ID_JABATAN < TKA.ID_JABATAN
                 WHERE TL.STATUS_LEMBUR = 'Waiting for approve'
-                  AND TKA.NIK = ?
+                  AND TK.ID_DIVISI = (
+                      SELECT ID_DIVISI FROM TB_KARYAWAN WHERE NIK = ?
+                  )
+                  AND TK.ID_JABATAN < (
+                      SELECT ID_JABATAN FROM TB_KARYAWAN WHERE NIK = ?
+                  )
                 ORDER BY TL.ID_SPL
             """;
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, no); // nama atasan (ditampilkan di kolom terakhir)
+            ps.setString(2, no); // divisi yang sama
+            ps.setString(3, no); // jabatan lebih rendah
         }
 
-        PreparedStatement ps = conn.prepareStatement(sql);
-        if (!namaJabatan.equalsIgnoreCase("DIREKTUR UTAMA")) {
-            ps.setString(1, no);
-        }
         ResultSet rs = ps.executeQuery();
-
         while (rs.next()) {
             model.addRow(new Object[]{
                 rs.getString("SPL_NO"),
@@ -521,6 +524,7 @@ public class Atur_lembur extends javax.swing.JPanel {
         JOptionPane.showMessageDialog(null, "Gagal memuat data lembur: " + e.getMessage());
     }
 }
+
 
     
     private void loadData() {

@@ -59,10 +59,8 @@ public class Laporan extends javax.swing.JPanel {
     private void isiComboBoxDivisi() {
         cbDivisi.addItem("Pilih");
         cbDivisi.addItem("IT");
-        cbDivisi.addItem("QA");
         cbDivisi.addItem("ADMINISTRASI");
         cbDivisi.addItem("KEUANGAN");
-        cbDivisi.addItem("GUDANG");
     }
 
     private void isiBulan() {
@@ -348,7 +346,7 @@ public class Laporan extends javax.swing.JPanel {
                 }
                 fileJasper = "src/laporan/SlipGaji.jasper";
                 parameters.put("bulan", bulan);
-                parameters.put("nama_karyawan", nama_karyawan);
+                parameters.put("nama_karyawan_input", nama_karyawan);
                 break;
 
             default:

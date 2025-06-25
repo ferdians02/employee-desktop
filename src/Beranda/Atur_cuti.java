@@ -51,7 +51,7 @@ import javax.swing.table.TableRowSorter;
     model.addColumn("ATASAN");
 
     try {
-        // Cek jabatan user yang login
+        // Cek jabatan user login
         String sqlJabatan = """
             SELECT J.id_jabatan, J.nama_jabatan
             FROM tb_karyawan K
@@ -70,8 +70,10 @@ import javax.swing.table.TableRowSorter;
         }
 
         String sql;
+        PreparedStatement ps;
+
         if (namaJabatan.equalsIgnoreCase("DIREKTUR UTAMA")) {
-            // Direktur bisa lihat semua data cuti
+            // Direktur bisa lihat semua cuti
             sql = """
                 SELECT
                     C.id_cuti,
@@ -85,11 +87,12 @@ import javax.swing.table.TableRowSorter;
                 FROM tb_cuti C
                 INNER JOIN tb_karyawan K ON C.id_karyawan = K.id_karyawan
                 WHERE C.record_flag = 'N'
-                  AND C.approval_spv_by1 IS NULL
                 ORDER BY C.id_cuti DESC
             """;
+            ps = conn.prepareStatement(sql);
+
         } else {
-            // Atasan hanya bisa lihat bawahan yang satu divisi dan jabatan lebih rendah
+            // Jabatan biasa: hanya cuti dari bawahan 1 divisi dan jabatan lebih rendah
             sql = """
                 SELECT
                     C.id_cuti,
@@ -99,21 +102,23 @@ import javax.swing.table.TableRowSorter;
                     C.tgl_akhir,
                     C.alasan,
                     C.lama_cuti,
-                    KA.nama_karyawan AS nama_atasan
+                    ? AS nama_atasan
                 FROM tb_cuti C
                 INNER JOIN tb_karyawan K ON C.id_karyawan = K.id_karyawan
-                INNER JOIN tb_karyawan KA ON KA.id_divisi = K.id_divisi
-                                          AND K.id_jabatan < KA.id_jabatan
                 WHERE C.record_flag = 'N'
                   AND C.approval_spv_by1 IS NULL
-                  AND KA.nik = ?
+                  AND K.id_divisi = (
+                      SELECT id_divisi FROM tb_karyawan WHERE nik = ?
+                  )
+                  AND K.id_jabatan < (
+                      SELECT id_jabatan FROM tb_karyawan WHERE nik = ?
+                  )
                 ORDER BY C.id_cuti DESC
             """;
-        }
-
-        PreparedStatement ps = conn.prepareStatement(sql);
-        if (!namaJabatan.equalsIgnoreCase("DIREKTUR UTAMA")) {
-            ps.setString(1, nikAtasan);
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, nikAtasan); // nama atasan di tabel
+            ps.setString(2, nikAtasan); // cek divisi atasan
+            ps.setString(3, nikAtasan); // cek jabatan atasan
         }
 
         ResultSet rs = ps.executeQuery();
@@ -142,6 +147,7 @@ import javax.swing.table.TableRowSorter;
         JOptionPane.showMessageDialog(null, "Gagal memuat data cuti: " + e.getMessage());
     }
 }
+
 
 
     private void loadTableClickCuti() {
